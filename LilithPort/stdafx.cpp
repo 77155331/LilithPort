@@ -1,6 +1,6 @@
-// stdafx.cpp : ˜ËœÊ¥¤¥ó¥¯¥ë©`¥É LilithPort.pch ¤Î¤ß¤ò
-// º¬¤à¥½©`¥¹ ¥Õ¥¡¥¤¥ë¤Ï¡¢¥×¥ê¥³¥ó¥Ñ¥¤¥ëœg¤ß¥Ø¥Ã¥À©`¤Ë¤Ê¤ê¤Ş¤¹¡£
-// stdafx.obj ¤Ë¤Ï¥×¥ê¥³¥ó¥Ñ¥¤¥ëœg¤ßĞÍÇéˆó¤¬º¬¤Ş¤ì¤Ş¤¹¡£
+// stdafx.cpp : ä»…åŒ…å«æ ‡å‡†åŒ…å«æ–‡ä»¶ LilithPort.pch çš„æºæ–‡ä»¶
+// è¿™æ˜¯é¢„ç¼–è¯‘å¤´æ–‡ä»¶ã€‚
+// stdafx.obj åŒ…å«é¢„ç¼–è¯‘ç±»å‹ä¿¡æ¯ã€‚
 
 #include "stdafx.h"
 
@@ -8,7 +8,7 @@ extern CRITICAL_SECTION CS_CAPTION;
 using namespace System::Collections;
 using namespace System::Diagnostics;
 
-// Âä¤Á¤ëÇ°¤Ë¥¨¥é©`ÄÚÈİ¤ò¥í¥®¥ó¥°
+// åœ¨å´©æºƒä¹‹å‰è®°å½•é”™è¯¯å†…å®¹
 void WriteErrorLog(String^ text, String^ caption)
 {
 	IO::StreamWriter^ sw = gcnew IO::StreamWriter(gcnew String(MTOPTION.PATH) + "error.log", true, Encoding::Default);
@@ -29,32 +29,32 @@ void WriteErrorLog(String^ text, String^ caption)
 	}
 }
 
-// ÀıÍâÕ{–Ë
+// å¼‚å¸¸è°ƒæŸ¥
 void ApplicationThreadException(Object^ sender, Threading::ThreadExceptionEventArgs^ e)
 {
 	WriteErrorLog(e->Exception->ToString(), "ThreadException");
 	MTINFO.ERRORED = true;
 
 	if(!MTINFO.SERVER_MODE){
-		MessageBox::Show("Í»È»Ğû²¼LilithPort½áÊø¡£", "·¢Éú½ô¼±Çé¿ö");
+		MessageBox::Show("çªç„¶å®£å¸ƒLilithPortç»“æŸã€‚", "å‘ç”Ÿç´§æ€¥æƒ…å†µ");
 	}
 
 	Application::Exit();
 }
 
-// Ö÷¤Ë¥³¥ó¥½©`¥ë¥¢¥×¥ê¤ÎÀıÍâ
+// ä¸»è¦æ˜¯æ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å¼‚å¸¸
 void ApplicationUnhandledException(Object^ sender, UnhandledExceptionEventArgs^ e)
 {
 	WriteErrorLog(safe_cast<Exception^>(e->ExceptionObject)->ToString(), "UnhandledException");
 	MTINFO.ERRORED = true;
 
 	if(!MTINFO.SERVER_MODE){
-		MessageBox::Show("Í»È»Ğû²¼LilithPort½áÊø¡£", "³öÏÖÁËÀıÍâÇé¿ö");
+		MessageBox::Show("çªç„¶å®£å¸ƒLilithPortç»“æŸã€‚", "å‡ºç°äº†ä¾‹å¤–æƒ…å†µ");
 	}
 
 	Application::Exit();
 }
-// ini¤ÎÕi¤ßŞz¤ß
+// è¯»å–ini
 void LoadMTOption()
 {
 	IntPtr mp;
@@ -62,8 +62,8 @@ void LoadMTOption()
 		tmpType[MAX_TITLE], tmpPort[MAX_TITLE], bufSection[MAX_ARRAY];
 	TCHAR* iniSection = _T("LilithPort");
 	UINT iniVersion;
-	_stprintf_s(ini, _T("%sÅäÖÃ.INI"), MTOPTION.PATH);
-	// stdafx.h¤ËÓ›Êö
+	_stprintf_s(ini, _T("%sé…ç½®.INI"), MTOPTION.PATH);
+	// å†™åœ¨stdafx.hé‡Œ
 	TCHAR iniSystem[MAX_NAME], iniState[MAX_NAME], iniColor[MAX_NAME];
 
 	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(Profile::SystemSection[0]);
@@ -74,8 +74,8 @@ void LoadMTOption()
 	_tcscpy_s(iniColor, static_cast<PTCHAR>(mp.ToPointer()));
 	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
 
-	// ¥°¥í©`¥Ğ¥ë¥»¥¯¥·¥ç¥óÕi¤ßŞz¤ß
-	// 1.04ÒÔÏÂ»¥“QÓÃ
+	// å…¨å±€éƒ¨åˆ†åŠ è½½
+	// 1.04ä»¥ä¸‹å…¼å®¹ç”¨
 	iniVersion = GetPrivateProfileInt(iniSystem, _T("iniVersion"), 0, ini);
 	if(iniVersion == 0){
 		_tcscpy_s(iniSystem, iniSection);
@@ -96,7 +96,7 @@ void LoadMTOption()
 	GetPrivateProfileString(iniSystem, _T("SeekSound"),          _T("seek.wav"),    MTOPTION.SEEK_SOUND,    _MAX_PATH,    ini);
 	GetPrivateProfileString(iniSystem, _T("KeywordSound"),       _T("name.wav"),    MTOPTION.KEYWORD_SOUND, _MAX_PATH,    ini);
 	GetPrivateProfileString(iniSystem, _T("Keyword"),            _T(""),            MTOPTION.KEYWORD,        MAX_KEYWORD, ini);
-	GetPrivateProfileString(iniSystem, _T("Name"),               _T("ÄäÃû"),  MTOPTION.NAME,           MAX_NAME,    ini);
+	GetPrivateProfileString(iniSystem, _T("Name"),               _T("åŒ¿å"),  MTOPTION.NAME,           MAX_NAME,    ini);
 	GetPrivateProfileString(iniSystem, _T("Comment"),            _T(""),            MTOPTION.COMMENT,        MAX_NAME,    ini);
 	MTOPTION.CONNECTION_TYPE			= GetPrivateProfileInt(iniSystem, _T("ConnectType"),          0, ini);
 	MTOPTION.PORT						= GetPrivateProfileInt(iniSystem, _T("Port"),              7500, ini);
@@ -128,7 +128,7 @@ void LoadMTOption()
 	MTOPTION.LOG_CLEAR_WITHOUT_WELCOME	= GetPrivateProfileInt(iniSystem, _T("LogClearWithoutWelcome"), 1, ini) == 1 ? true : false;
 	
 	
-	// ¥Ö¥Ã¥¯¥Ş©`¥¯Õi¤ßŞz¤ß
+	// åŠ è½½ä¹¦ç­¾
 	MTOPTION.BOOKMARK_COUNT = 0;
 	GetPrivateProfileString(iniSystem, _T("BookMarkServerName"),  _T(""), tmpName, MAX_TITLE, ini);
 	GetPrivateProfileString(iniSystem, _T("BookMarkConnectIP"),   _T(""), tmpIP,   MAX_TITLE, ini);
@@ -159,7 +159,7 @@ void LoadMTOption()
 				mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(BookMarkIPList[i]);
 				_tcscpy_s(MTOPTION.BOOKMARK_CONNECTION_IP[i], static_cast<PTCHAR>(mp.ToPointer()));
 				Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-				// 1.04ÒÔÏÂ»¥“QÓÃ
+				// 1.04ä»¥ä¸‹å…¼å®¹ç”¨
 				if(BookMarkTypeList != nullptr && BookMarkPortList != nullptr){
 					mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(BookMarkTypeList[i]);
 					_tcscpy_s(MTOPTION.BOOKMARK_CONNECTION_TYPE[i], static_cast<PTCHAR>(mp.ToPointer()));
@@ -167,7 +167,7 @@ void LoadMTOption()
 					_tcscpy_s(MTOPTION.BOOKMARK_PORT[i], static_cast<PTCHAR>(mp.ToPointer()));
 					Runtime::InteropServices::Marshal::FreeHGlobal(mp);
 				}else{
-					// ÊÖ„Ó³õÆÚ»¯
+					// æ‰‹åŠ¨åˆå§‹åŒ–
 					_tcscpy_s(MTOPTION.BOOKMARK_CONNECTION_TYPE[i], _T("2"));
 					_tcscpy_s(MTOPTION.BOOKMARK_PORT[i],            _T("7500"));
 				}
@@ -175,17 +175,17 @@ void LoadMTOption()
 		}
 	}
 	catch(Exception^){
-		MessageBox::Show("¶ÁÈ¡ÊéÇ©ĞÅÏ¢Ê§°Ü¡£\n", "ÊéÇ©¶ÁÈ¡", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+		MessageBox::Show("è¯»å–ä¹¦ç­¾ä¿¡æ¯å¤±è´¥ã€‚\n", "ä¹¦ç­¾è¯»å–", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
 	}
 
-	// ¥×¥í¥Õ¥¡¥¤¥ë¥ê¥¹¥ÈÕi¤ßŞz¤ß
+	// åŠ è½½é…ç½®æ–‡ä»¶åˆ—è¡¨
 	Profile::ProfileList->Clear();
 	if(_tcslen(MTOPTION.PROFILE_LIST) > 0){
 		String^ tmpList = gcnew String(MTOPTION.PROFILE_LIST);
 		array<String^>^ tmpProfile = tmpList->Split(',');
 		for(int i=0; i < tmpProfile->Length; i++){
 			Profile::ProfileList->Add(tmpProfile[i]);
-			// ¥Ç¥Õ¥©¥ë¥È¥×¥í¥Õ¥¡¥¤¥ë
+			// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«
 			if(tmpProfile[i] == gcnew String(MTOPTION.PROFILE)){
 				MTOPTION.PROFILE_INDEX = i;
 				mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(tmpProfile[i]);
@@ -195,15 +195,15 @@ void LoadMTOption()
 			}
 		}
 	}else{
-		// ³õÆÚ»¯
+		// åˆå§‹åŒ–
 		_tcsncpy_s(MTOPTION.PROFILE_LIST, _countof(MTOPTION.PROFILE_LIST), iniSection, MAX_PROFILE);
 		Profile::ProfileList->Add(gcnew String(iniSection));
 		MTOPTION.PROFILE_INDEX = 0;
 	}
 
-	// ¥×¥í¥Õ¥¡¥¤¥ë¥»¥¯¥·¥ç¥óÕi¤ßŞz¤ß
+	// åŠ è½½ä¸ªäººèµ„æ–™éƒ¨åˆ†
 	GetPrivateProfileString(iniSection, _T("GameExe"),            _T("GAME.EXE"),    MTOPTION.GAME_EXE,      _MAX_PATH,    ini);
-	GetPrivateProfileString(iniSection, _T("ReplayFolder"),       _T("Â¼Ïñ"),      MTOPTION.REPLAY_FOLDER, _MAX_PATH,    ini);
+	GetPrivateProfileString(iniSection, _T("ReplayFolder"),       _T("å½•åƒ"),      MTOPTION.REPLAY_FOLDER, _MAX_PATH,    ini);
 	MTOPTION.MAX_STAGE          = GetPrivateProfileInt(iniSection, _T("MaxStage"),         1, ini);
 	MTOPTION.STAGE_SELECT       = GetPrivateProfileInt(iniSection, _T("StageSelect"),      0, ini);
 	MTOPTION.ROUND              = GetPrivateProfileInt(iniSection, _T("Round"),            2, ini);
@@ -222,7 +222,7 @@ void LoadMTOption()
 	MTOPTION.INTERVAL           = GetPrivateProfileInt(iniSection, _T("Interval"),         1, ini);
 	MTOPTION.REPLAY_VERSION     = GetPrivateProfileInt(iniSection, _T("ReplayVersion"),    2, ini);
 
-	// ¥¦¥£¥ó¥É¥¦Î»ÖÃÕi¤ßŞz¤ß
+	// è¯»å–çª—å£ä½ç½®
 	MTWS.LEFT        = GetPrivateProfileInt(iniState, _T("Left"),       0, ini);
 	MTWS.TOP         = GetPrivateProfileInt(iniState, _T("Top"),        0, ini);
 	MTWS.WIDTH       = GetPrivateProfileInt(iniState, _T("Width"),      0, ini);
@@ -231,7 +231,7 @@ void LoadMTOption()
 	MTWS.DIALOG_LEFT = GetPrivateProfileInt(iniState, _T("DialogLeft"), 0, ini);
 	MTWS.DIALOG_TOP  = GetPrivateProfileInt(iniState, _T("DialogTop"),  0, ini);
 
-	// É«Õi¤ßŞz¤ß
+	// é¢œè‰²åŠ è½½
 	MTCOLOR.SERVER_NAME    = GetPrivateProfileInt(iniColor, _T("ServerName"),    Color::ForestGreen.ToArgb(), ini);
 	MTCOLOR.HOST_NAME      = GetPrivateProfileInt(iniColor, _T("HostName"),      Color::MediumBlue.ToArgb(),  ini);
 	MTCOLOR.CLIENT_NAME    = GetPrivateProfileInt(iniColor, _T("ClientName"),    Color::Black.ToArgb(),       ini);
@@ -246,17 +246,17 @@ void LoadMTOption()
 	MTCOLOR.COMMENT_BACK   = GetPrivateProfileInt(iniColor, _T("CommentBack"),   Color::MistyRose.ToArgb(),   ini);
 	MTCOLOR.SECRET         = GetPrivateProfileInt(iniColor, _T("Secret"),        Color::HotPink.ToArgb(),     ini);
 
-	// Welcome¤Î¥¿¥Ö¤ò¸ÄĞĞ¤Ë
+	// æŠŠ Welcome çš„æ ‡ç­¾æ”¹æˆæ¢è¡Œ
 	ReplaceWelcomeTab(true);
 
-	// 1.04ÒÔÏÂ»¥“QÓÃ
+	// 1.04ä»¥ä¸‹å…¼å®¹ç”¨
 	if(iniVersion == 0){
 		DeleteSection(iniSection);
 		SaveMTOption();
 	}
 }
 
-// ini¤Ë•ø¤­³ö¤·
+// å¯¼å‡ºåˆ°ini
 void SaveMTOption()
 {
 	IntPtr mp;
@@ -267,10 +267,10 @@ void SaveMTOption()
 	TCHAR tmpStrPort[MAX_TITLE] = _T("");
 	TCHAR* iniSection = MTOPTION.PROFILE;
 
-	// ¸ÄĞĞ¤ò¥¿¥Ö¤ËÖÃ“Q
+	// æŠŠæ¢è¡Œæ›¿æ¢æˆåˆ¶è¡¨ç¬¦
 	ReplaceWelcomeTab(false);
 
-	// stdafx.h¤ËÓ›Êö
+	// å†™åœ¨stdafx.hé‡Œ
 	TCHAR iniSystem[MAX_NAME], iniState[MAX_NAME], iniColor[MAX_NAME];
 	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(Profile::SystemSection[0]);
 	_tcscpy_s(iniSystem, static_cast<PTCHAR>(mp.ToPointer()));
@@ -280,9 +280,9 @@ void SaveMTOption()
 	_tcscpy_s(iniColor, static_cast<PTCHAR>(mp.ToPointer()));
 	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
 
-	_stprintf_s(ini, _T("%sÅäÖÃ.INI"), MTOPTION.PATH);
+	_stprintf_s(ini, _T("%sé…ç½®.INI"), MTOPTION.PATH);
 
-	// ¥°¥í©`¥Ğ¥ë¥»¥¯¥·¥ç¥ó•ø¤­Şz¤ß
+	// å†™å…¥å…¨å±€æ®µ
 	_itot_s(LP_VERSION, buf, 10);
 	WritePrivateProfileString(iniSystem, _T("iniVersion"), buf, ini);
 	_itot_s(MTOPTION.CONNECTION_TYPE, buf, 10);
@@ -329,7 +329,7 @@ void SaveMTOption()
 	_itot_s(MTOPTION.SHOW_RESULT, buf, 10);				WritePrivateProfileString(iniSystem, _T("ShowResult"), buf, ini);
 	_itot_s(MTOPTION.LOG_CLEAR_WITHOUT_WELCOME, buf, 10); WritePrivateProfileString(iniSystem, _T("LogClearWithoutWelcome"), buf, ini);
 
-	// ¥Ö¥Ã¥¯¥Ş©`¥¯•ø¤­Şz¤ß
+	// ä¹¦ç­¾å†™å…¥
 	if(MTOPTION.BOOKMARK_COUNT > 0) {
 		for(UINT i=0;i < MTOPTION.BOOKMARK_COUNT;i++) {
 			if(gcnew String(MTOPTION.BOOKMARK_SERVER_NAME[i]) != ""){
@@ -345,7 +345,7 @@ void SaveMTOption()
 		WritePrivateProfileString(iniSystem, _T("BookMarkPort"),        tmpStrPort, ini);
 	}
 
-	// ¥×¥í¥Õ¥¡¥¤¥ë¥ê¥¹¥È•ø¤­Şz¤ß
+	// å†™å…¥é…ç½®æ–‡ä»¶åˆ—è¡¨
 	WritePrivateProfileString(iniSystem, _T("DefaultProfile"), MTOPTION.PROFILE, ini);
 	String^ bufProfileList;
 	for(int i=0; i < Profile::ProfileList->Count; i++){
@@ -360,7 +360,7 @@ void SaveMTOption()
 	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
 	WritePrivateProfileString(iniSystem,  _T("ProfileList"), MTOPTION.PROFILE_LIST, ini);
 
-	// ¥×¥í¥Õ¥¡¥¤¥ë¥»¥¯¥·¥ç¥ó•ø¤­Şz¤ß
+	// å†™ä¸ªäººèµ„æ–™éƒ¨åˆ†
 	WritePrivateProfileString(iniSection, _T("GameExe"),      MTOPTION.GAME_EXE,               ini);
 	WritePrivateProfileString(iniSection, _T("ReplayFolder"), MTOPTION.REPLAY_FOLDER,          ini);
 	_itot_s(MTOPTION.MAX_STAGE, buf, 10);
@@ -398,7 +398,7 @@ void SaveMTOption()
 	_itot_s(MTOPTION.REPLAY_VERSION, buf, 10);
 	WritePrivateProfileString(iniSection, _T("ReplayVersion"), buf, ini);
 
-	// ¥¦¥£¥ó¥É¥¦Î»ÖÃ•ø¤­Şz¤ß
+	// å†™å…¥çª—å£ä½ç½®
 	_itot_s(MTWS.LEFT, buf, 10);
 	WritePrivateProfileString(iniState, _T("Left"), buf, ini);
 	_itot_s(MTWS.TOP, buf, 10);
@@ -414,7 +414,7 @@ void SaveMTOption()
 	_itot_s(MTWS.DIALOG_TOP, buf, 10);
 	WritePrivateProfileString(iniState, _T("DialogTop"), buf, ini);
 
-	// É«•ø¤­Şz¤ß
+	// æ¶‚è‰²
 	_ultot_s(MTCOLOR.SERVER_NAME, buf, 10);
 	WritePrivateProfileString(iniColor, _T("ServerName"), buf, ini);
 	_ultot_s(MTCOLOR.HOST_NAME, buf, 10);
@@ -442,7 +442,7 @@ void SaveMTOption()
 	_ultot_s(MTCOLOR.SECRET, buf, 10);
 	WritePrivateProfileString(iniColor, _T("Secret"), buf, ini);
 }
-// Welcome¥á¥Ã¥»©`¥¸¤Î¸ÄĞĞÖÃ“Q
+// æ¬¢è¿ä¿¡æ¯çš„æ¢è¡Œæ›¿æ¢
 void ReplaceWelcomeTab(bool TtoN){
 	int len = _tcslen(MTOPTION.WELCOME);
 	for(int i = 0; i < len; i++){
@@ -451,16 +451,16 @@ void ReplaceWelcomeTab(bool TtoN){
 		}
 	}
 }
-// ¥×¥í¥Õ¥¡¥¤¥ë¥»¥¯¥·¥ç¥óÏ÷³ı
+// åˆ é™¤ä¸ªäººèµ„æ–™éƒ¨åˆ†
 void DeleteSection(TCHAR* obj){
 	TCHAR ini[_MAX_PATH];
-	_stprintf_s(ini, _T("%sÅäÖÃ.INI"), MTOPTION.PATH);
+	_stprintf_s(ini, _T("%sé…ç½®.INI"), MTOPTION.PATH);
 	WritePrivateProfileStruct(obj, NULL, NULL, 0, ini);
 }
-// ¥×¥í¥Õ¥¡¥¤¥ëévßB¤Î¤ß•ø¤­³ö¤·
+// ä»…å¯¼å‡ºä¸é…ç½®æ–‡ä»¶ç›¸å…³çš„å†…å®¹
 void SaveProfileOption(){
 	TCHAR ini[_MAX_PATH];
-	_stprintf_s(ini, _T("%sÅäÖÃ.INI"), MTOPTION.PATH);
+	_stprintf_s(ini, _T("%sé…ç½®.INI"), MTOPTION.PATH);
 
 	IntPtr mp;
 	TCHAR iniSystem[MAX_NAME];
@@ -482,11 +482,11 @@ void SaveProfileOption(){
 
 	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
 }
-// ÔO¶¨‚¤òİX¤¯¥Á¥§¥Ã¥¯
+// ç¨å¾®æ£€æŸ¥ä¸€ä¸‹è®¾å®šå€¼
 void CheckMTOption()
 {
 	TCHAR buf[_MAX_PATH];
-	// ÏàŒ¥Ñ¥¹ -> ½~Œ¥Ñ¥¹
+	// ç›¸å¯¹è·¯å¾„ -> ç»å¯¹è·¯å¾„
 	_tchdir(MTOPTION.PATH);
 
 	_tsplitpath_s(MTOPTION.GAME_EXE, NULL, 0, NULL, 0, NULL, 0, buf, _MAX_EXT);
@@ -529,7 +529,7 @@ void CheckMTOption()
 		_tfullpath(MTOPTION.KEYWORD_SOUND, buf, _MAX_PATH);
 	}
 
-	// ½~Œ¥Ñ¥¹¤Ë‰ä“Q¤µ¤ì¤ë¤È¥É¥é¥¤¥ÖÃû¤¬Ğ¡ÎÄ×Ö¤Ë¤Ê¤ë¤Î¤¬šİ¤Ë¤Ê¤Ã¤Æ¤¤¤±¤Ê¤¤
+	// ä¸€æ—¦è½¬æ¢æˆç»å¯¹è·¯å¾„åï¼Œé©±åŠ¨å™¨åå˜æˆå°å†™è¿™ä¸€ç‚¹è®©æˆ‘å¾ˆåœ¨æ„
 	MTOPTION.GAME_EXE[0]      = _totupper(MTOPTION.GAME_EXE[0]);
 	MTOPTION.REPLAY_FOLDER[0] = _totupper(MTOPTION.REPLAY_FOLDER[0]);
 	MTOPTION.VS_SOUND[0]      = _totupper(MTOPTION.VS_SOUND[0]);
@@ -541,7 +541,7 @@ void CheckMTOption()
 	MTOPTION.KEYWORD_SOUND[0] = _totupper(MTOPTION.KEYWORD_SOUND[0]);
 }
 
-// Œ‘éÖĞ¤Î¥¿¥¤¥È¥ë¥Ğ©`
+// å¯¹æˆ˜ä¸­çš„æ ‡é¢˜æ 
 void SetCaption()
 {
 	EnterCriticalSection(&CS_CAPTION);
@@ -558,9 +558,9 @@ void SetCaption()
 		}
 
 		if(MTINFO.HWND != NULL){
-			// ×îÇ°Ãæ±íÊ¾
+			// æœ€å‰é¢è¡¨ç¤º
 			if(MTINFO.SHOW_TOP == false){
-				// ¸ñ¥Ä¥¯95¥¦¥£¥ó¥É¥¦¥µ¥¤¥º‰ä¸ü
+				// æ ¼ãƒ„ã‚¯95çª—å£å¤§å°æ›´æ”¹
 				if(MTOPTION.CHANGE_WINDOW_SIZE && MTINFO.KGT2K == false){
 					RECT rc;
 					SetRect(&rc, 0, 0, 640, 480);
@@ -576,7 +576,7 @@ void SetCaption()
 
 			GetWindowText(MTINFO.HWND, MTINFO.ORIGINAL_TITLE, sizeof(MTINFO.ORIGINAL_TITLE));
 
-			if(_tcslen(MTINFO.ORIGINAL_TITLE) == 0 || _tcscmp(MTINFO.ORIGINAL_TITLE, _T("£²£Ä¸ñêL¥Ä¥¯©`¥ë£¹£µ")) == 0){
+			if(_tcslen(MTINFO.ORIGINAL_TITLE) == 0 || _tcscmp(MTINFO.ORIGINAL_TITLE, _T("ï¼’ï¼¤æ ¼é—˜ãƒ„ã‚¯ãƒ¼ãƒ«ï¼™ï¼•")) == 0){
 				MTINFO.HWND = NULL;
 			}
 		}
@@ -584,7 +584,7 @@ void SetCaption()
 
 	LeaveCriticalSection(&CS_CAPTION);
 }
-// °µºÅÍºÅÓÃÂÒÊı
+// ç”¨äºåŠ å¯†è§£å¯†çš„éšæœºæ•°
 UINT CipherRand(UINT32 seed)
 {
 	static UINT32 a[4] = {1812433254, 3713160357, 3109174145, 64984499};
@@ -604,7 +604,7 @@ UINT CipherRand(UINT32 seed)
 	return 0;
 }
 
-// Í¨³£ÓÃ
+// é€šå¸¸ç”¨
 UINT XorShift(UINT32 seed)
 {
 	static UINT32 a[4] = {1812433254, 3713160357, 3109174145, 64984499};
@@ -624,7 +624,7 @@ UINT XorShift(UINT32 seed)
 	return 0;
 }
 
-// ¥é¥ó¥À¥à¥¹¥Æ©`¥¸ÓÃ
+// éšæœºå…³å¡ç”¨
 UINT RandomStage(UINT32 seed)
 {
 	static UINT32 a[4] = {1812433254, 3713160357, 3109174145, 64984499};
@@ -645,7 +645,7 @@ UINT RandomStage(UINT32 seed)
 }
 
 
-// IP¤Î¥¨¥ó¥³©`¥É
+// IPç¼–ç 
 String^ EncryptionIP(String^ ip)
 {
 	String ^ipString;
@@ -653,10 +653,10 @@ String^ EncryptionIP(String^ ip)
 		ipString = Int64(Net::IPAddress::Parse(ip)->Address).ToString();
 	}
 	catch (ArgumentNullException^) {
-		return "×ª»»Ê§°Ü¡£IP´íÎó";
+		return "è½¬æ¢å¤±è´¥ã€‚IPé”™è¯¯";
 	}
 	catch (FormatException^) {
-		return "×ª»»Ê§°Ü¡£IP¸ñÊ½´íÎó";
+		return "è½¬æ¢å¤±è´¥ã€‚IPæ ¼å¼é”™è¯¯";
 	}
 
 	array<Byte> ^binaryData = gcnew array<Byte>(11);
@@ -667,28 +667,28 @@ String^ EncryptionIP(String^ ip)
 		ipBase64 = Convert::ToBase64String(binaryData);
 	}
 	catch (ArgumentNullException^) {
-		return "×ª»»Ê§°Ü¡£Base64´íÎó";
+		return "è½¬æ¢å¤±è´¥ã€‚Base64é”™è¯¯";
 	}
 	catch (FormatException^) {
-		return "×ª»»Ê§°Ü¡£Base64¸ñÊ½´íÎó";
+		return "è½¬æ¢å¤±è´¥ã€‚Base64æ ¼å¼é”™è¯¯";
 	}
 	return ipBase64;
 }
-// IP¤Î‰ä“Q(MTSP¥¢¥É¥ì¥¹)
+// IPè½¬æ¢ï¼ˆMTSPåœ°å€ï¼‰
 String^ MTEncryptionIP(String^ ip)
 {
 	String^ result, ^buf, ^part;
-	String^ dic = "1£±2£²3£³4£´5£µ6£¶7£·8£¸9£¹0£°abcdefghijklmnopqrstuvwxyz"
-		"abcdefghijklmnopqrstuvwxyz.£á£â£ã£ä£å£æ£ç£è£é£ê£ë£ì£í£î£ï£ğ£ñ£ò£ó£ô£õ£ö£÷£ø£ù£ú£®";
+	String^ dic = "1ï¼‘2ï¼’3ï¼“4ï¼”5ï¼•6ï¼–7ï¼—8ï¼˜9ï¼™0ï¼abcdefghijklmnopqrstuvwxyz"
+		"abcdefghijklmnopqrstuvwxyz.ï½ï½‚ï½ƒï½„ï½…ï½†ï½‡ï½ˆï½‰ï½Šï½‹ï½Œï½ï½ï½ï½ï½‘ï½’ï½“ï½”ï½•ï½–ï½—ï½˜ï½™ï½šï¼";
 
 	try{
-		// 10èì+¥·©`¥É
+		// 10æ¡+ã‚·ãƒ¼ãƒ‰
 		Int64^ num = ((IPAddress::Parse(ip)->Address + 0xa68c8b5) ^ 0xe5c06811);
 		ip = num->ToString();
 		if((ip->Length % 2) == 1){
 			ip = String::Concat("0", ip);
 		}
-		//  5èì¤Ë¤·¤è¤¦
+		//  5æ¡ã«ã—ã‚ˆã†
 		for(int i=0; i < ip->Length; i+=2){
 			part = String::Concat(ip->default[i], ip->default[i+1]);
 			buf = String::Concat(dic->default[Convert::ToInt32(part)]);
@@ -697,11 +697,11 @@ String^ MTEncryptionIP(String^ ip)
 		return result;
 	}
 	catch(Exception^){
-		return "IPµØÖ·µÄMTSP×ª»»Ê§°Ü¡£";
+		return "IPåœ°å€çš„MTSPè½¬æ¢å¤±è´¥ã€‚";
 	}
 }
 
-// IP¤Î¥Ç¥³©`¥É
+// IPè§£ç 
 _int64 DecryptionIP(String^ cipher_ip, bool enc)
 {
 	array<Byte> ^binaryData;
@@ -721,7 +721,7 @@ _int64 DecryptionIP(String^ cipher_ip, bool enc)
 	if(enc){
 		return Convert::ToInt64(Encoding::ASCII->GetString(binaryData));
 	}else{
-		// 1.02, 1.03»¥“QÓÃ
+		// ç”¨äº1.02ã€1.03äº’æ¢
 		return Convert::ToInt64(Encoding::Unicode->GetString(binaryData));
 	}
 }
@@ -730,8 +730,8 @@ _int64 MTDecryptionIP(String^ cipher_ip)
 	String^ buf;
 	TCHAR part;
 	int index;
-	String^ dic = "1£±2£²3£³4£´5£µ6£¶7£·8£¸9£¹0£°abcdefghijklmnopqrstuvwxyz"
-		"abcdefghijklmnopqrstuvwxyz.£á£â£ã£ä£å£æ£ç£è£é£ê£ë£ì£í£î£ï£ğ£ñ£ò£ó£ô£õ£ö£÷£ø£ù£ú£®";
+	String^ dic = "1ï¼‘2ï¼’3ï¼“4ï¼”5ï¼•6ï¼–7ï¼—8ï¼˜9ï¼™0ï¼abcdefghijklmnopqrstuvwxyz"
+		"abcdefghijklmnopqrstuvwxyz.ï½ï½‚ï½ƒï½„ï½…ï½†ï½‡ï½ˆï½‰ï½Šï½‹ï½Œï½ï½ï½ï½ï½‘ï½’ï½“ï½”ï½•ï½–ï½—ï½˜ï½™ï½šï¼";
 
 	try{
 		for(int i=0; i < cipher_ip->Length; i++){
@@ -749,7 +749,7 @@ _int64 MTDecryptionIP(String^ cipher_ip)
 		return 0;
 	}
 }
-// ¥í©`¥«¥ëIPÈ¡µÃ(Winsock)
+// è·å–æœ¬åœ°IPï¼ˆWinsockï¼‰
 BSTR GetLocalIP(){
 	WSADATA wsaData;
 	char hostname[MAX_TITLE];
@@ -760,22 +760,22 @@ BSTR GetLocalIP(){
 
 	try{
 		if(WSAStartup(MAKEWORD(1, 0), &wsaData) != 0){
-			// ¥¨¥é©`
+			// é”™è¯¯
 			throw gcnew Exception;
 			return nullptr;
 		}
-		// ¥Û¥¹¥ÈÃûÈ¡µÃ
+		// è·å–ä¸»æœºå
 		gethostname(hostname, sizeof(hostname));
 		hostent = gethostbyname(hostname);
 		if(hostent == NULL){
 			throw gcnew Exception;
 			return nullptr;
 		}
-		// ¥Û¥¹¥ÈÃû¤«¤éIP¤òÈ¡µÃ
+		// ä»ä¸»æœºåè·å–IP
 		memcpy(&inaddr, hostent->h_addr_list[0], 4);
 		strcpy(ip, inet_ntoa(inaddr));
 
-		// IP¤ÎÎÄ×ÖÁĞĞÍ‰ä“Q CHAR -> TCHAR -> BSTR
+		// IPçš„å­—ç¬¦ä¸²ç±»å‹è½¬æ¢ CHAR -> TCHAR -> BSTR
 		TCHAR buf[sizeof(ip)];
 		mbstowcs_s(0, buf, sizeof(ip), ip, _TRUNCATE);
 		bstr_ip = ::SysAllocString(buf);
@@ -790,7 +790,7 @@ BSTR GetLocalIP(){
 	return bstr_ip;
 }
 void UPnP_PortOpenClose(bool s, bool auto_close){ /* open:close, auto:manual */
-	// UPnP¥İ©`¥Èé_é]
+	// UPnPç«¯å£å¼€å…³
 	if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UPnP_PortOpenClose");}
 
 	IUPnPNAT *nat						= nullptr;
@@ -802,109 +802,109 @@ void UPnP_PortOpenClose(bool s, bool auto_close){ /* open:close, auto:manual */
 
 	BSTR localip = GetLocalIP();
 	if(localip == nullptr){
-		if(MTINFO.DEBUG){Debug::WriteLine("ÍøÂç½Ó¿Ú > ±¾µØIP»ñÈ¡Ê§°Ü");}
+		if(MTINFO.DEBUG){Debug::WriteLine("ç½‘ç»œæ¥å£ > æœ¬åœ°IPè·å–å¤±è´¥");}
 		if(auto_close){return;}
-		MessageBox::Show("»ñÈ¡±¾µØIPÊ§°Ü¡£\nÇëÈ·ÈÏÍ¨ĞÅ»·¾³¡£", "UPnP¶Ë¿Ú¿ª¹Ø", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		MessageBox::Show("è·å–æœ¬åœ°IPå¤±è´¥ã€‚\nè¯·ç¡®è®¤é€šä¿¡ç¯å¢ƒã€‚", "UPnPç«¯å£å¼€å…³", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		return;
 	}
-	if(MTINFO.DEBUG){Debug::WriteLine(String::Format("ÍøÂç½Ó¿Ú > ±¾µØIP»ñÈ¡³É¹¦: {0}", gcnew String(localip)));}
+	if(MTINFO.DEBUG){Debug::WriteLine(String::Format("ç½‘ç»œæ¥å£ > æœ¬åœ°IPè·å–æˆåŠŸ: {0}", gcnew String(localip)));}
 
 	BSTR proto = L"UDP";
 	BSTR desc = L"LilithPort UDP";
-	String^ mestitle = L"UPnP¶Ë¿Ú¿ª¹Ø";
-	String^ errmes_tmp = L"\nUPnP¿ÉÄÜ´æÔÚÎŞ·¨Ê¹ÓÃµÄ»·¾³¡£\nÂ·ÓÉÆ÷µÄUPnPÆôÓÃÉèÖÃ?Çë¼ì²é·À»ğÇ½ÉèÖÃ¡£";
+	String^ mestitle = L"UPnPç«¯å£å¼€å…³";
+	String^ errmes_tmp = L"\nUPnPå¯èƒ½å­˜åœ¨æ— æ³•ä½¿ç”¨çš„ç¯å¢ƒã€‚\nè·¯ç”±å™¨çš„UPnPå¯ç”¨è®¾ç½®?è¯·æ£€æŸ¥é˜²ç«å¢™è®¾ç½®ã€‚";
 	BSTR buf= L"";
 	//BSTR exip;
 
 	try{
 		if(nat == nullptr){
-			// ³õÆÚ»¯
-			if(MTINFO.DEBUG){Debug::WriteLine("UPnP > nat³õÊ¼»¯");}
+			// åˆå§‹åŒ–
+			if(MTINFO.DEBUG){Debug::WriteLine("UPnP > natåˆå§‹åŒ–");}
 			CoInitialize(nullptr);
 			if(CoCreateInstance(CLSID_UPnPNAT, nullptr, CLSCTX_ALL, IID_IUPnPNAT, (void **)&nat) != S_OK){
 				if(!auto_close){
-					MessageBox::Show("UPnP³õÊ¼»¯Ê§°Ü¡£" + errmes_tmp, mestitle, MessageBoxButtons::OK, MessageBoxIcon::Error);
+					MessageBox::Show("UPnPåˆå§‹åŒ–å¤±è´¥ã€‚" + errmes_tmp, mestitle, MessageBoxButtons::OK, MessageBoxIcon::Error);
 				}
-				if(MTINFO.DEBUG){Debug::WriteLine("UPnP > nat³õÊ¼»¯Ê§°Ü");}
+				if(MTINFO.DEBUG){Debug::WriteLine("UPnP > natåˆå§‹åŒ–å¤±è´¥");}
 				return;
 			}
-			if(MTINFO.DEBUG){Debug::WriteLine("UPnP > nat³õÊ¼»¯³É¹¦");}
+			if(MTINFO.DEBUG){Debug::WriteLine("UPnP > natåˆå§‹åŒ–æˆåŠŸ");}
 		}
 		if(nat->get_StaticPortMappingCollection(&maps) != S_OK){
-			if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UDP¶Ë¿ÚÓ³ÉäĞÅÏ¢»ñÈ¡Ê§°Ü");}
+			if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UDPç«¯å£æ˜ å°„ä¿¡æ¯è·å–å¤±è´¥");}
 			if(!auto_close){
-				MessageBox::Show("UPnP»ñÈ¡¶Ë¿ÚÓ³ÉäĞÅÏ¢Ê§°Ü¡£\n", mestitle, MessageBoxButtons::OK, MessageBoxIcon::Information);
+				MessageBox::Show("UPnPè·å–ç«¯å£æ˜ å°„ä¿¡æ¯å¤±è´¥ã€‚\n", mestitle, MessageBoxButtons::OK, MessageBoxIcon::Information);
 			}
 			return;
 		}
-		if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UDP¶Ë¿ÚÓ³ÉäĞÅÏ¢»ñÈ¡³É¹¦");}
+		if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UDPç«¯å£æ˜ å°„ä¿¡æ¯è·å–æˆåŠŸ");}
 
 		
-		// ¥İ©`¥ÈÔO¶¨¤¬´æÔÚ¤¹¤ë¤«´_ÕJ¡¡ÕhÃ÷ÎÄÕÕºÏ
+		// ç¡®è®¤ç«¯å£è®¾ç½®æ˜¯å¦å­˜åœ¨ å¹¶æ ¸å¯¹è¯´æ˜æ–‡
 		if(maps->get_Item(port, proto, &map) == S_OK){
-			// ÔO¶¨¤¬¤¢¤ë
+			// æœ‰è®¾å®š
 			map->get_Description(&buf);
-			if(MTINFO.DEBUG){Debug::WriteLine(String::Format("UPnP > map->get_ÃèÊö: {0}", gcnew String(buf)));}
+			if(MTINFO.DEBUG){Debug::WriteLine(String::Format("UPnP > map->get_æè¿°: {0}", gcnew String(buf)));}
 
-			if(s){ // é_·Å: ÉÏ•ø¤­´_ÕJ
-				if(MessageBox::Show(String::Format("ÒÑ¾­´æÔÚUPnPÉèÖÃ¡£\nÊÇ·ñ¸²¸ÇÉèÖÃ£¿\n¶Ë¿ÚËµÃ÷: {0}", gcnew String(buf)), mestitle, MessageBoxButtons::YesNo, MessageBoxIcon::Question)
+			if(s){ // å¼€æ”¾ï¼šè¦†ç›–ç¡®è®¤
+				if(MessageBox::Show(String::Format("å·²ç»å­˜åœ¨UPnPè®¾ç½®ã€‚\næ˜¯å¦è¦†ç›–è®¾ç½®ï¼Ÿ\nç«¯å£è¯´æ˜: {0}", gcnew String(buf)), mestitle, MessageBoxButtons::YesNo, MessageBoxIcon::Question)
 					!= ::DialogResult::Yes){
 					return;
 				}
 			}
-			else if(gcnew String(buf) != gcnew String(desc)){	// é]æi: LilithPortÍâ¤Ç¤ÎÔO¶¨¤Ê¤Î¤Ç¾¯¸æ
-				if(auto_close){return;}	// ×Ô„Ó¤Ï¤ä¤á¤È¤¯
-				if(MessageBox::Show(String::Format("¹Ø±ÕLilithPortÒÔÍâµÄUPnPÉèÖÃ¡£\n¿ÉÄÜÔÚÁíÒ»¸öÍ¨ĞÅÖĞÊ¹ÓÃ¡£\n¿ÉÒÔ¹Ø±ÕÂğ£¿\n¶Ë¿ÚËµÃ÷: {0}", gcnew String(buf)), mestitle, MessageBoxButtons::YesNo, MessageBoxIcon::Question)
+			else if(gcnew String(buf) != gcnew String(desc)){	// å…³é—­ï¼šå› ä¸ºæ˜¯åœ¨LilithPortå¤–çš„è®¾ç½®æ‰€ä»¥è­¦å‘Š
+				if(auto_close){return;}	// è‡ªåŠ¨å°±ç®—äº†
+				if(MessageBox::Show(String::Format("å…³é—­LilithPortä»¥å¤–çš„UPnPè®¾ç½®ã€‚\nå¯èƒ½åœ¨å¦ä¸€ä¸ªé€šä¿¡ä¸­ä½¿ç”¨ã€‚\nå¯ä»¥å…³é—­å—ï¼Ÿ\nç«¯å£è¯´æ˜: {0}", gcnew String(buf)), mestitle, MessageBoxButtons::YesNo, MessageBoxIcon::Question)
 					!= ::DialogResult::Yes){
 					return;
 				}
 			}
 		}else{
-			// ÔO¶¨¤¬¤Ê¤¤
-			if(MTINFO.DEBUG){Debug::WriteLine("UPnP > maps->get_ÏîÄ¿ != S_OK");}
+			// æ²¡æœ‰è®¾ç½®
+			if(MTINFO.DEBUG){Debug::WriteLine("UPnP > maps->get_é¡¹ç›® != S_OK");}
 
-			if(!s){ // é]æi: ±ØÒª¤Ê¤·
-				if(auto_close){return;} // †–î}¤Ê¤·
-				MessageBox::Show("²»´æÔÚÒª¹Ø±ÕµÄUPnPÉèÖÃ¡£\n²»ĞèÒª¹Ø±Õ¡£", mestitle, MessageBoxButtons::OK, MessageBoxIcon::Information);
+			if(!s){ // å…³é—­ï¼šä¸éœ€è¦
+				if(auto_close){return;} // æ²¡é—®é¢˜
+				MessageBox::Show("ä¸å­˜åœ¨è¦å…³é—­çš„UPnPè®¾ç½®ã€‚\nä¸éœ€è¦å…³é—­ã€‚", mestitle, MessageBoxButtons::OK, MessageBoxIcon::Information);
 				return;
 			}
 		}
 		
-		if(s){	// é_·Å
+		if(){	// å¼€æ”¾
 			if(maps->Add(port, proto, port, localip, VARIANT_TRUE, desc, &map) != S_OK){
-				MessageBox::Show("¶Ë¿Ú´ò¿ªÊ§°Ü¡£" + errmes_tmp, mestitle, MessageBoxButtons::OK, MessageBoxIcon::Error);
-				if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UDP¶Ë¿Ú´ò¿ªÊ§°Ü");}
+				MessageBox::Show("ç«¯å£æ‰“å¼€å¤±è´¥ã€‚" + errmes_tmp, mestitle, MessageBoxButtons::OK, MessageBoxIcon::Error);
+				if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UDPç«¯å£æ‰“å¼€å¤±è´¥");}
 				return;
 			}
-			MessageBox::Show(String::Format("³É¹¦´ò¿ª¶Ë¿Ú¡£\n¶Ë¿ÚºÅ: {0}\n\n¡ù¼´Ê¹ÏÔÊ¾´ËÏûÏ¢£¬\n¸ù¾İ»·¾³µÄ²»Í¬£¬¿ÉÄÜÎŞ·¨½øĞĞÍ¨ĞÅ¡£", port), mestitle, MessageBoxButtons::OK, MessageBoxIcon::Information);
+			MessageBox::Show(String::Format("æˆåŠŸæ‰“å¼€ç«¯å£ã€‚\nç«¯å£å·: {0}\n\nâ€»å³ä½¿æ˜¾ç¤ºæ­¤æ¶ˆæ¯ï¼Œ\næ ¹æ®ç¯å¢ƒçš„ä¸åŒï¼Œå¯èƒ½æ— æ³•è¿›è¡Œé€šä¿¡ã€‚", port), mestitle, MessageBoxButtons::OK, MessageBoxIcon::Information);
 			if(MTINFO.DEBUG){
-				Debug::WriteLine(String::Format("UPnP > UDP¶Ë¿Ú¿ª·Å³É¹¦ > ¶Ë¿ÚºÅ: {0}", port));
+				Debug::WriteLine(String::Format("UPnP > UDPç«¯å£å¼€æ”¾æˆåŠŸ > ç«¯å£å·: {0}", port));
 			}
-		}else{	// é]æi
+		}else{	// å…³é—­
 			if(maps->Remove(port, proto) != S_OK){
 				if(!auto_close){
-					MessageBox::Show("¶Ë¿Ú¹Ø±ÕÊ§°Ü¡£" + errmes_tmp, mestitle, MessageBoxButtons::OK, MessageBoxIcon::Error);
+					MessageBox::Show("ç«¯å£å…³é—­å¤±è´¥ã€‚" + errmes_tmp, mestitle, MessageBoxButtons::OK, MessageBoxIcon::Error);
 				}
-				if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UDP¶Ë¿Ú¹Ø±ÕÊ§°Ü");}
+				if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UDPç«¯å£å…³é—­å¤±è´¥");}
 				return;
 			}
 			if(!auto_close){
-				MessageBox::Show(String::Format("³É¹¦¹Ø±Õ¶Ë¿Ú¡£\n¶Ë¿ÚºÅ: {0}", port), mestitle, MessageBoxButtons::OK, MessageBoxIcon::Information);
+				MessageBox::Show(String::Format("æˆåŠŸå…³é—­ç«¯å£ã€‚\nç«¯å£å·: {0}", port), mestitle, MessageBoxButtons::OK, MessageBoxIcon::Information);
 			}
-			if(MTINFO.DEBUG){Debug::WriteLine(String::Format("UPnP > UDP¶Ë¿Ú³É¹¦¹Ø±Õ > ¶Ë¿ÚºÅ: {0}", port));}
+			if(MTINFO.DEBUG){Debug::WriteLine(String::Format("UPnP > UDPç«¯å£æˆåŠŸå…³é—­ > ç«¯å£å·: {0}", port));}
 		}
-		// WAN-IP³é³ö
+		// WAN-IPæŠ½å‡º
 		//maps->get_Item(NULL,NULL,&item);
 		//maps->get_Item(port, proto, &item);
 		//item->get_ExternalIPAddress(&exip);
 		//WriteMessage(String::Format("{0}\n", gcnew String(exip)), DebugMessageColor);
 
-		// é_·Å¥İ©`¥ÈÇéˆó¤«¤éWAN-IP³é³ö
+		// ä»å¼€æ”¾ç«¯å£ä¿¡æ¯ä¸­æå–WAN-IP
 		//map->get_ExternalIPAddress(&externalip);
 		//WriteMessage(String::Format("{0}\n", gcnew String(externalip)), DebugMessageColor);
 	}
 	catch(Exception^ e){
-		MessageBox::Show("·¢ÉúÁË´íÎó¡£" + errmes_tmp, mestitle, MessageBoxButtons::OK, MessageBoxIcon::Error);
+		MessageBox::Show("å‘ç”Ÿäº†é”™è¯¯ã€‚" + errmes_tmp, mestitle, MessageBoxButtons::OK, MessageBoxIcon::Error);
 		if(MTINFO.DEBUG){if(MTINFO.DEBUG){Debug::WriteLine( String::Format("{0}\n", e->ToString() ));}}
 	}
 	finally{
