@@ -13,13 +13,13 @@ using namespace System::Drawing;
 namespace LilithPort {
 
 	/// <summary>
-	///StartupForm����
+	///StartupForm概述
 	///
-	///����:������Ĵ�������ƣ������������������. resx�ļ��������
-	///���й���Դ����������ʹ��'��Դ�ļ���'����
-	///��Ҫ���и��ġ���������д˸��ģ�
-	///���������˱���������ı��ػ���Դ��
-	///���޷���ȷ�໥���á�
+	///警告:如果更改此类的名称，则与此类依赖的所有. resx文件相关联。
+	///对托管资源编译器工具使用'资源文件名'属性
+	///需要进行更改。如果不进行此更改，
+	///设计器和与此表单相关联的本地化资源，
+	///将无法正确相互利用。
 	/// </summary>
 	public ref class StartupForm : public System::Windows::Forms::Form
 	{
@@ -28,13 +28,13 @@ namespace LilithPort {
 		{
 			InitializeComponent();
 			//
-			//TODO:�ڴ˴����ӹ��캯������
+			//TODO:在此处添加构造函数代码
 			//
 		}
 
 	protected:
 		/// <summary>
-		///������������ʹ�õ���Դ��
+		///清理所有正在使用的资源。
 		/// </summary>
 		~StartupForm()
 		{
@@ -82,13 +82,13 @@ namespace LilithPort {
 	private: System::ComponentModel::IContainer^  components;
 	private:
 		/// <summary>
-		///��Ҫ����Ʊ�����
+		///必要的设计变量。
 		/// </summary>
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		///���������֧������ķ������˷�����������
-		///�벻Ҫ�ڴ���༭���н��и��ġ�
+		///这是设计器支持所需的方法。此方法的内容是
+		///请不要在代码编辑器中进行更改。
 		/// </summary>
 		void InitializeComponent(void)
 		{
@@ -460,7 +460,7 @@ namespace LilithPort {
 
 	private:
 
-		// ���ڴӿ��ƴ���ʶ��ر�
+		// 用于从控制窗口识别关闭
 		static bool ConnectionStart = false;
 
 		System::Void StartupForm_Load(System::Object^  sender, System::EventArgs^  e) {
@@ -495,7 +495,7 @@ namespace LilithPort {
 			textBoxName->Text = gcnew String(MTOPTION.NAME);
 
 			textBoxComment->Text = gcnew String(MTOPTION.COMMENT);
-			// ���Ʊ�����Ϊ����
+			// 将制表符改为换行
 			ReplaceWelcomeTab(true);
 			textBoxWelcome->Text = gcnew String(MTOPTION.WELCOME);
 
@@ -508,7 +508,7 @@ namespace LilithPort {
 			}
 		}
 		System::Void buttonOK_Click(System::Object^  sender, System::EventArgs^  e) {
-			// ���������Ӱ�ť
+			// 启动·连接按钮
 			if(!CheckValidate()){
 				return;
 			}
@@ -517,7 +517,7 @@ namespace LilithPort {
 			this->Close();
 		}
 		System::Void buttonCancel_Click(System::Object^  sender, System::EventArgs^  e) {
-			// �رհ�ť
+			// 关闭按钮
 			MTOPTION.CONNECTION_TYPE = CT_FREE;
 			ConnectionStart = false;
 
@@ -578,7 +578,7 @@ namespace LilithPort {
 			buttonConnect->Enabled = true;
 		}
 		System::Void label_MouseEnter(System::Object^  sender, System::EventArgs^  e) {
-			// �����ͣʱ��ǩ��ʾ�»���
+			// 鼠标悬停时标签显示下划线
 			Label^ obj = (Label^)sender;
 			obj->Font = gcnew System::Drawing::Font(this->Font, FontStyle::Underline);
 		}
@@ -587,7 +587,7 @@ namespace LilithPort {
 			obj->Font = gcnew System::Drawing::Font(this->Font, FontStyle::Regular);
 		}
 		System::Void buttonOpenPortUPnP_Click(System::Object^  sender, System::EventArgs^  e) {
-			// �˿ڿ��Ű�ť
+			// 端口开放按钮
 			buttonOpenPortUPnP->Enabled = false;
 			buttonClosePortUPnP->Enabled = false;
 
@@ -598,7 +598,7 @@ namespace LilithPort {
 			buttonClosePortUPnP->Enabled = true;
 		}
 		System::Void buttonClosePortUPnP_Click(System::Object^  sender, System::EventArgs^  e) {
-			// �رն˿ڰ�ť
+			// 关闭端口按钮
 			buttonOpenPortUPnP->Enabled = false;
 			buttonClosePortUPnP->Enabled = false;
 
