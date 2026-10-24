@@ -1,230 +1,91 @@
 #include "stdafx.h"
-#include "OptionForm.h"
-#include "MainForm.h"
+#include "Mainform.h"
+//#include "StartupForm.h"
 
 using namespace LilithPort;
 
-void OptionForm::SaveOption(bool apply){
-	MainForm^ parent = safe_cast<MainForm^>(this->Owner);
+bool StartupForm::CheckValidate() {
+	// 输入检查
+	IntPtr mp;
+	TCHAR p1[MAX_ARRAY];
+	TCHAR *p2;
+	if(radioButtonServer->Checked){
+		MTOPTION.CONNECTION_TYPE = CT_SERVER;
 
-	try{
-		FileVersionInfo^ info = FileVersionInfo::GetVersionInfo(textBoxGameExe->Text);
-
-		if(info->FileDescription != "２Ｄ格闘ツクール2nd." && info->FileDescription != "２Ｄ格闘ツクール９５"){
-			throw gcnew Exception;
+		// 服务器名检查
+		if(textBoxServerName->Text->Length == 0){
+			MessageBox::Show("请输入服务器名称。\n\n要在服务器模式下启动，\n需要输入服务器名称。", "服务器模式错误误", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			return false;
+		}
+		mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxServerName->Text);
+		_tcscpy_s(p1, static_cast<PTCHAR>(mp.ToPointer()));
+		Runtime::InteropServices::Marshal::FreeHGlobal(mp);
+		p2 = _tcschr(p1, _T(','));
+		if (p2 != NULL){
+			MessageBox::Show("服务器名称中有无法使用的字符(,)。\n请确认服务器名称。", "服务器模式错误", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			return false;
 		}
 	}
-	catch(Exception^){
-		textBoxGameExe->Text = gcnew String("这不是格斗游戏的可执行文件");
+	else if(radioButtonHost->Checked){
+		MTOPTION.CONNECTION_TYPE = CT_HOST;
 	}
-
-	IntPtr mp;
-	// パス
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxGameExe->Text);
-	_tcscpy_s(MTOPTION.GAME_EXE, static_cast<PTCHAR>(mp.ToPointer()));
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxReplayFolder->Text);
-	_tcscpy_s(MTOPTION.REPLAY_FOLDER, static_cast<PTCHAR>(mp.ToPointer()));
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxVSSound->Text);
-	_tcscpy_s(MTOPTION.VS_SOUND, static_cast<PTCHAR>(mp.ToPointer()));
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxNoticeSound->Text);
-	_tcscpy_s(MTOPTION.NOTICE_SOUND, static_cast<PTCHAR>(mp.ToPointer()));
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxEnterSound->Text);
-	_tcscpy_s(MTOPTION.ENTER_SOUND, static_cast<PTCHAR>(mp.ToPointer()));
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxNameSound->Text);
-	_tcscpy_s(MTOPTION.NAME_SOUND, static_cast<PTCHAR>(mp.ToPointer()));
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxTalkSound->Text);
-	_tcscpy_s(MTOPTION.TALK_SOUND, static_cast<PTCHAR>(mp.ToPointer()));
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxSeekSound->Text);
-	_tcscpy_s(MTOPTION.SEEK_SOUND, static_cast<PTCHAR>(mp.ToPointer()));
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxKeywordSoundPath->Text);
-	_tcscpy_s(MTOPTION.KEYWORD_SOUND, static_cast<PTCHAR>(mp.ToPointer()));
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxKeyword->Text);
-	_tcscpy_s(MTOPTION.KEYWORD, static_cast<PTCHAR>(mp.ToPointer()));
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-	
-
-	MTOPTION.ENTER_SOUND_ENABLE   = checkBoxEnterSound->Checked;
-	MTOPTION.VS_SOUND_ENABLE      = checkBoxVSSound->Checked;
-	MTOPTION.NOTICE_SOUND_ENABLE  = checkBoxNoticeSound->Checked;
-	MTOPTION.NAME_SOUND_ENABLE    = checkBoxNameSound->Checked;
-	MTOPTION.TALK_SOUND_ENABLE    = checkBoxTalkSound->Checked;
-	MTOPTION.SEEK_SOUND_ENABLE    = checkBoxSeekSound->Checked;
-	MTOPTION.KEYWORD_SOUND_ENABLE = checkBoxKeywordSound->Checked;
-
-	MTOPTION.GET_IP_ENABLE        = checkBoxGetIP->Checked;
-	MTOPTION.SHOW_GAME_OPTION     = checkBoxShowGameOption->Checked;
-	MTOPTION.SHOW_RESULT          = checkBoxShowResult->Checked;
-	MTOPTION.LOG_CLEAR_WITHOUT_WELCOME = checkBoxLogClearWithoutWelcome->Checked;
-
-	// 评论
-	if(textBoxComment->Text != gcnew String(MTOPTION.COMMENT)){
-		mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxComment->Text);
-		_tcscpy_s(MTOPTION.COMMENT, static_cast<PTCHAR>(mp.ToPointer()));
-		Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-
-		parent->ChangeComment(textBoxComment->Text);
-	}
-
-	// 游戏
-	MTOPTION.MAX_STAGE      = (UINT)numericUpDownMaxStage->Value;
-	MTOPTION.STAGE_SELECT   = (UINT)numericUpDownStageSelect->Value;
-	MTOPTION.ROUND          = (UINT)numericUpDownRound->Value;
-	MTOPTION.TIMER          = (UINT)numericUpDownTimer->Value;
-	MTOPTION.SIMULATE_DELAY = (UINT)numericUpDownSimDelay->Value;
-
-	MTOPTION.TEAM_ROUND_HP     = checkBoxTeamRoundHP->Checked;
-	MTOPTION.DISPLAY_NAME      = checkBoxName->Checked;
-	MTOPTION.DISPLAY_VERSUS    = checkBoxVersus->Checked;
-	MTOPTION.DISPLAY_FRAMERATE = checkBoxFramerate->Checked;
-	MTOPTION.DISPLAY_RAND      = checkBoxRand->Checked;
-
-	MTOPTION.REPLAY_DIVIDE      = checkBoxDivide->Checked;
-	MTOPTION.CHANGE_WINDOW_SIZE = checkBoxWindowSize->Checked;
-
-	MTOPTION.MAX_CONNECTION = (UINT)numericUpDownMaxConnection->Value;
-	MTOPTION.BGM_VOLUME     = (UINT)trackBarBGM->Value * 5;
-	MTOPTION.SE_VOLUME      = (UINT)trackBarSE->Value * 5;
-
-	if(radioButtonReplayVersion2->Checked){
-		MTOPTION.REPLAY_VERSION = 2;
+	else if(radioButtonClient->Checked){
+		MTOPTION.CONNECTION_TYPE = CT_CLIENT;
 	}
 	else{
-		MTOPTION.REPLAY_VERSION = 1;
+		MTOPTION.CONNECTION_TYPE = CT_FREE;
+	}
+	
+	// 服务器名
+	if(MTOPTION.CONNECTION_TYPE == CT_SERVER){
+		mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxServerName->Text);
+		_tcscpy_s(MTOPTION.SERVER_NAME, static_cast<PTCHAR>(mp.ToPointer()));
+		Runtime::InteropServices::Marshal::FreeHGlobal(mp);
 	}
 
-	// 碰撞判定
-	if(MTOPTION.HIT_JUDGE != checkBoxHitJudge->Checked){
-		MTOPTION.HIT_JUDGE = checkBoxHitJudge->Checked;
+	// 地址输入检查
+	if(MTOPTION.CONNECTION_TYPE == CT_HOST || MTOPTION.CONNECTION_TYPE == CT_CLIENT) {
+		if(textBoxIP->Text->Length == 0){
+			MessageBox::Show("请输入连接地址。\n\n要在主机端,客户端模式下启动，\n需要输入连接地址。", "主机端，客户端模式错误", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			return false;
+		}
+		mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxIP->Text);
+		_tcscpy_s(p1, static_cast<PTCHAR>(mp.ToPointer()));
+		p2 = _tcschr(p1, _T(','));
+		if (p2 != NULL){
+			MessageBox::Show("连接地址中存在无法使用的字符(,)。\n请确认连接地址。", "主机端，客户端模式错误", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			return false;
+		}
 
-		// 如果游戏正在运行则立即更改
-		if(MTINFO.INITIALIZED && MTINFO.PROCESS != NULL){
-			DWORD b = MTOPTION.HIT_JUDGE;
+		// 连接地址
+		mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxIP->Text);
+		_tcscpy_s(MTOPTION.CONNECTION_IP, static_cast<PTCHAR>(mp.ToPointer()));
+		Runtime::InteropServices::Marshal::FreeHGlobal(mp);
 
-			if(MTINFO.KGT2K){
-				WriteProcessMemory(MTINFO.PROCESS, (LPVOID)HIT_JUDGE, &b, 4, NULL);
-			}
-			else{
-				WriteProcessMemory(MTINFO.PROCESS, (LPVOID)HIT_JUDGE_95, &b, 4, NULL);
-			}
+	}
+
+	// 名字检查
+	if(textBoxName->Text->Length == 0){
+		textBoxName->Text = gcnew String(MTOPTION.NAME);
+
+		if(textBoxName->Text->Length == 0){
+			textBoxName->Text = gcnew String("匿名");
 		}
 	}
 
-	// 详细设置
-	// 日志文件保存格式
-	if(radioButtonLogRTF->Checked){
-		MTOPTION.LOG_FORMAT_RTF = true;
-	}else{
-		MTOPTION.LOG_FORMAT_RTF = false;
-	}
-
-	// 说话时窗口闪烁
-	MTOPTION.TALK_FLASH = checkBoxTalkFlash->Checked;
-	// 名字被叫到时让窗口闪烁
-	MTOPTION.NAME_FLASH = checkBoxNameFlash->Checked;
-
-	//　色
-	MTCOLOR.SERVER_NAME    = buttonServerName->ForeColor.ToArgb();
-	MTCOLOR.HOST_NAME      = buttonHostName->ForeColor.ToArgb();
-	MTCOLOR.CLIENT_NAME    = buttonClientName->ForeColor.ToArgb();
-	MTCOLOR.REST_STATE     = buttonRestState->BackColor.ToArgb();
-	MTCOLOR.VS_STATE       = buttonVSState->BackColor.ToArgb();
-	MTCOLOR.WATCH_STATE    = buttonWatchState->BackColor.ToArgb();
-	MTCOLOR.SEEK_STATE     = buttonSeekState->BackColor.ToArgb();
-
-	MTCOLOR.SYSTEM_MESSAGE = buttonSystemMessage->ForeColor.ToArgb();
-	MTCOLOR.ERROR_MESSAGE  = buttonErrorMessage->ForeColor.ToArgb();
-	MTCOLOR.DEBUG_MESSAGE  = buttonDebugMessage->ForeColor.ToArgb();
-	MTCOLOR.NOTICE_BACK    = buttonNoticeBack->BackColor.ToArgb();
-	MTCOLOR.COMMENT_BACK   = buttonCommentBack->BackColor.ToArgb();
-	MTCOLOR.SECRET         = buttonSecret->ForeColor.ToArgb();
-
-	// 反映颜色
-	parent->ResetColor();
-
-	// 检查数值
-	CheckMTOption();
-
-	if(apply){
-		textBoxGameExe->Text          = gcnew String(MTOPTION.GAME_EXE);
-		textBoxReplayFolder->Text     = gcnew String(MTOPTION.REPLAY_FOLDER);
-		textBoxVSSound->Text          = gcnew String(MTOPTION.VS_SOUND);
-		textBoxNoticeSound->Text      = gcnew String(MTOPTION.NOTICE_SOUND);
-		textBoxEnterSound->Text       = gcnew String(MTOPTION.ENTER_SOUND);
-		textBoxNameSound->Text        = gcnew String(MTOPTION.NAME_SOUND);
-		textBoxTalkSound->Text        = gcnew String(MTOPTION.TALK_SOUND);
-		textBoxSeekSound->Text        = gcnew String(MTOPTION.SEEK_SOUND);
-		textBoxKeywordSoundPath->Text = gcnew String(MTOPTION.KEYWORD_SOUND);
-	}
-
-	SaveMTOption();
-}
-void OptionForm::CloseOption(){
-	MainForm^ parent = safe_cast<MainForm^>(this->拥有者);
-	parent->ChangeProfileEnabled();
-}
-bool OptionForm::CheckTextProfileName(String^ buf){
-	// 个人资料名验证
-	String^ mes;
-	if(buf == gcnew String(MTOPTION.PROFILE)){
-		return true;
-	}
-	if(buf->Length == 0){
-		mes = "配置文件名称为空。";
-	}
-	if(buf->Contains(",") || buf->Contains("[") || buf->Contains("]")){
-		mes = "不能用于配置文件名称的字符（, [ ]）包括在内。";
-	}
-	for(int i=0; i < Profile::SystemSection->Length; i++){
-		if(buf == Profile::SystemSection[i]){
-			mes = "无法使用该配置文件名。";
-		}
-	}
-	for(int i=0; i < Profile::ProfileList->Count; i++){
-		if(buf == Profile::ProfileList[i]){
-			mes = "该配置文件名已存在。";
-		}
-	}
-	if(mes != nullptr){
-		MessageBox::Show(mes, "保存配置文件", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
-		return true;
-	}
-	return false;
-}
-void OptionForm::DeleteProfile(String^ buf){
-	// 删除个人资料
-	TCHAR bufProfile[MAX_ARRAY];
-	IntPtr mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(buf);
-	_tcscpy_s(bufProfile, static_cast<PTCHAR>(mp.ToPointer()));
+	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxName->Text);
+	_tcscpy_s(MTOPTION.NAME, static_cast<PTCHAR>(mp.ToPointer()));
 	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
 
-	DeleteSection(bufProfile);
-	SaveProfileOption();
-}
-void OptionForm::OverWriteProfile(String^ buf){
-	// 覆盖保存
-	DeleteSection(MTOPTION.PROFILE);
+	MTOPTION.OPEN_PORT      = (UINT)numericUpDownOpenPort->Value;
 
-	IntPtr mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(buf);
-	_tcscpy_s(MTOPTION.PROFILE, static_cast<PTCHAR>(mp.ToPointer()));
+	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxComment->Text);
+	_tcscpy_s(MTOPTION.COMMENT, static_cast<PTCHAR>(mp.ToPointer()));
 	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
 
-	SaveMTOption();
+	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxWelcome->Text);
+	_tcscpy_s(MTOPTION.WELCOME, static_cast<PTCHAR>(mp.ToPointer()));
+	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
+
+	return true;
 }
