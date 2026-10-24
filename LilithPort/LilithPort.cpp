@@ -1,4 +1,4 @@
-// LilithPort.cpp : ¥á¥¤¥ó ¥×¥í¥¸¥§¥¯¥È ¥Õ¥¡¥¤¥ë¤Ç¤¹¡£
+// LilithPort.cpp : ä¸»é¡¹ç›®æ–‡ä»¶ã€‚
 
 #include "stdafx.h"
 #include "MainForm.h"
@@ -6,7 +6,7 @@
 
 using namespace LilithPort;
 
-// ¥°¥í©`¥Ğ¥ë
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«
 MT_SP_INFORMATION  MTINFO;
 MT_SP_OPTION       MTOPTION;
 MT_SP_WINDOW_STATE MTWS;
@@ -17,18 +17,18 @@ CRITICAL_SECTION CS_CAPTION;
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
-	// ¥³¥ó¥È¥í©`¥ë¤¬×÷³É¤µ¤ì¤ëÇ°¤Ë¡¢Windows XP ¥Ó¥¸¥å¥¢¥ë„¿¹û¤òÓĞ„¿¤Ë¤·¤Ş¤¹
+	// åœ¨æ§ä»¶åˆ›å»ºä¹‹å‰ï¼Œå¯ç”¨ Windows XP è§†è§‰æ•ˆæœ
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(true);
 
-	// ×Ô¥×¥í¥°¥é¥à¤Î¥Ñ¥¹
+	// è‡ªç¨‹åºçš„è·¯å¾„
 	TCHAR drive[_MAX_DRIVE], dir[_MAX_DIR];
 
 	GetModuleFileName(NULL, MTOPTION.PATH, _MAX_PATH);
 	_tsplitpath_s(MTOPTION.PATH, drive, _MAX_DRIVE, dir, _MAX_DIR, NULL, 0, NULL, 0);
 	_stprintf_s(MTOPTION.PATH, _T("%s%s"), drive, dir);
 
-	// ¥³¥Ş¥ó¥É¥é¥¤¥óÒıÊı
+	// å‘½ä»¤è¡Œå‚æ•°
 	if(args->Length > 0){
 		if(args[0] == "-s"){
 			MTINFO.SERVER_MODE = true;
@@ -53,28 +53,28 @@ int main(array<System::String ^> ^args)
 	LoadMTOption();
 	CheckMTOption();
 
-	// ÂÒÊı¤Î³õÆÚ»¯£¦¤Ş¤¼¤Ş¤¼
+	// éšæœºæ•°åˆå§‹åŒ– & æ··åˆæ··åˆ
 	XorShift((UINT)DateTime::Now.Ticks);
 	XorShift();
 	XorShift();
 	XorShift();
 
-	// ÒôÁ¿(dB)¤ò¤¢¤é¤«¤¸¤áÓ‹Ëã¤·¤Æ¤ª¤¯
+	// äº‹å…ˆè®¡ç®—å¥½éŸ³é‡(dB)
 	MTINFO.VOLUME[0] = -10000;
 
 	for(int i = 1; i < 21; i++){
-		// -6dB¤ÇÒôÁ¿°ëœp¡¢DirectSoundµÄ¤Ë¤Ï-600
+		// -6dB éŸ³é‡å‡åŠï¼Œåœ¨ DirectSound ä¸Šå¤§çº¦æ˜¯ -600
 		// 19.931568f = -6.0f / log10(0.5f); 
 		MTINFO.VOLUME[i] = (INT32)(19.931568f*log10((float)(i*5)/100.0f)*100.0f);
 	}
 
 	InitializeCriticalSection(&CS_CAPTION);
 
-	// Î´„IÀí¤ÎÀıÍâ¤ò¥­¥ã¥Ã¥Á
+	// æ•è·æœªå¤„ç†çš„å¼‚å¸¸
 	Application::ThreadException += gcnew ThreadExceptionEventHandler(ApplicationThreadException);
 	Threading::Thread::GetDomain()->UnhandledException += gcnew UnhandledExceptionEventHandler(ApplicationUnhandledException);
 
-	// ¥á¥¤¥ó ¥¦¥£¥ó¥É¥¦¤ò×÷³É¤·¤Æ¡¢ŒgĞĞ¤·¤Ş¤¹
+	// åˆ›å»ºä¸»çª—å£å¹¶è¿è¡Œ
 	Application::Run(gcnew MainForm());
 
 	DeleteCriticalSection(&CS_CAPTION);
