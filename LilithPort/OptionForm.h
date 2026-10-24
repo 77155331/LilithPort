@@ -14,13 +14,13 @@ using namespace System::Diagnostics;
 namespace LilithPort {
 
 	/// <summary>
-	/// µÄ¸ÅÊö
+	/// çš„æ¦‚è¿°
 	///
-	/// ¾¯¸æ£ºÈç¹û¸ü¸Ä´ËÀàµÄÃû³Æ£¬Óë´ËÀàÏà¹ØµÄËùÓÐ .resx ÎÄ¼þÒ²»á±»Ó°Ïì
-	///          ¶Ô¹ÜÀí×ÊÔ´±àÒëÆ÷¹¤¾ßµÄ '×ÊÔ´ÎÄ¼þÃû' ÊôÐÔ
-	///          ÐèÒª¸ü¸Ä¡£Èç¹û²»½øÐÐÕâ¸ö¸ü¸ÄµÄ»°£¬
-	///          Éè¼ÆÊ¦ºÍÓë´Ë±íµ¥Ïà¹ØµÄ±¾µØ»¯×ÊÔ´£¬
-	///          ÎÞ·¨ÕýÈ·»¥ÏàÊ¹ÓÃÁË¡£
+	/// è­¦å‘Šï¼šå¦‚æžœæ›´æ”¹æ­¤ç±»çš„åç§°ï¼Œä¸Žæ­¤ç±»ç›¸å…³çš„æ‰€æœ‰ .resx æ–‡ä»¶ä¹Ÿä¼šè¢«å½±å“
+	///          å¯¹ç®¡ç†èµ„æºç¼–è¯‘å™¨å·¥å…·çš„ 'èµ„æºæ–‡ä»¶å' å±žæ€§
+	///          éœ€è¦æ›´æ”¹ã€‚å¦‚æžœä¸è¿›è¡Œè¿™ä¸ªæ›´æ”¹çš„è¯ï¼Œ
+	///          è®¾è®¡å¸ˆå’Œä¸Žæ­¤è¡¨å•ç›¸å…³çš„æœ¬åœ°åŒ–èµ„æºï¼Œ
+	///          æ— æ³•æ­£ç¡®äº’ç›¸ä½¿ç”¨äº†ã€‚
 	/// </summary>
 	public ref class OptionForm : public System::Windows::Forms::Form
 	{
@@ -29,13 +29,13 @@ namespace LilithPort {
 		{
 			InitializeComponent();
 			//
-			//TODO: ÔÚÕâÀïÌí¼Ó¹¹Ôìº¯Êý´úÂë
+			//TODO: åœ¨è¿™é‡Œæ·»åŠ æž„é€ å‡½æ•°ä»£ç 
 			//
 		}
 
 	protected:
 		/// <summary>
-		/// ÇåÀíËùÓÐÕýÔÚÊ¹ÓÃµÄ×ÊÔ´¡£
+		/// æ¸…ç†æ‰€æœ‰æ­£åœ¨ä½¿ç”¨çš„èµ„æºã€‚
 		/// </summary>
 		~OptionForm()
 		{
@@ -221,14 +221,14 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 
 	private:
 		/// <summary>
-		/// ÕâÊÇ±ØÒªµÄÉè¼ÆÊ¦±äÁ¿¡£
+		/// è¿™æ˜¯å¿…è¦çš„è®¾è®¡å¸ˆå˜é‡ã€‚
 		/// </summary>
 		System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// ÕâÊÇÉè¼ÆÊ¦Ö§³ÖËùÐèµÄ·½·¨¡£Õâ¸ö·½·¨µÄÄÚÈÝÊÇ
-		/// ²»ÒªÔÚ´úÂë±à¼­Æ÷Àï¸Ä¶¯Å¶¡£
+		/// è¿™æ˜¯è®¾è®¡å¸ˆæ”¯æŒæ‰€éœ€çš„æ–¹æ³•ã€‚è¿™ä¸ªæ–¹æ³•çš„å†…å®¹æ˜¯
+		/// ä¸è¦åœ¨ä»£ç ç¼–è¾‘å™¨é‡Œæ”¹åŠ¨å“¦ã€‚
 		/// </summary>
 		void InitializeComponent(void)
 		{
@@ -1667,22 +1667,22 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 		DWORD MixerVolumeMin, MixerVolumeMax;
 
 		void AdviceGameExe(){
-			textBoxGameExe->Text = gcnew String("Çë°´ÓÒ²à°´Å¥ÉèÖÃÂ·¾¶");
+			textBoxGameExe->Text = gcnew String("è¯·æŒ‰å³ä¾§æŒ‰é’®è®¾ç½®è·¯å¾„");
 			textBoxGameExe->Focus();
 		}
 
 		void CheckStageValue(){
 			if(numericUpDownStageSelect->Value > numericUpDownMaxStage->Value){
-				labelMaxStage->Text    = gcnew String("¿ªÊ¼¹Ø¿¨");
-				labelStageSelect->Text = gcnew String("ÖÕ¶Ë½×¶Î");
+				labelMaxStage->Text    = gcnew String("å¼€å§‹å…³å¡");
+				labelStageSelect->Text = gcnew String("ç»ˆç«¯é˜¶æ®µ");
 			}
 			else{
-				labelMaxStage->Text    = gcnew String("×î´ó¹Ø¿¨Êý");
-				labelStageSelect->Text = gcnew String("¶ÔÕ½ÎèÌ¨");
+				labelMaxStage->Text    = gcnew String("æœ€å¤§å…³å¡æ•°");
+				labelStageSelect->Text = gcnew String("å¯¹æˆ˜èˆžå°");
 			}
 
 			if(numericUpDownStageSelect->Value == 0){
-				labelStageSelect->Text = gcnew String("Ëæ»ú¹Ø¿¨");
+				labelStageSelect->Text = gcnew String("éšæœºå…³å¡");
 			}
 		}
 
@@ -1734,7 +1734,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 			textBoxKeywordSoundPath->Text = gcnew String(MTOPTION.KEYWORD_SOUND);
 			textBoxKeyword->Text          = gcnew String(MTOPTION.KEYWORD);
 
-			// ƒpƒX‚ÌƒZƒŒƒNƒVƒ‡ƒ“‚ð––”ö‚É
+			// æŠŠè·¯å¾„é€‰æ‹©æ”¾åˆ°æœ«å°¾
 			textBoxGameExe->SelectionStart          = textBoxGameExe->Text->Length;
 			textBoxReplayFolder->SelectionStart     = textBoxReplayFolder->Text->Length;
 			textBoxComment->SelectionStart          = textBoxComment->Text->Length;
@@ -1816,7 +1816,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 			buttonCommentBack->BackColor   = Color::FromArgb(MTCOLOR.COMMENT_BACK);
 			buttonSecret->ForeColor        = Color::FromArgb(MTCOLOR.SECRET);
 
-			// SWƒVƒ“ƒZ
+			// SWåˆæˆå™¨
 			try{
 				hMixer = NULL;
 				pin_ptr<HMIXER> p_hm = &hMixer;
@@ -1825,7 +1825,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 					throw gcnew Exception;
 				}
 				else{
-					// €”õ
+					// å‡†å¤‡
 					MIXERLINE line;
 					MIXERLINECONTROLS lc;
 					MIXERCONTROL ctrl;
@@ -1852,7 +1852,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 					MixerVolumeMin = ctrl.Bounds.dwMinimum;
 					MixerVolumeMax = ctrl.Bounds.dwMaximum;
 
-					// ‰¹—ÊŽæ“¾
+					// å£’æ¤œåº¢æ‘¼
 					MIXERCONTROLDETAILS mcd;
 					MIXERCONTROLDETAILS_UNSIGNED vol;
 
@@ -1932,17 +1932,17 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 		}
 
 		System::Void buttonGameExe_Click(System::Object^  sender, System::EventArgs^  e) {
-			openFileDialog1->Title  = gcnew String("¸ñ¶·ÓÎÏ·µÄ¿ÉÖ´ÐÐÎÄ¼þ");
+			openFileDialog1->Title  = gcnew String("æ ¼æ–—æ¸¸æˆçš„å¯æ‰§è¡Œæ–‡ä»¶");
 			openFileDialog1->Filter = gcnew String("exe file (*.exe)|*.exe");
 
 			if(openFileDialog1->ShowDialog() == ::DialogResult::OK){
 				FileVersionInfo^ info = FileVersionInfo::GetVersionInfo(openFileDialog1->FileName);
 
-				if(info->FileDescription == "£²£Ä¸ñêL¥Ä¥¯©`¥ë2nd." || info->FileDescription == "£²£Ä¸ñêL¥Ä¥¯©`¥ë£¹£µ"){
+				if(info->FileDescription == "ï¼’ï¼¤æ ¼é—˜ãƒ„ã‚¯ãƒ¼ãƒ«2nd." || info->FileDescription == "ï¼’ï¼¤æ ¼é—˜ãƒ„ã‚¯ãƒ¼ãƒ«ï¼™ï¼•"){
 					textBoxGameExe->Text = openFileDialog1->FileName;
 				}
 				else{
-					textBoxGameExe->Text = "Õâ²»ÊÇ¸ñ¶·ÓÎÏ·µÄ¿ÉÖ´ÐÐÎÄ¼þ";
+					textBoxGameExe->Text = "è¿™ä¸æ˜¯æ ¼æ–—æ¸¸æˆçš„å¯æ‰§è¡Œæ–‡ä»¶";
 					textBoxGameExe->SelectAll();
 					textBoxGameExe->Focus();
 				}
@@ -1956,7 +1956,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 		}
 
 		System::Void buttonVSSound_Click(System::Object^  sender, System::EventArgs^  e) {
-			openFileDialog1->Title  = gcnew String("¶ÔÕ½Ê±²¥·ÅµÄÒôÆµÎÄ¼þ");
+			openFileDialog1->Title  = gcnew String("å¯¹æˆ˜æ—¶æ’­æ”¾çš„éŸ³é¢‘æ–‡ä»¶");
 			openFileDialog1->Filter = gcnew String("wav file (*.wav)|*.wav");
 
 			if(openFileDialog1->ShowDialog() == ::DialogResult::OK){
@@ -1965,7 +1965,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 		}
 
 		System::Void buttonNoticeSound_Click(System::Object^  sender, System::EventArgs^  e) {
-			openFileDialog1->Title  = gcnew String("Í¨Öª½ÓÊÕÊ±²¥·ÅµÄÒôÆµÎÄ¼þ");
+			openFileDialog1->Title  = gcnew String("é€šçŸ¥æŽ¥æ”¶æ—¶æ’­æ”¾çš„éŸ³é¢‘æ–‡ä»¶");
 			openFileDialog1->Filter = gcnew String("wav file (*.wav)|*.wav");
 
 			if(openFileDialog1->ShowDialog() == ::DialogResult::OK){
@@ -1974,7 +1974,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 		}
 
 		System::Void buttonEnterSound_Click(System::Object^  sender, System::EventArgs^  e) {
-			openFileDialog1->Title  = gcnew String("³ÉÔ±½øÈë·¿¼äÊ±²¥·ÅµÄÒôÆµÎÄ¼þ");
+			openFileDialog1->Title  = gcnew String("æˆå‘˜è¿›å…¥æˆ¿é—´æ—¶æ’­æ”¾çš„éŸ³é¢‘æ–‡ä»¶");
 			openFileDialog1->Filter = gcnew String("wav file (*.wav)|*.wav");
 
 			if(openFileDialog1->ShowDialog() == ::DialogResult::OK){
@@ -1983,7 +1983,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 		}
 
 		System::Void buttonNameSound_Click(System::Object^  sender, System::EventArgs^  e) {
-			openFileDialog1->Title  = gcnew String("êÇ³Æ±»½ÐÊ±²¥·ÅµÄÒôÆµÎÄ¼þ");
+			openFileDialog1->Title  = gcnew String("æ˜µç§°è¢«å«æ—¶æ’­æ”¾çš„éŸ³é¢‘æ–‡ä»¶");
 			openFileDialog1->Filter = gcnew String("wav file (*.wav)|*.wav");
 
 			if(openFileDialog1->ShowDialog() == ::DialogResult::OK){
@@ -1992,7 +1992,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 		}
 
 		System::Void buttonTalkSound_Click(System::Object^  sender, System::EventArgs^  e) {
-			openFileDialog1->Title  = gcnew String("·¢ÑÔÊ±²¥·ÅµÄÒôÆµÎÄ¼þ");
+			openFileDialog1->Title  = gcnew String("å‘è¨€æ—¶æ’­æ”¾çš„éŸ³é¢‘æ–‡ä»¶");
 			openFileDialog1->Filter = gcnew String("wav file (*.wav)|*.wav");
 
 			if(openFileDialog1->ShowDialog() == ::DialogResult::OK){
@@ -2001,7 +2001,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 		}
 
 		System::Void buttonSeekSound_Click(System::Object^  sender, System::EventArgs^  e) {
-			openFileDialog1->Title  = gcnew String("¶ÔÕ½ÕÐÄ¼ÖÐ²¥·ÅµÄÒôÆµÎÄ¼þ");
+			openFileDialog1->Title  = gcnew String("å¯¹æˆ˜æ‹›å‹Ÿä¸­æ’­æ”¾çš„éŸ³é¢‘æ–‡ä»¶");
 			openFileDialog1->Filter = gcnew String("wav file (*.wav)|*.wav");
 
 			if(openFileDialog1->ShowDialog() == ::DialogResult::OK){
@@ -2010,7 +2010,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 		}
 
 		System::Void buttonKeywordSound_Click(System::Object^  sender, System::EventArgs^  e) {
-			openFileDialog1->Title  = gcnew String("·¢ÏÖ¹Ø¼ü×Ö²¥·ÅµÄÒôÆµÎÄ¼þ");
+			openFileDialog1->Title  = gcnew String("å‘çŽ°å…³é”®å­—æ’­æ”¾çš„éŸ³é¢‘æ–‡ä»¶");
 			openFileDialog1->Filter = gcnew String("wav file (*.wav)|*.wav");
 
 			if(openFileDialog1->ShowDialog() == ::DialogResult::OK){
@@ -2152,7 +2152,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 				String^ extension = Path::GetExtension(file[0])->ToLower();
 				FileVersionInfo^ info = FileVersionInfo::GetVersionInfo(file[0]);
 
-				if(extension == ".exe" && (info->FileDescription == "£²£Ä¸ñêL¥Ä¥¯©`¥ë2nd." || info->FileDescription == "£²£Ä¸ñêL¥Ä¥¯©`¥ë£¹£µ")){
+				if(extension == ".exe" && (info->FileDescription == "ï¼’ï¼¤æ ¼é—˜ãƒ„ã‚¯ãƒ¼ãƒ«2nd." || info->FileDescription == "ï¼’ï¼¤æ ¼é—˜ãƒ„ã‚¯ãƒ¼ãƒ«ï¼™ï¼•")){
 					e->Effect = DragDropEffects::All;
 				}
 			}
@@ -2238,7 +2238,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 			}
 		}
 
-		// Ä¶ƒ{ƒ^ƒ“
+		// æ’­æ”¾æŒ‰é’®
 		System::Void buttonVSSoundPlay_Click(System::Object^  sender, System::EventArgs^  e) {
 			try{
 				Media::SoundPlayer^ wav = gcnew Media::SoundPlayer(gcnew String(MTOPTION.VS_SOUND));
@@ -2296,7 +2296,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 			}
 		}
 
-		// IP“ü—Íƒ`ƒFƒbƒN
+		// IPè¾“å…¥æ£€æŸ¥
 		System::Void IPtextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 			if(Net::IPAddress::TryParse(IPtextBox->Text, gcnew Net::IPAddress(0)) == false){
 				Convertbutton->Enabled = false;
@@ -2307,30 +2307,30 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 				AddPortbutton->Enabled = true;
 			}
 		}
-		// IP‚Ì•ÏŠ·
+		// IPè½¬æ¢
 		System::Void Convertbutton_Click(System::Object^  sender, System::EventArgs^  e) {
 			Base64textBox->Text = EncryptionIP(IPtextBox->Text);
 			textBoxMTAddr->Text = MTEncryptionIP(IPtextBox->Text);
 		}
-		// ƒ|[ƒg•t‚«IP‚Ì•ÏŠ·
+		// å¸¦ç«¯å£çš„IPè½¬æ¢
 		System::Void AddPortbutton_Click(System::Object^  sender, System::EventArgs^  e) {
 			Base64textBox->Text = String::Format("{0}:{1}", EncryptionIP(IPtextBox->Text), MTOPTION.OPEN_PORT);
 			textBoxMTAddr->Text = String::Format("{0}:{1}", MTEncryptionIP(IPtextBox->Text), MTOPTION.OPEN_PORT);
 		}
-		// ƒvƒƒtƒ@ƒCƒ‹ƒRƒ“ƒ{ƒ{ƒbƒNƒX•ÏX
+		// æ›´æ”¹é…ç½®æ–‡ä»¶ç»„åˆæ¡†
 		System::Void comboBoxProfile_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
 			String^ buf = ((ComboBox^)sender)->Text;
 			String^ bufProfile = gcnew String(MTOPTION.PROFILE);
 
 			if(buf != bufProfile){
-				// Ø‚è‘Ö‚¦
+				// åˆ‡æ¢
 				IntPtr mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(buf);
 				_tcscpy_s(MTOPTION.PROFILE, static_cast<PTCHAR>(mp.ToPointer()));
 				Runtime::InteropServices::Marshal::FreeHGlobal(mp);
 
 				LoadMTOption();
 
-				// ƒvƒƒtƒ@ƒCƒ‹ƒZƒNƒVƒ‡ƒ“‚ÌÝ’è’l‚ðXV
+				// æ›´æ–°ä¸ªäººèµ„æ–™éƒ¨åˆ†çš„è®¾ç½®å€¼
 				textBoxGameExe->Text                = gcnew String(MTOPTION.GAME_EXE);
 				textBoxReplayFolder->Text           = gcnew String(MTOPTION.REPLAY_FOLDER);
 				textBoxGameExe->SelectionStart      = textBoxGameExe->Text->Length;
@@ -2362,24 +2362,24 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 			buttonApply->Enabled = false;
 		}
 		System::Void buttonCopyProfile_Click(System::Object^ sender, System::EventArgs^ e) {
-			// ƒvƒƒtƒ@ƒCƒ‹•¡»
+			// å¤åˆ¶èµ„æ–™
 			String^ mes;
 			String^ buf = comboBoxProfile->Items[comboBoxProfile->SelectedIndex]->ToString();
 			String^ bufClone = String::Format("{0}{1}", buf, "_");
 			if(buf->Length > MAX_ARRAY-1){
-				mes = "ÅäÖÃÎÄ¼þÃû³ÆÌ«³¤¡£\nÒª½øÐÐ¸´ÖÆ£¬ÇëËõ¶ÌÅäÖÃÎÄ¼þÃû³Æ¡£";
+				mes = "é…ç½®æ–‡ä»¶åç§°å¤ªé•¿ã€‚\nè¦è¿›è¡Œå¤åˆ¶ï¼Œè¯·ç¼©çŸ­é…ç½®æ–‡ä»¶åç§°ã€‚";
 			}
 			for(int i=0; i < Profile::ProfileList->Count; i++){
 				if(Profile::ProfileList[i] == bufClone){
-					mes = "ÒÑ¾­´æÔÚ¸´ÖÆµÄÅäÖÃÎÄ¼þ¡£";
+					mes = "å·²ç»å­˜åœ¨å¤åˆ¶çš„é…ç½®æ–‡ä»¶ã€‚";
 				}
 			}
 			if(Profile::ProfileList->Count > 31){
-				mes = "ÎÞ·¨´´½¨¸ü¶àÅäÖÃÎÄ¼þ¡£";
+				mes = "æ— æ³•åˆ›å»ºæ›´å¤šé…ç½®æ–‡ä»¶ã€‚";
 				return;
 			}
 			if(mes != nullptr){
-				MessageBox::Show(mes, "ÅäÖÃÎÄ¼þ¸´ÖÆ", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+				MessageBox::Show(mes, "é…ç½®æ–‡ä»¶å¤åˆ¶", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
 				return;
 			}
 			Profile::ProfileList->Add(bufClone);
@@ -2396,10 +2396,10 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 
 		}
 		System::Void buttonDeleteProfile_Click(System::Object^ sender, System::EventArgs^ e) {
-			// ƒvƒƒtƒ@ƒCƒ‹íœ
+			// åˆ é™¤ä¸ªäººèµ„æ–™
 			int index = comboBoxProfile->SelectedIndex;
 			String^ buf = comboBoxProfile->Items[index]->ToString();
-			if(MessageBox::Show(String::Format("É¾³ý{0}¡£\n¿ÉÒÔÂð?", buf), "É¾³ýÅäÖÃÎÄ¼þ", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == ::DialogResult::Yes){
+			if(MessageBox::Show(String::Format("åˆ é™¤{0}ã€‚\nå¯ä»¥å—?", buf), "åˆ é™¤é…ç½®æ–‡ä»¶", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == ::DialogResult::Yes){
 				Profile::ProfileList->RemoveAt(index);
 				comboBoxProfile->Items->RemoveAt(index);
 
@@ -2411,13 +2411,13 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 			}
 		}
 		System::Void buttonAddProfile_Click(System::Object^ sender, System::EventArgs^ e) {
-			// ƒvƒƒtƒ@ƒCƒ‹’Ç‰Á
+			// æ·»åŠ æ¡£æ¡ˆ
 			String^ bufText = textBoxProfileName->Text;
 			if(CheckTextProfileName(bufText)){
 				return;
 			}
 			if(Profile::ProfileList->Count > 31){
-				MessageBox::Show("ÎÞ·¨´´½¨¸ü¶àÅäÖÃÎÄ¼þ¡£", "Ìí¼ÓÅäÖÃÎÄ¼þ", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+				MessageBox::Show("æ— æ³•åˆ›å»ºæ›´å¤šé…ç½®æ–‡ä»¶ã€‚", "æ·»åŠ é…ç½®æ–‡ä»¶", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
 				return;
 			}
 
@@ -2429,13 +2429,13 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 			buttonApply->Enabled = false;
 		}
 		System::Void buttonSaveProfile_Click(System::Object^ sender, System::EventArgs^ e) {
-			// ƒvƒƒtƒ@ƒCƒ‹•Û‘¶
+			// ä¿å­˜é…ç½®æ–‡ä»¶
 			String^ bufText         = textBoxProfileName->Text;
 			String^ bufSelectedItem = comboBoxProfile->SelectedItem->ToString();
 			if(CheckTextProfileName(bufText)){
 				return;
 			}
-			// ã‘‚«
+			// è¦†ç›–
 			if(bufText != bufSelectedItem){
 				for(int i=0; i < Profile::ProfileList->Count; i++){
 					if(Profile::ProfileList[i] == gcnew String(MTOPTION.PROFILE)){
@@ -2448,11 +2448,11 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 			}
 		}
 		System::Void radioButtonLogRTF_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
-			// ¥í¥°±£´æÐÎÊ½ > rtf
+			// æ—¥å¿—ä¿å­˜æ ¼å¼ > rtf
 			buttonApply->Enabled = true;
 		}
 		System::Void radioButtonLogTXT_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
-			// ¥í¥°±£´æÐÎÊ½ > txt
+			// æ—¥å¿—ä¿å­˜æ ¼å¼ > txt
 			buttonApply->Enabled = true;
 		}
 	};
