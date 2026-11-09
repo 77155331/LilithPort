@@ -1,918 +1,560 @@
-// stdafx.cpp : 仅包含标准包含文件 LilithPort.pch 的源文件
-// 这是预编译头文件。
-// stdafx.obj 包含预编译类型信息。
+// stdafx.h：包含标准系统头文件，或者
+// 包含引用频繁且不常修改的项目专用头文件
+#pragma once
+#pragma warning(disable: 4100)
 
-#include "stdafx.h"
+// TODO: 在这里引用程序所需的其他头文件。
+#include <windows.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <tchar.h>
+#include <mmsystem.h>
+#include <deque>
 
-extern CRITICAL_SECTION CS_CAPTION;
+#pragma comment(lib, "user32.lib")
+#pragma comment(lib, "winmm.lib")
+
+// UPnP
+#include <natupnp.h>
+#pragma comment(lib,"ole32.lib")
+#pragma comment(lib,"oleaut32.lib")
+
+// IP取得用
+#include <winsock.h>
+#include <oleauto.h>
+
+//const IID UPNPNAT_CLSID = {0xAE1E00AA, 0x3FD5, 0x403C, {0x8A, 0x27, 0x2B, 0xBD, 0xC3, 0x0C, 0xD0, 0xE1}};
+//const IID IUPNPNAT_IID  = {0xb171c812, 0xcc76, 0x485a, {0x94, 0xd8, 0xb6, 0xb3, 0xa2, 0x79, 0x4e, 0x99}};
+
+
+using namespace System;
+using namespace System::Windows::Forms;
 using namespace System::Collections;
-using namespace System::Diagnostics;
+using namespace System::Text;
+using namespace System::Drawing;
+using namespace System::Net;
 
-// 在崩溃之前记录错误内容
-void WriteErrorLog(String^ text, String^ caption)
+void WriteErrorLog(String^ text, String^ caption);
+void ApplicationThreadException(Object^ sender, Threading::ThreadExceptionEventArgs^ e);
+void ApplicationUnhandledException(Object^ sender, UnhandledExceptionEventArgs^ e);
+
+void LoadMTOption();
+void SaveMTOption();
+void ReplaceWelcomeTab(bool TtoN);
+void SaveProfileOption();
+void CheckMTOption();
+void DeleteSection(TCHAR* obj);
+void ChangeStageValue();
+void SetCaption();
+
+String^ EncryptionIP(String^ ip);
+String^ MTEncryptionIP(String^ ip);
+_int64 DecryptionIP(String^ cipher_ip, bool enc);
+_int64 MTDecryptionIP(String^ cipher_ip);
+BSTR GetLocalIP();
+void UPnP_PortOpenClose(bool s, bool auto_close);
+
+UINT CipherRand(UINT32 seed = 0);
+UINT XorShift(UINT32 seed = 0);
+UINT RandomStage(UINT32 seed = 0);
+
+// 成员信息
+public ref struct MemberInfo
 {
-	IO::StreamWriter^ sw = gcnew IO::StreamWriter(gcnew String(MTOPTION.PATH) + "error.log", true, Encoding::Default);
-	try{
-		sw->WriteLine("-------------------------------------------------------------------------------");
-		sw->WriteLine("{0} {1} [{2}]", DateTime::Now.ToLongDateString(), DateTime::Now.ToLongTimeString(), caption);
-		sw->WriteLine();
-		sw->Write(text);
-		sw->WriteLine();
-		sw->WriteLine();
-		sw->WriteLine();
-	}
-	finally{
-		if(sw != nullptr){
-			sw->Close();
-			delete sw;
-		}
-	}
-}
+	IPEndPoint^ IP_EP;
+	String^     NAME;
+	String^     COMMENT;
+	UINT16      ID;
+	UINT        TYPE;
+	UINT        STATE;
+	UINT        NUM_VS;
+	DWORD       RESPONSE;
+};
 
-// 异常调查
-void ApplicationThreadException(Object^ sender, Threading::ThreadExceptionEventArgs^ e)
+// 备份
+public ref struct MemberInfoBackUp
 {
-	WriteErrorLog(e->Exception->ToString(), "ThreadException");
-	MTINFO.ERRORED = true;
+	IPEndPoint^ IP_EP;
+	UINT16      ID;
+};
 
-	if(!MTINFO.SERVER_MODE){
-		MessageBox::Show("突然宣布LilithPort结束。", "发生紧急情况");
-	}
-
-	Application::Exit();
-}
-
-// 主要是控制台应用程序的异常
-void ApplicationUnhandledException(Object^ sender, UnhandledExceptionEventArgs^ e)
+// 配置文件列表
+public ref class Profile
 {
-	WriteErrorLog(safe_cast<Exception^>(e->ExceptionObject)->ToString(), "UnhandledException");
-	MTINFO.ERRORED = true;
+	public:
+		static Generic::List<String^>^ ProfileList = gcnew Generic::List<String^>;
+		// 用于验证
+		static array<String^>^ SystemSection = gcnew array<String^>{"System", "State", "Color"};
+};
 
-	if(!MTINFO.SERVER_MODE){
-		MessageBox::Show("突然宣布LilithPort结束。", "出现了例外情况");
-	}
+// DEBUGGEE
+// KGT2KGAME
+const UINT P1_INPUT = 0x004259C0;
+const UINT P2_INPUT = 0x004259C4;
 
-	Application::Exit();
-}
-// 读取ini
-void LoadMTOption()
+const UINT SINGLE_CONTROL_HOOK = 0x00414712;
+const BYTE SINGLE_CONTROL_HOOK_CODE[] = {0xCC,0x90,0x90,0x90,0x90,0x90};
+const UINT VS_CONTROL_HOOK = 0x00414748;
+const BYTE VS_CONTROL_HOOK_CODE[] = {0x6A,0x00};
+
+const UINT STORY_KEY = 0x00414729;
+const BYTE STORY_KEY_CODE[] = {0xCC,0x90,0x90,0x90,0x90};
+const UINT VS_P1_KEY = 0x0041474A;
+const BYTE VS_P1_KEY_CODE[] = {0xCC,0x90,0x90,0x90,0x90};
+const UINT VS_P2_KEY = 0x00414764;
+const BYTE VS_P2_KEY_CODE[] = {0xCC,0x90,0x90,0x90,0x90};
+
+const UINT RANDOM_SEED = 0x0041FB1C;
+const UINT RAND_FUNC = 0x00417A22;
+const BYTE RAND_FUNC_CODE[] = {0xCC,0x90,0x90,0x90,0x90};
+
+const UINT HIT_JUDGE = 0x0042470C;
+const UINT HIT_JUDGE_SET = 0x00414C90;
+const BYTE HIT_JUDGE_SET_CODE[] = {0x90,0x90,0x90,0x90,0x90,0x90};
+
+const UINT DEFAULT_ROUND = 0x00430124;
+const UINT ROUND_SET = 0x00414AFC;
+const BYTE ROUND_SET_CODE[] = {0x90,0x90,0x90,0x90,0x90};
+
+const UINT TEAM_ROUND = 0x00430128;
+const UINT TEAM_ROUND_SET = 0x00414ADB;
+const BYTE TEAM_ROUND_SET_CODE[] = {0x90,0x90,0x90,0x90,0x90};
+
+const UINT DEFAULT_TIMER = 0x00430114;
+const UINT TIMER_SET = 0x00414A8C;
+const BYTE TIMER_SET_CODE[] = {0x90,0x90,0x90,0x90,0x90};
+
+const UINT VS_ROUND = 0x0040897F;
+const BYTE VS_ROUND_CODE[] = {0xCC};
+const UINT ROUND_ESI = 0x004EDCAC;
+const UINT ROUND_END = 0x00409715;
+const BYTE ROUND_END_CODE[] = {0xCC,0x90,0x90,0x90,0x90,0x90};
+
+const UINT P1_HP     = 0x004DFC85;
+const UINT P1_MAX_HP = 0x004DFC91;
+const UINT P1_STATE  = 0x0047033E;
+const UINT P2_HP     = 0x004EDCC4;
+const UINT P2_MAX_HP = 0x004EDCD0;
+const UINT P2_STATE  = 0x004704BC;
+
+const UINT STAGE_SELECT = 0x00408756;
+const BYTE STAGE_SELECT_CODE[] = {0xCC,0x90,0x90,0x90,0x90};
+
+const UINT FRAME_RATE = 0x00404C37;
+const BYTE FRAME_RATE_CODE[] = {0xCC,0x90};
+
+const UINT BGM_VOLUME = 0x0040347E;
+const UINT SE_VOLUME = 0x0040348C;
+const UINT VOLUME_SET_1 = 0x00403401;
+const BYTE VOLUME_SET_1_CODE[] = {0x58,0x8B,0x08,0x6A,0x01,0xEB,0x0D,0x58,0x8B,0x08,0x6A,0x00,0xEB,0x06,0x90,0xE9,
+                                  0xEB,0x21,0x01,0x00,0x6A,0x00,0x6A,0x00,0x50,0xFF,0x51,0x30,0x5B,0xC3};
+const UINT VOLUME_SET_2 = 0x0040347B;
+const BYTE VOLUME_SET_2_CODE[] = {0x50,0x8B,0x08,0xCC,0x52,0x50,0xFF,0x51,0x3C,0xE9,0x78,0xFF,0xFF,0xFF,0x50,0x8B,
+                                  0x08,0xCC,0x52,0x50,0xFF,0x51,0x3C,0xE9,0x71,0xFF,0xFF,0xFF};
+
+// KGT95GAME
+const UINT P1_INPUT_95 = 0x00437750;
+const UINT P2_INPUT_95 = 0x00437754;
+const UINT INPUT_COUNTER_95 = 0x00437700;
+
+const UINT UNCHECK_JOYSTICK_95 = 0x00402A33;
+const BYTE UNCHECK_JOYSTICK_95_CODE[] = {0xCC,0x90,0x90,0x90,0x90};
+
+const UINT CONTROL_HOOK1_95 = 0x0040902B;
+const BYTE CONTROL_HOOK1_95_CODE[] = {0xE8,0xB0,0xFA,0xFF,0xFF};
+const UINT CONTROL_HOOK2_95 = 0x00409053;
+const BYTE CONTROL_HOOK2_95_CODE[] = {0xE8,0x88,0xFA,0xFF,0xFF};
+
+const UINT STORY_P1_KEY_95 = 0x0040901C;
+const BYTE STORY_P1_KEY_95_CODE[] = {0xCC,0x90,0x90,0x90,0x90,0x90};
+const UINT STORY_P2_KEY_95 = 0x00409030;
+const BYTE STORY_P2_KEY_95_CODE[] = {0xCC,0x90,0x90,0x90,0x90,0x90};
+const UINT VS_P1_KEY_95 = 0x0040904C;
+const BYTE VS_P1_KEY_95_CODE[] = {0xCC,0x90,0x90,0x90,0x90};
+const UINT VS_P2_KEY_95 = 0x00409058;
+const BYTE VS_P2_KEY_95_CODE[] = {0xCC,0x90,0x90,0x90,0x90};
+
+const UINT RANDOM_SEED_95 = 0x004243FC;
+const UINT RAND_FUNC_95 = 0x0041A864;
+const BYTE RAND_FUNC_95_CODE[] = {0xCC,0x90,0x90,0x90,0x90};
+
+const UINT HIT_JUDGE_95 = 0x00432740;
+const UINT HIT_JUDGE_SET_95 = 0x004029E9;
+const BYTE HIT_JUDGE_SET_95_CODE[] = {0x90,0x90,0x90,0x90,0x90};
+
+const UINT DEFAULT_TIMER_95 = 0x00432754;
+const UINT TIMER_SET_95 = 0x00402A68;
+const BYTE TIMER_SET_95_CODE[] = {0x90,0x90,0x90,0x90,0x90};
+
+const UINT P1_WIN_95 = 0x005E9914;
+const UINT P2_WIN_95 = 0x005E9978;
+const UINT VS_ROUND_95 = 0x00411661;
+const BYTE VS_ROUND_95_CODE[] = {0xCC,0x90};
+const UINT ROUND_END_95 = 0x00413410;
+const BYTE ROUND_END_95_CODE[] = {0xCC,0x90};
+
+const UINT STAGE_SELECT_95 = 0x0041162C;
+const BYTE STAGE_SELECT_95_CODE[] = {0xCC,0x90,0x90,0x90,0x90,0x90};
+
+const UINT FRAME_RATE_95 = 0x00404759;
+const BYTE FRAME_RATE_95_CODE[] = {0xCC,0x90};
+
+const UINT BGM_VOLUME_95 = 0x00402042;
+const UINT SE_VOLUME_95 = 0x00402050;
+const UINT VOLUME_SET_1_95 = 0x00401FC8;
+const BYTE VOLUME_SET_1_95_CODE[] = {0x58,0x8B,0x08,0x6A,0x01,0xEB,0x16,0x90,0xE9,0xCB,0x85,0x01,0x00,0x58,0x8B,0x08,
+                                     0x6A,0x00,0xEB,0x09,0x90,0x90,0x90,0x90,0xE9,0xAB,0x85,0x01,0x00,0x6A,0x00,0x6A,
+                                     0x00,0x50,0xFF,0x51,0x30,0x5B,0xC3};
+const UINT VOLUME_SET_2_95 = 0x0040203F;
+const BYTE VOLUME_SET_2_95_CODE[] = {0x50,0x8B,0x08,0xCC,0x52,0x50,0xFF,0x51,0x3C,0xE9,0x7B,0xFF,0xFF,0xFF,0x50,0x8B,
+                                     0x08,0xCC,0x52,0x50,0xFF,0x51,0x3C,0xE9,0x7A,0xFF,0xFF,0xFF};
+
+// 版本信息
+// 与 LilithPort 1.03 及以上兼容，之前的版本不兼容
+const UINT LP_VERSION = 108;
+
+// 设置项
+const UINT MAX_NAME   = 32;
+const UINT MAX_ARRAY  = 64;
+const UINT MAX_ID     = 0x3FFF;
+const UINT MAX_TITLE  = 256;
+const UINT MAX_PACKET = 512;
+const UINT MAX_WELCOME = 512;
+const UINT MAX_KEYWORD = 256;
+const UINT MAX_PROFILE = 2048;
+
+const BYTE TYMT_VERSION = 6;
+const UINT TIME_OUT = 3000;
+
+// 团队游戏人数
+const UINT MAX_TEAM_ROUND = 4;
+
+
+typedef struct _MT_SP_INFORMATION
 {
-	IntPtr mp;
-	TCHAR ini[_MAX_PATH], tmpName[MAX_TITLE], tmpIP[MAX_TITLE],
-		tmpType[MAX_TITLE], tmpPort[MAX_TITLE], bufSection[MAX_ARRAY];
-	TCHAR* iniSection = _T("LilithPort");
-	UINT iniVersion;
-	_stprintf_s(ini, _T("%s配置.INI"), MTOPTION.PATH);
-	// 写在stdafx.h里
-	TCHAR iniSystem[MAX_NAME], iniState[MAX_NAME], iniColor[MAX_NAME];
+	bool   DEBUG;
+	bool   RAND_SEARCH;
+	bool   INITIALIZED;
+	bool   SHOW_TOP;
+	bool   KGT2K;
+	UINT32 SEED;
+	UINT32 MAX_STAGE;
+	UINT32 STAGE_SELECT;
+	UINT32 ROUND;
+	UINT32 TIMER;
+	HANDLE PROCESS;
+	DWORD  PROCESS_ID;
+	HWND   HWND;
+	bool   CONTROL;  // 0:P1 1:P2
+	TCHAR  P1_NAME[MAX_NAME];
+	TCHAR  P2_NAME[MAX_NAME];
+	TCHAR  ORIGINAL_TITLE[MAX_TITLE];
+	TCHAR  TITLE[MAX_TITLE];
+	INT32  VOLUME[21];
+	bool VERSION_CHECKED;
+	UINT P_HP;
+	bool WINNER; // 0:P1 1:P2
+	bool TEAM_ROUND_HP;
+	bool SERVER_MODE;
+	UINT SERVER_MODE_PORT;
+	bool ERRORED;
+} MT_SP_INFORMATION;
 
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(Profile::SystemSection[0]);
-	_tcscpy_s(iniSystem, static_cast<PTCHAR>(mp.ToPointer()));
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(Profile::SystemSection[1]);
-	_tcscpy_s(iniState, static_cast<PTCHAR>(mp.ToPointer()));
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(Profile::SystemSection[2]);
-	_tcscpy_s(iniColor, static_cast<PTCHAR>(mp.ToPointer()));
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-
-	// 全局部分加载
-	// 1.04以下兼容用
-	iniVersion = GetPrivateProfileInt(iniSystem, _T("iniVersion"), 0, ini);
-	if(iniVersion == 0){
-		_tcscpy_s(iniSystem, iniSection);
-	}
-
-	if(_tcslen(MTOPTION.PROFILE) == 0){
-		GetPrivateProfileString(iniSystem, _T("DefaultProfile"), _T("LilithPort"),  MTOPTION.PROFILE,        MAX_ARRAY,   ini);
-	}
-	GetPrivateProfileString(iniSystem, _T("ProfileList"),        _T(""),            MTOPTION.PROFILE_LIST,   MAX_PROFILE, ini);
-	GetPrivateProfileString(iniSystem, _T("ServerName"),         _T(""),            MTOPTION.SERVER_NAME,    MAX_NAME,    ini);
-	GetPrivateProfileString(iniSystem, _T("ConnectIP"),          _T(""),            MTOPTION.CONNECTION_IP,  MAX_ARRAY,   ini);
-	GetPrivateProfileString(iniSystem, _T("Welcome"),            _T(""),            MTOPTION.WELCOME,        MAX_WELCOME, ini);
-	GetPrivateProfileString(iniSystem, _T("VSSound"),            _T("vs.wav"),      MTOPTION.VS_SOUND,      _MAX_PATH,    ini);
-	GetPrivateProfileString(iniSystem, _T("NoticeSound"),        _T("notice.wav"),  MTOPTION.NOTICE_SOUND,  _MAX_PATH,    ini);
-	GetPrivateProfileString(iniSystem, _T("EnterSound"),         _T("enter.wav"),   MTOPTION.ENTER_SOUND,   _MAX_PATH,    ini);
-	GetPrivateProfileString(iniSystem, _T("NameSound"),          _T("name.wav"),    MTOPTION.NAME_SOUND,    _MAX_PATH,    ini);
-	GetPrivateProfileString(iniSystem, _T("TalkSound"),          _T("talk.wav"),    MTOPTION.TALK_SOUND,    _MAX_PATH,    ini);
-	GetPrivateProfileString(iniSystem, _T("SeekSound"),          _T("seek.wav"),    MTOPTION.SEEK_SOUND,    _MAX_PATH,    ini);
-	GetPrivateProfileString(iniSystem, _T("KeywordSound"),       _T("name.wav"),    MTOPTION.KEYWORD_SOUND, _MAX_PATH,    ini);
-	GetPrivateProfileString(iniSystem, _T("Keyword"),            _T(""),            MTOPTION.KEYWORD,        MAX_KEYWORD, ini);
-	GetPrivateProfileString(iniSystem, _T("Name"),               _T("匿名"),  MTOPTION.NAME,           MAX_NAME,    ini);
-	GetPrivateProfileString(iniSystem, _T("Comment"),            _T(""),            MTOPTION.COMMENT,        MAX_NAME,    ini);
-	MTOPTION.CONNECTION_TYPE			= GetPrivateProfileInt(iniSystem, _T("ConnectType"),          0, ini);
-	MTOPTION.PORT						= GetPrivateProfileInt(iniSystem, _T("Port"),              7500, ini);
-	MTOPTION.OPEN_PORT					= GetPrivateProfileInt(iniSystem, _T("OpenPort"),          7500, ini);
-	MTOPTION.AUTO_SAVE					= GetPrivateProfileInt(iniSystem, _T("AutoSave"),             0, ini);
-	MTOPTION.MAX_CONNECTION				= GetPrivateProfileInt(iniSystem, _T("MaxConnection"),      100, ini);
-	MTOPTION.BGM_VOLUME					= GetPrivateProfileInt(iniSystem, _T("BGMVolume"),          100, ini);
-	MTOPTION.SE_VOLUME					= GetPrivateProfileInt(iniSystem, _T("SEVolume"),           100, ini);
-	MTOPTION.RECORD_REPLAY				= GetPrivateProfileInt(iniSystem, _T("RecordReplay"),         0, ini) == 1 ? true : false;
-	MTOPTION.ALLOW_SPECTATOR			= GetPrivateProfileInt(iniSystem, _T("AllowSpectator"),       1, ini) == 1 ? true : false;
-	MTOPTION.LOG_WORDWRAP				= GetPrivateProfileInt(iniSystem, _T("LogWordWrap"),          0, ini) == 1 ? true : false;
-	MTOPTION.LOG_LOCK					= GetPrivateProfileInt(iniSystem, _T("LogLock"),              0, ini) == 1 ? true : false;
-	MTOPTION.LOG_FORMAT_RTF				= GetPrivateProfileInt(iniSystem, _T("LogFormatRTF"),         1, ini) == 1 ? true : false;
-	MTOPTION.NAME_FLASH					= GetPrivateProfileInt(iniSystem, _T("NameFlash"),            1, ini) == 1 ? true : false;
-	MTOPTION.TALK_FLASH					= GetPrivateProfileInt(iniSystem, _T("TalkFlash"),            0, ini) == 1 ? true : false;
-	MTOPTION.AFTER_REST					= GetPrivateProfileInt(iniSystem, _T("AfterRest"),            0, ini) == 1 ? true : false;
-	MTOPTION.AUTO_REST					= GetPrivateProfileInt(iniSystem, _T("AutoRest"),             0, ini) == 1 ? true : false;
-	MTOPTION.AUTO_REST_TIME				= GetPrivateProfileInt(iniSystem, _T("AutoRestTime"),        30, ini);
-	MTOPTION.ENTER_SOUND_ENABLE			= GetPrivateProfileInt(iniSystem, _T("EnterSoundEnable"),     0, ini) == 1 ? true : false;
-	MTOPTION.VS_SOUND_ENABLE			= GetPrivateProfileInt(iniSystem, _T("VSSoundEnable"),        0, ini) == 1 ? true : false;
-	MTOPTION.NOTICE_SOUND_ENABLE		= GetPrivateProfileInt(iniSystem, _T("NoticeSoundEnable"),    0, ini) == 1 ? true : false;
-	MTOPTION.NAME_SOUND_ENABLE			= GetPrivateProfileInt(iniSystem, _T("NameSoundEnable"),      1, ini) == 1 ? true : false;
-	MTOPTION.TALK_SOUND_ENABLE			= GetPrivateProfileInt(iniSystem, _T("TalkSoundEnable"),      1, ini) == 1 ? true : false;
-	MTOPTION.SEEK_SOUND_ENABLE			= GetPrivateProfileInt(iniSystem, _T("SeekSoundEnable"),      1, ini) == 1 ? true : false;
-	MTOPTION.KEYWORD_SOUND_ENABLE		= GetPrivateProfileInt(iniSystem, _T("KeywordSoundEnable"),   1, ini) == 1 ? true : false;
-	MTOPTION.GET_IP_ENABLE				= GetPrivateProfileInt(iniSystem, _T("GetIPEnable"),          1, ini) == 1 ? true : false;
-	MTOPTION.SHOW_GAME_OPTION			= GetPrivateProfileInt(iniSystem, _T("ShowGameOption"),       1, ini) == 1 ? true : false;
-	MTOPTION.SHOW_RESULT				= GetPrivateProfileInt(iniSystem, _T("ShowResult"),           1, ini) == 1 ? true : false;
-	MTOPTION.LOG_CLEAR_WITHOUT_WELCOME	= GetPrivateProfileInt(iniSystem, _T("LogClearWithoutWelcome"), 1, ini) == 1 ? true : false;
-	
-	
-	// 加载书签
-	MTOPTION.BOOKMARK_COUNT = 0;
-	GetPrivateProfileString(iniSystem, _T("BookMarkServerName"),  _T(""), tmpName, MAX_TITLE, ini);
-	GetPrivateProfileString(iniSystem, _T("BookMarkConnectIP"),   _T(""), tmpIP,   MAX_TITLE, ini);
-	GetPrivateProfileString(iniSystem, _T("BookMarkConnectType"), _T(""), tmpType, MAX_TITLE, ini);
-	GetPrivateProfileString(iniSystem, _T("BookMarkPort"),        _T(""), tmpPort, MAX_TITLE, ini);
-	try{
-		if(_tcslen(tmpName) > 0){
-			String^ bufBookMarkServerName    = gcnew String(tmpName);
-			String^ bufBookMarkConnectIP     = gcnew String(tmpIP);
-			String^ bufBookMarkConnectType, ^bufBookMarkConnectPort;
-			array<String^>^ BookMarkNameList = bufBookMarkServerName->Split(',');
-			array<String^>^ BookMarkIPList   = bufBookMarkConnectIP->Split(',');
-			array<String^>^ BookMarkTypeList, ^BookMarkPortList;
-
-			if(BookMarkNameList->Length != BookMarkIPList->Length){
-				throw gcnew Exception;
-			}
-			if(_tcslen(tmpType) > 0){
-				bufBookMarkConnectType   = gcnew String(tmpType);
-				bufBookMarkConnectPort   = gcnew String(tmpPort);
-				BookMarkTypeList         = bufBookMarkConnectType->Split(',');
-				BookMarkPortList         = bufBookMarkConnectPort->Split(',');
-			}
-			MTOPTION.BOOKMARK_COUNT = BookMarkNameList->Length-1 < 1 ? 1 : BookMarkNameList->Length-1;
-			for(UINT i=0; i < MTOPTION.BOOKMARK_COUNT; i++){
-				mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(BookMarkNameList[i]);
-				_tcscpy_s(MTOPTION.BOOKMARK_SERVER_NAME[i], static_cast<PTCHAR>(mp.ToPointer()));
-				mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(BookMarkIPList[i]);
-				_tcscpy_s(MTOPTION.BOOKMARK_CONNECTION_IP[i], static_cast<PTCHAR>(mp.ToPointer()));
-				Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-				// 1.04以下兼容用
-				if(BookMarkTypeList != nullptr && BookMarkPortList != nullptr){
-					mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(BookMarkTypeList[i]);
-					_tcscpy_s(MTOPTION.BOOKMARK_CONNECTION_TYPE[i], static_cast<PTCHAR>(mp.ToPointer()));
-					mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(BookMarkPortList[i]);
-					_tcscpy_s(MTOPTION.BOOKMARK_PORT[i], static_cast<PTCHAR>(mp.ToPointer()));
-					Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-				}else{
-					// 手动初始化
-					_tcscpy_s(MTOPTION.BOOKMARK_CONNECTION_TYPE[i], _T("2"));
-					_tcscpy_s(MTOPTION.BOOKMARK_PORT[i],            _T("7500"));
-				}
-			}
-		}
-	}
-	catch(Exception^){
-		MessageBox::Show("读取书签信息失败。\n", "书签读取", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
-	}
-
-	// 加载配置文件列表
-	Profile::ProfileList->Clear();
-	if(_tcslen(MTOPTION.PROFILE_LIST) > 0){
-		String^ tmpList = gcnew String(MTOPTION.PROFILE_LIST);
-		array<String^>^ tmpProfile = tmpList->Split(',');
-		for(int i=0; i < tmpProfile->Length; i++){
-			Profile::ProfileList->Add(tmpProfile[i]);
-			// デフォルトプロファイル
-			if(tmpProfile[i] == gcnew String(MTOPTION.PROFILE)){
-				MTOPTION.PROFILE_INDEX = i;
-				mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(tmpProfile[i]);
-				_tcscpy_s(bufSection, static_cast<PTCHAR>(mp.ToPointer()));
-				Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-				iniSection = bufSection;
-			}
-		}
-	}else{
-		// 初始化
-		_tcsncpy_s(MTOPTION.PROFILE_LIST, _countof(MTOPTION.PROFILE_LIST), iniSection, MAX_PROFILE);
-		Profile::ProfileList->Add(gcnew String(iniSection));
-		MTOPTION.PROFILE_INDEX = 0;
-	}
-
-	// 加载个人资料部分
-	GetPrivateProfileString(iniSection, _T("GameExe"),            _T("GAME.EXE"),    MTOPTION.GAME_EXE,      _MAX_PATH,    ini);
-	GetPrivateProfileString(iniSection, _T("ReplayFolder"),       _T("录像"),      MTOPTION.REPLAY_FOLDER, _MAX_PATH,    ini);
-	MTOPTION.MAX_STAGE          = GetPrivateProfileInt(iniSection, _T("MaxStage"),         1, ini);
-	MTOPTION.STAGE_SELECT       = GetPrivateProfileInt(iniSection, _T("StageSelect"),      0, ini);
-	MTOPTION.ROUND              = GetPrivateProfileInt(iniSection, _T("Round"),            2, ini);
-	MTOPTION.TIMER              = GetPrivateProfileInt(iniSection, _T("Timer"),            0, ini);
-	MTOPTION.TEAM_ROUND_HP      = GetPrivateProfileInt(iniSection, _T("TeamRoundHP"),      0, ini) == 1 ? true : false;
-	MTOPTION.SIMULATE_DELAY     = GetPrivateProfileInt(iniSection, _T("SimulateDelay"),    0, ini);
-	MTOPTION.HIT_JUDGE          = GetPrivateProfileInt(iniSection, _T("HitJudge"),         0, ini) == 1 ? true : false;
-	MTOPTION.DISPLAY_NAME       = GetPrivateProfileInt(iniSection, _T("DisplayName"),      1, ini) == 1 ? true : false;
-	MTOPTION.DISPLAY_VERSUS     = GetPrivateProfileInt(iniSection, _T("DisplayVersus"),    1, ini) == 1 ? true : false;
-	MTOPTION.DISPLAY_FRAMERATE  = GetPrivateProfileInt(iniSection, _T("DisplayFramerate"), 1, ini) == 1 ? true : false;
-	MTOPTION.DISPLAY_RAND       = GetPrivateProfileInt(iniSection, _T("DisplayRand"),      0, ini) == 1 ? true : false;
-	MTOPTION.REPLAY_DIVIDE      = GetPrivateProfileInt(iniSection, _T("ReplayDivide"),     0, ini) == 1 ? true : false;
-	MTOPTION.CHANGE_WINDOW_SIZE = GetPrivateProfileInt(iniSection, _T("ChangeWindowSize"), 0, ini) == 1 ? true : false;
-	MTOPTION.CHAT_HISTORY       = GetPrivateProfileInt(iniSection, _T("ChatHistory"),     20, ini);
-	MTOPTION.DELAY              = GetPrivateProfileInt(iniSection, _T("Delay"),            0, ini);
-	MTOPTION.INTERVAL           = GetPrivateProfileInt(iniSection, _T("Interval"),         1, ini);
-	MTOPTION.REPLAY_VERSION     = GetPrivateProfileInt(iniSection, _T("ReplayVersion"),    2, ini);
-
-	// 读取窗口位置
-	MTWS.LEFT        = GetPrivateProfileInt(iniState, _T("Left"),       0, ini);
-	MTWS.TOP         = GetPrivateProfileInt(iniState, _T("Top"),        0, ini);
-	MTWS.WIDTH       = GetPrivateProfileInt(iniState, _T("Width"),      0, ini);
-	MTWS.HEIGHT      = GetPrivateProfileInt(iniState, _T("Height"),     0, ini);
-	MTWS.SPLITTER    = GetPrivateProfileInt(iniState, _T("Splitter"),   0, ini);
-	MTWS.DIALOG_LEFT = GetPrivateProfileInt(iniState, _T("DialogLeft"), 0, ini);
-	MTWS.DIALOG_TOP  = GetPrivateProfileInt(iniState, _T("DialogTop"),  0, ini);
-
-	// 颜色加载
-	MTCOLOR.SERVER_NAME    = GetPrivateProfileInt(iniColor, _T("ServerName"),    Color::ForestGreen.ToArgb(), ini);
-	MTCOLOR.HOST_NAME      = GetPrivateProfileInt(iniColor, _T("HostName"),      Color::MediumBlue.ToArgb(),  ini);
-	MTCOLOR.CLIENT_NAME    = GetPrivateProfileInt(iniColor, _T("ClientName"),    Color::Black.ToArgb(),       ini);
-	MTCOLOR.REST_STATE     = GetPrivateProfileInt(iniColor, _T("RestState"),     Color::Khaki.ToArgb(),       ini);
-	MTCOLOR.VS_STATE       = GetPrivateProfileInt(iniColor, _T("VSState"),       Color::Salmon.ToArgb(),      ini);
-	MTCOLOR.WATCH_STATE    = GetPrivateProfileInt(iniColor, _T("WatchState"),    Color::PaleGreen.ToArgb(),   ini);
-	MTCOLOR.SEEK_STATE     = GetPrivateProfileInt(iniColor, _T("SeekState"),     Color::PowderBlue.ToArgb(),  ini);
-	MTCOLOR.SYSTEM_MESSAGE = GetPrivateProfileInt(iniColor, _T("SystemMessage"), Color::Teal.ToArgb(),        ini);
-	MTCOLOR.ERROR_MESSAGE  = GetPrivateProfileInt(iniColor, _T("ErrorMessage"),  Color::Red.ToArgb(),         ini);
-	MTCOLOR.DEBUG_MESSAGE  = GetPrivateProfileInt(iniColor, _T("DebugMessage"),  Color::DarkOrange.ToArgb(),  ini);
-	MTCOLOR.NOTICE_BACK    = GetPrivateProfileInt(iniColor, _T("NoticeBack"),    Color::PowderBlue.ToArgb(),  ini);
-	MTCOLOR.COMMENT_BACK   = GetPrivateProfileInt(iniColor, _T("CommentBack"),   Color::MistyRose.ToArgb(),   ini);
-	MTCOLOR.SECRET         = GetPrivateProfileInt(iniColor, _T("Secret"),        Color::HotPink.ToArgb(),     ini);
-
-	// 把 Welcome 的标签改成换行
-	ReplaceWelcomeTab(true);
-
-	// 1.04以下兼容用
-	if(iniVersion == 0){
-		DeleteSection(iniSection);
-		SaveMTOption();
-	}
-}
-
-// 导出到ini
-void SaveMTOption()
+typedef struct _MT_SP_OPTION
 {
-	IntPtr mp;
-	TCHAR ini[_MAX_PATH], buf[MAX_NAME];
-	TCHAR tmpStrName[MAX_TITLE] = _T("");
-	TCHAR tmpStrIP[MAX_TITLE] = _T("");
-	TCHAR tmpStrType[MAX_TITLE] = _T("");
-	TCHAR tmpStrPort[MAX_TITLE] = _T("");
-	TCHAR* iniSection = MTOPTION.PROFILE;
+	TCHAR PATH[_MAX_PATH];
+	UINT  CONNECTION_TYPE;
+	TCHAR SERVER_NAME[MAX_NAME];
+	TCHAR CONNECTION_IP[MAX_ARRAY];
+	TCHAR WELCOME[MAX_WELCOME];
+	UINT  BOOKMARK_COUNT;
+	UINT  BOOKMARK_DELETED_COUNT;
+	TCHAR BOOKMARK_SERVER_NAME[MAX_TITLE][MAX_ARRAY];
+	TCHAR BOOKMARK_CONNECTION_IP[MAX_NAME][MAX_ARRAY];
+	TCHAR BOOKMARK_CONNECTION_TYPE[MAX_NAME][MAX_ARRAY];
+	TCHAR BOOKMARK_PORT[MAX_NAME][MAX_ARRAY];
+	TCHAR GAME_EXE[_MAX_PATH];
+	TCHAR REPLAY_FOLDER[_MAX_PATH];
+	TCHAR VS_SOUND[_MAX_PATH];
+	bool  VS_SOUND_ENABLE;
+	TCHAR NOTICE_SOUND[_MAX_PATH];
+	bool  NOTICE_SOUND_ENABLE;
+	TCHAR ENTER_SOUND[_MAX_PATH];
+	bool  ENTER_SOUND_ENABLE;
+	TCHAR NAME_SOUND[_MAX_PATH];
+	bool  NAME_SOUND_ENABLE;
+	TCHAR TALK_SOUND[_MAX_PATH];
+	bool  TALK_SOUND_ENABLE;
+	TCHAR SEEK_SOUND[_MAX_PATH];
+	bool  SEEK_SOUND_ENABLE;
+	TCHAR KEYWORD_SOUND[_MAX_PATH];
+	bool  KEYWORD_SOUND_ENABLE;
+	TCHAR KEYWORD[MAX_KEYWORD];
+	TCHAR NAME[MAX_NAME];
+	TCHAR COMMENT[MAX_NAME];
+	UINT  PORT;
+	UINT  OPEN_PORT;
+	UINT  AUTO_SAVE;
+	UINT  MAX_CONNECTION;
+	UINT  BGM_VOLUME;
+	UINT  SE_VOLUME;
+	UINT  MAX_STAGE;
+	UINT  STAGE_SELECT;
+	UINT  ROUND;
+	UINT  TIMER;
+	bool  TEAM_ROUND_HP;
+	UINT  SIMULATE_DELAY;
+	bool  HIT_JUDGE;
+	bool  DISPLAY_NAME;
+	bool  DISPLAY_VERSUS;
+	bool  DISPLAY_FRAMERATE;
+	bool  DISPLAY_RAND;
+	bool  REPLAY_DIVIDE;
+	bool  CHANGE_WINDOW_SIZE;
+	UINT  CHAT_HISTORY;
+	UINT  DELAY;
+	UINT  INTERVAL;
+	UINT  REPLAY_VERSION;
+	bool  RECORD_REPLAY;
+	bool  ALLOW_SPECTATOR;
+	bool  LOG_WORDWRAP;
+	bool  LOG_LOCK;
+	bool  LOG_FORMAT_RTF;
+	bool  NAME_FLASH;
+	bool  TALK_FLASH;
+	bool  AFTER_REST;
+	bool  AUTO_REST;
+	UINT  AUTO_REST_TIME;
+	bool  GET_IP_ENABLE;
+	bool  SHOW_GAME_OPTION;
+	bool  SHOW_RESULT;
+	bool  LOG_CLEAR_WITHOUT_WELCOME;
+	TCHAR PROFILE[MAX_ARRAY];
+	TCHAR PROFILE_LIST[MAX_PROFILE];
+	UINT  PROFILE_INDEX;
+} MT_SP_OPTION;
 
-	// 把换行替换成制表符
-	ReplaceWelcomeTab(false);
-
-	// 写在stdafx.h里
-	TCHAR iniSystem[MAX_NAME], iniState[MAX_NAME], iniColor[MAX_NAME];
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(Profile::SystemSection[0]);
-	_tcscpy_s(iniSystem, static_cast<PTCHAR>(mp.ToPointer()));
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(Profile::SystemSection[1]);
-	_tcscpy_s(iniState, static_cast<PTCHAR>(mp.ToPointer()));
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(Profile::SystemSection[2]);
-	_tcscpy_s(iniColor, static_cast<PTCHAR>(mp.ToPointer()));
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-
-	_stprintf_s(ini, _T("%s配置.INI"), MTOPTION.PATH);
-
-	// 写入全局段
-	_itot_s(LP_VERSION, buf, 10);
-	WritePrivateProfileString(iniSystem, _T("iniVersion"), buf, ini);
-	_itot_s(MTOPTION.CONNECTION_TYPE, buf, 10);
-	WritePrivateProfileString(iniSystem, _T("ConnectType"),          buf,                             ini);
-	WritePrivateProfileString(iniSystem, _T("ServerName"),           MTOPTION.SERVER_NAME,            ini);
-	WritePrivateProfileString(iniSystem, _T("ConnectIP"),            MTOPTION.CONNECTION_IP,          ini);
-	WritePrivateProfileString(iniSystem, _T("Welcome"),              MTOPTION.WELCOME,                ini);
-	WritePrivateProfileString(iniSystem, _T("VSSound"),              MTOPTION.VS_SOUND,               ini);
-	WritePrivateProfileString(iniSystem, _T("NoticeSound"),          MTOPTION.NOTICE_SOUND,           ini);
-	WritePrivateProfileString(iniSystem, _T("EnterSound"),           MTOPTION.ENTER_SOUND,            ini);
-	WritePrivateProfileString(iniSystem, _T("NameSound"),            MTOPTION.NAME_SOUND,             ini);
-	WritePrivateProfileString(iniSystem, _T("TalkSound"),            MTOPTION.TALK_SOUND,             ini);
-	WritePrivateProfileString(iniSystem, _T("SeekSound"),            MTOPTION.SEEK_SOUND,             ini);
-	WritePrivateProfileString(iniSystem, _T("KeywordSound"),         MTOPTION.KEYWORD_SOUND,          ini);
-	WritePrivateProfileString(iniSystem, _T("Keyword"),              MTOPTION.KEYWORD,                ini);
-	WritePrivateProfileString(iniSystem, _T("Name"),                 MTOPTION.NAME,                   ini);
-	WritePrivateProfileString(iniSystem, _T("Comment"),              MTOPTION.COMMENT,                ini);
-
-	_itot_s(MTOPTION.PORT, buf, 10);					WritePrivateProfileString(iniSystem, _T("Port"), buf, ini);
-	_itot_s(MTOPTION.OPEN_PORT, buf, 10);				WritePrivateProfileString(iniSystem, _T("OpenPort"), buf, ini);
-	_itot_s(MTOPTION.AUTO_SAVE, buf, 10);				WritePrivateProfileString(iniSystem, _T("AutoSave"), buf, ini);
-	_itot_s(MTOPTION.MAX_CONNECTION, buf, 10);			WritePrivateProfileString(iniSystem, _T("MaxConnection"), buf, ini);
-	_itot_s(MTOPTION.BGM_VOLUME, buf, 10);				WritePrivateProfileString(iniSystem, _T("BGMVolume"), buf, ini);
-	_itot_s(MTOPTION.SE_VOLUME, buf, 10);				WritePrivateProfileString(iniSystem, _T("SEVolume"), buf, ini);
-	_itot_s(MTOPTION.RECORD_REPLAY, buf, 10);			WritePrivateProfileString(iniSystem, _T("RecordReplay"), buf, ini);
-	_itot_s(MTOPTION.ALLOW_SPECTATOR, buf, 10);			WritePrivateProfileString(iniSystem, _T("AllowSpectator"), buf, ini);
-	_itot_s(MTOPTION.LOG_WORDWRAP, buf, 10);			WritePrivateProfileString(iniSystem, _T("LogWordWrap"), buf, ini);
-	_itot_s(MTOPTION.LOG_LOCK, buf, 10);				WritePrivateProfileString(iniSystem, _T("LogLock"), buf, ini);
-	_itot_s(MTOPTION.LOG_FORMAT_RTF, buf, 10);			WritePrivateProfileString(iniSystem, _T("LogFormatRTF"), buf, ini);
-	_itot_s(MTOPTION.NAME_FLASH, buf, 10);				WritePrivateProfileString(iniSystem, _T("NameFlash"), buf, ini);
-	_itot_s(MTOPTION.TALK_FLASH, buf, 10);				WritePrivateProfileString(iniSystem, _T("TalkFlash"), buf, ini);
-	_itot_s(MTOPTION.AFTER_REST, buf, 10);				WritePrivateProfileString(iniSystem, _T("AfterRest"), buf, ini);
-	_itot_s(MTOPTION.AUTO_REST, buf, 10);				WritePrivateProfileString(iniSystem, _T("AutoRest"), buf, ini);
-	_itot_s(MTOPTION.AUTO_REST_TIME, buf, 10);			WritePrivateProfileString(iniSystem, _T("AutoRestTime"), buf, ini);
-	_itot_s(MTOPTION.ENTER_SOUND_ENABLE, buf, 10);		WritePrivateProfileString(iniSystem, _T("EnterSoundEnable"), buf, ini);
-	_itot_s(MTOPTION.VS_SOUND_ENABLE, buf, 10);			WritePrivateProfileString(iniSystem, _T("VSSoundEnable"), buf, ini);
-	_itot_s(MTOPTION.NOTICE_SOUND_ENABLE, buf, 10);		WritePrivateProfileString(iniSystem, _T("NoticeSoundEnable"), buf, ini);
-	_itot_s(MTOPTION.NAME_SOUND_ENABLE, buf, 10);		WritePrivateProfileString(iniSystem, _T("NameSoundEnable"), buf, ini);
-	_itot_s(MTOPTION.TALK_SOUND_ENABLE, buf, 10);		WritePrivateProfileString(iniSystem, _T("TalkSoundEnable"), buf, ini);
-	_itot_s(MTOPTION.SEEK_SOUND_ENABLE, buf, 10);		WritePrivateProfileString(iniSystem, _T("SeekSoundEnable"), buf, ini);
-	_itot_s(MTOPTION.KEYWORD_SOUND_ENABLE, buf, 10);	WritePrivateProfileString(iniSystem, _T("KeywordSoundEnable"), buf, ini);
-	_itot_s(MTOPTION.GET_IP_ENABLE, buf, 10);			WritePrivateProfileString(iniSystem, _T("GetIPEnable"), buf, ini);
-	_itot_s(MTOPTION.SHOW_GAME_OPTION, buf, 10);		WritePrivateProfileString(iniSystem, _T("ShowGameOption"), buf, ini);
-	_itot_s(MTOPTION.SHOW_RESULT, buf, 10);				WritePrivateProfileString(iniSystem, _T("ShowResult"), buf, ini);
-	_itot_s(MTOPTION.LOG_CLEAR_WITHOUT_WELCOME, buf, 10); WritePrivateProfileString(iniSystem, _T("LogClearWithoutWelcome"), buf, ini);
-
-	// 书签写入
-	if(MTOPTION.BOOKMARK_COUNT > 0) {
-		for(UINT i=0;i < MTOPTION.BOOKMARK_COUNT;i++) {
-			if(gcnew String(MTOPTION.BOOKMARK_SERVER_NAME[i]) != ""){
-				_stprintf_s(tmpStrName, _T("%s%s,"), tmpStrName, MTOPTION.BOOKMARK_SERVER_NAME[i]);
-				_stprintf_s(tmpStrIP, _T("%s%s,"), tmpStrIP, MTOPTION.BOOKMARK_CONNECTION_IP[i]);
-				_stprintf_s(tmpStrType, _T("%s%s,"), tmpStrType, MTOPTION.BOOKMARK_CONNECTION_TYPE[i]);
-				_stprintf_s(tmpStrPort, _T("%s%s,"), tmpStrPort, MTOPTION.BOOKMARK_PORT[i]);
-			}
-		}
-		WritePrivateProfileString(iniSystem, _T("BookMarkServerName"),  tmpStrName, ini);
-		WritePrivateProfileString(iniSystem, _T("BookMarkConnectIP"),   tmpStrIP,   ini);
-		WritePrivateProfileString(iniSystem, _T("BookMarkConnectType"), tmpStrType, ini);
-		WritePrivateProfileString(iniSystem, _T("BookMarkPort"),        tmpStrPort, ini);
-	}
-
-	// 写入配置文件列表
-	WritePrivateProfileString(iniSystem, _T("DefaultProfile"), MTOPTION.PROFILE, ini);
-	String^ bufProfileList;
-	for(int i=0; i < Profile::ProfileList->Count; i++){
-		if(i > 0){
-			bufProfileList = String::Format("{0},{1}", bufProfileList, Profile::ProfileList[i]);
-		}else{
-			bufProfileList = String::Format("{0}{1}",  bufProfileList, Profile::ProfileList[i]);
-		}
-	}
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(bufProfileList);
-	_tcscpy_s(MTOPTION.PROFILE_LIST, static_cast<PTCHAR>(mp.ToPointer()));
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-	WritePrivateProfileString(iniSystem,  _T("ProfileList"), MTOPTION.PROFILE_LIST, ini);
-
-	// 写个人资料部分
-	WritePrivateProfileString(iniSection, _T("GameExe"),      MTOPTION.GAME_EXE,               ini);
-	WritePrivateProfileString(iniSection, _T("ReplayFolder"), MTOPTION.REPLAY_FOLDER,          ini);
-	_itot_s(MTOPTION.MAX_STAGE, buf, 10);
-	WritePrivateProfileString(iniSection, _T("MaxStage"), buf, ini);
-	_itot_s(MTOPTION.STAGE_SELECT, buf, 10);
-	WritePrivateProfileString(iniSection, _T("StageSelect"), buf, ini);
-	_itot_s(MTOPTION.ROUND, buf, 10);
-	WritePrivateProfileString(iniSection, _T("Round"), buf, ini);
-	_itot_s(MTOPTION.TIMER, buf, 10);
-	WritePrivateProfileString(iniSection, _T("Timer"), buf, ini);
-	_itot_s(MTOPTION.TEAM_ROUND_HP, buf, 10);
-	WritePrivateProfileString(iniSection, _T("TeamRoundHP"), buf, ini);
-	_itot_s(MTOPTION.SIMULATE_DELAY, buf, 10);
-	WritePrivateProfileString(iniSection, _T("SimulateDelay"), buf, ini);
-	_itot_s(MTOPTION.HIT_JUDGE, buf, 10);
-	WritePrivateProfileString(iniSection, _T("HitJudge"), buf, ini);
-	_itot_s(MTOPTION.DISPLAY_NAME, buf, 10);
-	WritePrivateProfileString(iniSection, _T("DisplayName"), buf, ini);
-	_itot_s(MTOPTION.DISPLAY_VERSUS, buf, 10);
-	WritePrivateProfileString(iniSection, _T("DisplayVersus"), buf, ini);
-	_itot_s(MTOPTION.DISPLAY_FRAMERATE, buf, 10);
-	WritePrivateProfileString(iniSection, _T("DisplayFramerate"), buf, ini);
-	_itot_s(MTOPTION.DISPLAY_RAND, buf, 10);
-	WritePrivateProfileString(iniSection, _T("DisplayRand"), buf, ini);
-	_itot_s(MTOPTION.REPLAY_DIVIDE, buf, 10);
-	WritePrivateProfileString(iniSection, _T("ReplayDivide"), buf, ini);
-	_itot_s(MTOPTION.CHANGE_WINDOW_SIZE, buf, 10);
-	WritePrivateProfileString(iniSection, _T("ChangeWindowSize"), buf, ini);
-	_itot_s(MTOPTION.CHAT_HISTORY, buf, 10);
-	WritePrivateProfileString(iniSection, _T("ChatHistory"), buf, ini);
-	_itot_s(MTOPTION.DELAY, buf, 10);
-	WritePrivateProfileString(iniSection, _T("Delay"), buf, ini);
-	_itot_s(MTOPTION.INTERVAL, buf, 10);
-	WritePrivateProfileString(iniSection, _T("Interval"), buf, ini);
-	_itot_s(MTOPTION.REPLAY_VERSION, buf, 10);
-	WritePrivateProfileString(iniSection, _T("ReplayVersion"), buf, ini);
-
-	// 写入窗口位置
-	_itot_s(MTWS.LEFT, buf, 10);
-	WritePrivateProfileString(iniState, _T("Left"), buf, ini);
-	_itot_s(MTWS.TOP, buf, 10);
-	WritePrivateProfileString(iniState, _T("Top"), buf, ini);
-	_itot_s(MTWS.WIDTH, buf, 10);
-	WritePrivateProfileString(iniState, _T("Width"), buf, ini);
-	_itot_s(MTWS.HEIGHT, buf, 10);
-	WritePrivateProfileString(iniState, _T("Height"), buf, ini);
-	_itot_s(MTWS.SPLITTER, buf, 10);
-	WritePrivateProfileString(iniState, _T("Splitter"), buf, ini);
-	_itot_s(MTWS.DIALOG_LEFT, buf, 10);
-	WritePrivateProfileString(iniState, _T("DialogLeft"), buf, ini);
-	_itot_s(MTWS.DIALOG_TOP, buf, 10);
-	WritePrivateProfileString(iniState, _T("DialogTop"), buf, ini);
-
-	// 涂色
-	_ultot_s(MTCOLOR.SERVER_NAME, buf, 10);
-	WritePrivateProfileString(iniColor, _T("ServerName"), buf, ini);
-	_ultot_s(MTCOLOR.HOST_NAME, buf, 10);
-	WritePrivateProfileString(iniColor, _T("HostName"), buf, ini);
-	_ultot_s(MTCOLOR.CLIENT_NAME, buf, 10);
-	WritePrivateProfileString(iniColor, _T("ClientName"), buf, ini);
-	_ultot_s(MTCOLOR.REST_STATE, buf, 10);
-	WritePrivateProfileString(iniColor, _T("RestState"), buf, ini);
-	_ultot_s(MTCOLOR.VS_STATE, buf, 10);
-	WritePrivateProfileString(iniColor, _T("VSState"), buf, ini);
-	_ultot_s(MTCOLOR.WATCH_STATE, buf, 10);
-	WritePrivateProfileString(iniColor, _T("WatchState"), buf, ini);
-	_ultot_s(MTCOLOR.SEEK_STATE, buf, 10);
-	WritePrivateProfileString(iniColor, _T("SeekState"), buf, ini);
-	_ultot_s(MTCOLOR.SYSTEM_MESSAGE, buf, 10);
-	WritePrivateProfileString(iniColor, _T("SystemMessage"),buf, ini);
-	_ultot_s(MTCOLOR.ERROR_MESSAGE, buf, 10);
-	WritePrivateProfileString(iniColor, _T("ErrorMessage"), buf, ini);
-	_ultot_s(MTCOLOR.DEBUG_MESSAGE, buf, 10);
-	WritePrivateProfileString(iniColor, _T("DebugMessage"), buf, ini);
-	_ultot_s(MTCOLOR.NOTICE_BACK, buf, 10);
-	WritePrivateProfileString(iniColor, _T("NoticeBack"), buf, ini);
-	_ultot_s(MTCOLOR.COMMENT_BACK, buf, 10);
-	WritePrivateProfileString(iniColor, _T("CommentBack"), buf, ini);
-	_ultot_s(MTCOLOR.SECRET, buf, 10);
-	WritePrivateProfileString(iniColor, _T("Secret"), buf, ini);
-}
-// 欢迎信息的换行替换
-void ReplaceWelcomeTab(bool TtoN){
-	int len = _tcslen(MTOPTION.WELCOME);
-	for(int i = 0; i < len; i++){
-		if(MTOPTION.WELCOME[i] == (TtoN ? _T('\t') : _T('\n'))){
-			MTOPTION.WELCOME[i] = (TtoN ? _T('\n') : _T('\t'));
-		}
-	}
-}
-// 删除个人资料部分
-void DeleteSection(TCHAR* obj){
-	TCHAR ini[_MAX_PATH];
-	_stprintf_s(ini, _T("%s配置.INI"), MTOPTION.PATH);
-	WritePrivateProfileStruct(obj, NULL, NULL, 0, ini);
-}
-// 仅导出与配置文件相关的内容
-void SaveProfileOption(){
-	TCHAR ini[_MAX_PATH];
-	_stprintf_s(ini, _T("%s配置.INI"), MTOPTION.PATH);
-
-	IntPtr mp;
-	TCHAR iniSystem[MAX_NAME];
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(Profile::SystemSection[0]);
-	_tcscpy_s(iniSystem, static_cast<PTCHAR>(mp.ToPointer()));
-
-	WritePrivateProfileString(iniSystem, _T("DefaultProfile"), MTOPTION.PROFILE, ini);
-	String^ bufProfileList;
-	for(int i=0; i < Profile::ProfileList->Count; i++){
-		if(i > 0){
-			bufProfileList = String::Format("{0},{1}", bufProfileList, Profile::ProfileList[i]);
-		}else{
-			bufProfileList = String::Format("{0}{1}",  bufProfileList, Profile::ProfileList[i]);
-		}
-	}
-	mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(bufProfileList);
-	_tcscpy_s(MTOPTION.PROFILE_LIST, static_cast<PTCHAR>(mp.ToPointer()));
-	WritePrivateProfileString(iniSystem,  _T("ProfileList"), MTOPTION.PROFILE_LIST, ini);
-
-	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
-}
-// 稍微检查一下设定值
-void CheckMTOption()
+typedef struct _MT_SP_WINDOW_STATE
 {
-	TCHAR buf[_MAX_PATH];
-	// 相对路径 -> 绝对路径
-	_tchdir(MTOPTION.PATH);
+	int LEFT;
+	int TOP;
+	int WIDTH;
+	int HEIGHT;
+	int SPLITTER;
+	int DIALOG_LEFT;
+	int DIALOG_TOP;
+} MT_SP_WINDOW_STATE;
 
-	_tsplitpath_s(MTOPTION.GAME_EXE, NULL, 0, NULL, 0, NULL, 0, buf, _MAX_EXT);
-	if(_tcscmp(buf, _T(".exe")) == 0){
-		if(MTOPTION.GAME_EXE[1] != ':'){
-			_tcscpy_s(buf, MTOPTION.GAME_EXE);
-			_tfullpath(MTOPTION.GAME_EXE, buf, _MAX_PATH);
-		}
-	}
-	if(MTOPTION.REPLAY_FOLDER[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.REPLAY_FOLDER);
-		_tfullpath(MTOPTION.REPLAY_FOLDER, buf, _MAX_PATH);
-	}
-	if(MTOPTION.VS_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.VS_SOUND);
-		_tfullpath(MTOPTION.VS_SOUND, buf, _MAX_PATH);
-	}
-	if(MTOPTION.NOTICE_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.NOTICE_SOUND);
-		_tfullpath(MTOPTION.NOTICE_SOUND, buf, _MAX_PATH);
-	}
-	if(MTOPTION.ENTER_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.ENTER_SOUND);
-		_tfullpath(MTOPTION.ENTER_SOUND, buf, _MAX_PATH);
-	}
-	if(MTOPTION.NAME_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.NAME_SOUND);
-		_tfullpath(MTOPTION.NAME_SOUND, buf, _MAX_PATH);
-	}
-	if(MTOPTION.TALK_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.TALK_SOUND);
-		_tfullpath(MTOPTION.TALK_SOUND, buf, _MAX_PATH);
-	}
-	if(MTOPTION.SEEK_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.SEEK_SOUND);
-		_tfullpath(MTOPTION.SEEK_SOUND, buf, _MAX_PATH);
-	}
-	if(MTOPTION.KEYWORD_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.KEYWORD_SOUND);
-		_tfullpath(MTOPTION.KEYWORD_SOUND, buf, _MAX_PATH);
-	}
-
-	// 一旦转换成绝对路径后，驱动器名变成小写这一点让我很在意
-	MTOPTION.GAME_EXE[0]      = _totupper(MTOPTION.GAME_EXE[0]);
-	MTOPTION.REPLAY_FOLDER[0] = _totupper(MTOPTION.REPLAY_FOLDER[0]);
-	MTOPTION.VS_SOUND[0]      = _totupper(MTOPTION.VS_SOUND[0]);
-	MTOPTION.NOTICE_SOUND[0]  = _totupper(MTOPTION.NOTICE_SOUND[0]);
-	MTOPTION.ENTER_SOUND[0]   = _totupper(MTOPTION.ENTER_SOUND[0]);
-	MTOPTION.NAME_SOUND[0]    = _totupper(MTOPTION.NAME_SOUND[0]);
-	MTOPTION.TALK_SOUND[0]    = _totupper(MTOPTION.TALK_SOUND[0]);
-	MTOPTION.SEEK_SOUND[0]    = _totupper(MTOPTION.SEEK_SOUND[0]);
-	MTOPTION.KEYWORD_SOUND[0] = _totupper(MTOPTION.KEYWORD_SOUND[0]);
-}
-
-// 对战中的标题栏
-void SetCaption()
+typedef struct _MT_SP_COLOR
 {
-	EnterCriticalSection(&CS_CAPTION);
+	UINT32 SERVER_NAME;
+	UINT32 HOST_NAME;
+	UINT32 CLIENT_NAME;
+	UINT32 REST_STATE;
+	UINT32 VS_STATE;
+	UINT32 WATCH_STATE;
+	UINT32 SEEK_STATE;
+	UINT32 SYSTEM_MESSAGE;
+	UINT32 ERROR_MESSAGE;
+	UINT32 DEBUG_MESSAGE;
+	UINT32 NOTICE_BACK;
+	UINT32 COMMENT_BACK;
+	UINT32 SECRET;
+} MT_SP_COLOR;
 
-	if(MTINFO.HWND != NULL){
-		SetWindowText(MTINFO.HWND, MTINFO.TITLE);
-	}
-	else{
-		if(MTINFO.KGT2K){
-			MTINFO.HWND = FindWindow(_T("KGT2KGAME"), NULL);
-		}
-		else{
-			MTINFO.HWND = FindWindow(_T("KGT95GAME"), NULL);
-		}
-
-		if(MTINFO.HWND != NULL){
-			// 最前面表示
-			if(MTINFO.SHOW_TOP == false){
-				// 格ツク95窗口大小更改
-				if(MTOPTION.CHANGE_WINDOW_SIZE && MTINFO.KGT2K == false){
-					RECT rc;
-					SetRect(&rc, 0, 0, 640, 480);
-					AdjustWindowRectEx(&rc, WS_OVERLAPPEDWINDOW, true, 0);
-					SetWindowPos(MTINFO.HWND, NULL, GetSystemMetrics(SM_CXSCREEN)/2 - 320, GetSystemMetrics(SM_CYSCREEN)/2 - 240, rc.right - rc.left, rc.bottom - rc.top, 0);
-				}
-
-				SetWindowPos(MTINFO.HWND, HWND_TOPMOST,   0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
-				SetWindowPos(MTINFO.HWND, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
-
-				MTINFO.SHOW_TOP = true;
-			}
-
-			GetWindowText(MTINFO.HWND, MTINFO.ORIGINAL_TITLE, sizeof(MTINFO.ORIGINAL_TITLE));
-
-			if(_tcslen(MTINFO.ORIGINAL_TITLE) == 0 || _tcscmp(MTINFO.ORIGINAL_TITLE, _T("２Ｄ格闘ツクール９５")) == 0){
-				MTINFO.HWND = NULL;
-			}
-		}
-	}
-
-	LeaveCriticalSection(&CS_CAPTION);
-}
-// 用于加密解密的随机数
-UINT CipherRand(UINT32 seed)
+typedef struct _REPLAY_DATA
 {
-	static UINT32 a[4] = {1812433254, 3713160357, 3109174145, 64984499};
+	UINT16 KEY;
+	BYTE   COUNT;
+} REPLAY_DATA;
 
-	if(seed == 0){
-		UINT t = (a[0]^(a[0] << 11));
-
-		a[0] = a[1]; a[1] = a[2]; a[2] = a[3];
-		return (a[3] = (a[3]^(a[3] >> 19))^(t^(t >> 8)));
-	}
-	else{
-		for(int i = 0; i < 4; i++){
-			a[i] = seed = 1812433253*(seed^(seed >> 30)) + i;
-		}
-	}
-
-	return 0;
-}
-
-// 通常用
-UINT XorShift(UINT32 seed)
+typedef struct _REPLAY_INFO
 {
-	static UINT32 a[4] = {1812433254, 3713160357, 3109174145, 64984499};
+	TCHAR  VERSION;
+	bool   CONTROL;
+	UINT16 KEY[2];
+	BYTE   COUNT[2];
 
-	if(seed == 0){
-		UINT t = (a[0]^(a[0] << 11));
+	std::deque<REPLAY_DATA> DEQUE[2];
+} REPLAY_INFO;
 
-		a[0] = a[1]; a[1] = a[2]; a[2] = a[3];
-		return (a[3] = (a[3]^(a[3] >> 19))^(t^(t >> 8)));
-	}
-	else{
-		for(int i = 0; i < 4; i++){
-			a[i] = seed = 1812433253*(seed^(seed >> 30)) + i;
-		}
-	}
+typedef enum {
+	CT_SERVER,
+	CT_HOST,
+	CT_CLIENT,
+	CT_FREE,
+} CONNECTION_TYPE;
 
-	return 0;
-}
+typedef enum {
+	SM_NORMAL,
+	SM_MIX,
+	SM_MATCH,
+	SM_NORA,
+} SERVER_MODE;
 
-// 随机关卡用
-UINT RandomStage(UINT32 seed)
+typedef enum {
+	MS_FREE,
+	MS_REST,
+	MS_VS,
+	MS_WATCH,
+	MS_COUCH,
+	MS_READY,
+	MS_SEEK,
+} MEMBER_STATE;
+
+typedef enum {
+	LV_NAME,
+	LV_COMMENT,
+	LV_BLIND,
+} LIST_VIEW;
+
+typedef enum {
+	RT_FREE = 1,
+	RT_VS,
+	RT_PLAYBACK,
+	RT_WATCH,
+} RUN_TYPE;
+
+typedef enum {
+	PH_PING,
+	PH_PONG,
+	PH_REQ_CONNECTION,   // 1:protocol 1:name_l n:name 1:comment_l n:comment
+	PH_REQ_CONNECTION_H, // HOST 的连接请求
+	PH_RES_CONNECTION,   // 1:server_name_l n:server_name 2:ID 1:name_l n:name 1:comment_l n:comment 1:state
+	PH_MESSAGE,          // 2:ID 1:msg_l n:msg
+	PH_NOTICE,           // 1:len n:notice
+	PH_REQ_LIST,         // 2:ID 0全员分
+	PH_RES_LIST,         // 2:ID 1:name_l n:name 1:comment_l n:comment 1:state 4:IP 2:Port + 暗号
+	PH_NEW_MEMBER,       // 和上面一样
+	PH_QUIT,             // 2:ID
+	PH_LOST,             // 2:ID
+	PH_CHANGE_STATE,     // 2:ID 1:STATE
+	PH_REQ_STATE,        // 2:ID
+	PH_RES_STATE,        // 2:ID 1:STATE
+	PH_CHANGE_COMMENT,   // 2:ID 1:comment_l n:comment
+	PH_DICE,             // 1:value
+	PH_REQ_VS,           // 2:ID 4:可执行文件的哈希
+	PH_RES_VS,           // 1:state
+	PH_REQ_VS_PING,      // 1:ID 用5朵玫瑰发送
+	PH_RES_VS_PONG,      // 1秒接收4个以上就开始对战
+	PH_REQ_VS_SETTING,   // 1:将 delay local 和 host 调整到较大的值
+	PH_RES_VS_SETTING,   // 1:delay 4:seed 1:max_stage 1:stage 1:round 1:timer
+	PH_VS_DATA,          // 4:frame n:data 分别发送 4*delay 次
+	PH_REQ_VS_DATA,      // 4:frame 因为包裹没到，所以紧急请求
+	PH_RES_VS_DATA,      // 4:frame 2:input
+	PH_VS_END,
+	PH_REQ_WATCH,        // 2:ID
+	PH_RES_WATCH,        // 1:state 2:P1ID 2:P2ID 4:seed 1:max_stage 1:stage 1:round 1:timer  state = 0:开始观看 1～:无法观看
+	PH_WATCH_DATA,       // 4:frame 40:10一帧的数据
+	PH_WATCH_END,        // 2:如果是自己的ID就结束观看，如果是其他ID就从列表中删除
+	PH_SECRET,           // 1:type n:按类型各种各样
+} MT_SP_PACKET_HEADER;
+
+typedef enum {
+	ST_PING,             // 4:time
+	ST_PONG,
+} SECRET_TYPE;
+
+typedef enum {
+	VS_REQ,
+	VS_PING,
+	VS_SETTING,
+	VS_STANDBY,
+	VS_DATA,
+	VS_END,
+	VS_TIMEOUT,
+	VS_ERROR,
+} VERSUS_SEQUENCE;
+
+
+// ---------------------------------------------------------------------------
+// Command line interface (CLI)
+// ---------------------------------------------------------------------------
+typedef struct _MT_SP_COMMAND_LINE
 {
-	static UINT32 a[4] = {1812433254, 3713160357, 3109174145, 64984499};
+	bool  ACTIVE;						// skip the startup dialog when set
+	bool  AUTOSTART;					// start the game automatically after startup
+	bool  HELP;						// show help and exit
+	UINT  GAME_TYPE;					// RT_FREE / RT_PLAYBACK
+	TCHAR REPLAY_FILE[_MAX_PATH];	// replay file (-replay)
+	UINT  STAGE;						// stage number (-stage)
+	UINT  ROUND;						// round count (-round)
+	UINT  TIMER;						// timer value (-timer)
+} MT_SP_COMMAND_LINE;
 
-	if(seed == 0){
-		UINT t = (a[0]^(a[0] << 11));
+extern MT_SP_COMMAND_LINE MTCMD;
 
-		a[0] = a[1]; a[1] = a[2]; a[2] = a[3];
-		return (a[3] = (a[3]^(a[3] >> 19))^(t^(t >> 8)));
-	}
-	else{
-		for(int i = 0; i < 4; i++){
-			a[i] = seed = 1812433253*(seed^(seed >> 30)) + i;
-		}
-	}
+bool ParseCommandLine(array<String^>^ args);
+void ShowCommandLineHelp();
+bool LoadGameIniOption();
 
-	return 0;
-}
+extern MT_SP_INFORMATION  MTINFO;
+extern MT_SP_OPTION       MTOPTION;
+extern MT_SP_WINDOW_STATE MTWS;
+extern MT_SP_COLOR        MTCOLOR;
 
-
-// IP编码
-String^ EncryptionIP(String^ ip)
+public ref class PacketPacker
 {
-	String ^ipString;
-	try {
-		ipString = Int64(Net::IPAddress::Parse(ip)->Address).ToString();
-	}
-	catch (ArgumentNullException^) {
-		return "转换失败。IP错误";
-	}
-	catch (FormatException^) {
-		return "转换失败。IP格式错误";
+public:
+	PacketPacker(void)
+	{
+		Length = 0;
+		Packet = gcnew array<BYTE>(MAX_PACKET);
 	}
 
-	array<Byte> ^binaryData = gcnew array<Byte>(11);
-	binaryData = System::Text::Encoding::ASCII->GetBytes(ipString);
+protected:
+	~PacketPacker()
+	{
+		if(Packet != nullptr){
+			delete Packet;
+		}
+	}
 
-	String ^ipBase64;
-	try {
-		ipBase64 = Convert::ToBase64String(binaryData);
+public:
+	int Length;
+	array<BYTE>^ Packet;
+
+	void Pack(BYTE data){
+		Packet[Length] = data;
+		Length++;
 	}
-	catch (ArgumentNullException^) {
-		return "转换失败。Base64错误";
+
+	void Pack(array<BYTE>^% data){
+		Array::Copy(data, 0, Packet, Length, data->Length);
+		Length += data->Length;
 	}
-	catch (FormatException^) {
-		return "转换失败。Base64格式错误";
+
+	void Clear(){
+		Length = 0;
+		Packet->Clear(Packet, 0, MAX_PACKET);
 	}
-	return ipBase64;
-}
-// IP转换（MTSP地址）
-String^ MTEncryptionIP(String^ ip)
+};
+
+public ref class PacketDivider
 {
-	String^ result, ^buf, ^part;
-	String^ dic = "1１2２3３4４5５6６7７8８9９0０abcdefghijklmnopqrstuvwxyz"
-		"abcdefghijklmnopqrstuvwxyz.ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ．";
+public:
+	int Length;
+	array<BYTE>^ Packet;
 
-	try{
-		// 10桁+シード
-		Int64^ num = ((IPAddress::Parse(ip)->Address + 0xa68c8b5) ^ 0xe5c06811);
-		ip = num->ToString();
-		if((ip->Length % 2) == 1){
-			ip = String::Concat("0", ip);
-		}
-		//  5桁にしよう
-		for(int i=0; i < ip->Length; i+=2){
-			part = String::Concat(ip->default[i], ip->default[i+1]);
-			buf = String::Concat(dic->default[Convert::ToInt32(part)]);
-			result = String::Concat(result, buf);
-		}
-		return result;
-	}
-	catch(Exception^){
-		return "IP地址的MTSP转换失败。";
-	}
-}
-
-// IP解码
-_int64 DecryptionIP(String^ cipher_ip, bool enc)
-{
-	array<Byte> ^binaryData;
-
-	try {
-		binaryData = Convert::FromBase64String(cipher_ip);
-	}
-	catch (ArgumentNullException^) {
-		throw gcnew ArgumentNullException;
-		return 0;
-	}
-	catch (FormatException^) {
-		throw gcnew FormatException;
-		return 0;
+	PacketDivider(array<BYTE>^% datagram)
+	{
+		Length = 0;
+		Packet = datagram;
 	}
 
-	if(enc){
-		return Convert::ToInt64(Encoding::ASCII->GetString(binaryData));
-	}else{
-		// 用于1.02、1.03互换
-		return Convert::ToInt64(Encoding::Unicode->GetString(binaryData));
-	}
-}
-_int64 MTDecryptionIP(String^ cipher_ip)
-{
-	String^ buf;
-	TCHAR part;
-	int index;
-	String^ dic = "1１2２3３4４5５6６7７8８9９0０abcdefghijklmnopqrstuvwxyz"
-		"abcdefghijklmnopqrstuvwxyz.ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ．";
-
-	try{
-		for(int i=0; i < cipher_ip->Length; i++){
-			part = cipher_ip->default[i];
-			index = dic->IndexOf(part);
-			if(index < 10){
-				buf = String::Format("{0}0{1}", buf, index);
-			}else{
-				buf = String::Format("{0}{1}", buf, index);
-			}
-		}
-		return ((Convert::ToInt64(buf) ^ 0xe5c06811) - 0xa68c8b5);
-	}
-	catch(Exception^){
-		return 0;
-	}
-}
-// 获取本地IP（Winsock）
-BSTR GetLocalIP(){
-	WSADATA wsaData;
-	char hostname[MAX_TITLE];
-	char ip[MAX_TITLE];
-	struct hostent *hostent;
-	struct in_addr inaddr;
-	BSTR bstr_ip;
-
-	try{
-		if(WSAStartup(MAKEWORD(1, 0), &wsaData) != 0){
-			// 错误
-			throw gcnew Exception;
-			return nullptr;
-		}
-		// 获取主机名
-		gethostname(hostname, sizeof(hostname));
-		hostent = gethostbyname(hostname);
-		if(hostent == NULL){
-			throw gcnew Exception;
-			return nullptr;
-		}
-		// 从主机名获取IP
-		memcpy(&inaddr, hostent->h_addr_list[0], 4);
-		//strcpy(ip, inet_ntoa(inaddr));
-		strcpy_s(ip, _countof(ip), inet_ntoa(inaddr));
-
-		// IP的字符串类型转换 CHAR -> TCHAR -> BSTR
-		TCHAR buf[sizeof(ip)];
-		mbstowcs_s(0, buf, sizeof(ip), ip, _TRUNCATE);
-		bstr_ip = ::SysAllocString(buf);
-	}
-	catch(Exception^){
-		return nullptr;
-	}
-	finally{
-		WSACleanup();
+	BYTE Divide(){
+		return Packet[Length++];
 	}
 
-	return bstr_ip;
-}
-void UPnP_PortOpenClose(bool s, bool auto_close){ /* open:close, auto:manual */
-	// UPnP端口开关
-	if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UPnP_PortOpenClose");}
+	array<BYTE>^ Divide(int length){
+		array<BYTE>^ data = gcnew array<BYTE>(length);
 
-	IUPnPNAT *nat						= nullptr;
-	IStaticPortMappingCollection *maps	= nullptr;
-	IStaticPortMapping *map				= nullptr;
-	IStaticPortMapping *item			= nullptr;
+		Array::Copy(Packet, Length, data, 0, length);
+		Length += length;
 
-	UINT port = MTOPTION.OPEN_PORT;
-
-	BSTR localip = GetLocalIP();
-	if(localip == nullptr){
-		if(MTINFO.DEBUG){Debug::WriteLine("网络接口 > 本地IP获取失败");}
-		if(auto_close){return;}
-		MessageBox::Show("获取本地IP失败。\n请确认通信环境。", "UPnP端口开关", MessageBoxButtons::OK, MessageBoxIcon::Error);
-		return;
+		return data;
 	}
-	if(MTINFO.DEBUG){Debug::WriteLine(String::Format("网络接口 > 本地IP获取成功: {0}", gcnew String(localip)));}
+};
 
-	BSTR proto = L"UDP";
-	BSTR desc = L"LilithPort UDP";
-	String^ mestitle = L"UPnP端口开关";
-	String^ errmes_tmp = L"\nUPnP可能存在无法使用的环境。\n路由器的UPnP启用设置?请检查防火墙设置。";
-	BSTR buf= L"";
-	//BSTR exip;
-
-	try{
-		if(nat == nullptr){
-			// 初始化
-			if(MTINFO.DEBUG){Debug::WriteLine("UPnP > nat初始化");}
-			CoInitialize(nullptr);
-			if(CoCreateInstance(CLSID_UPnPNAT, nullptr, CLSCTX_ALL, IID_IUPnPNAT, (void **)&nat) != S_OK){
-				if(!auto_close){
-					MessageBox::Show("UPnP初始化失败。" + errmes_tmp, mestitle, MessageBoxButtons::OK, MessageBoxIcon::Error);
-				}
-				if(MTINFO.DEBUG){Debug::WriteLine("UPnP > nat初始化失败");}
-				return;
-			}
-			if(MTINFO.DEBUG){Debug::WriteLine("UPnP > nat初始化成功");}
-		}
-		if(nat->get_StaticPortMappingCollection(&maps) != S_OK){
-			if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UDP端口映射信息获取失败");}
-			if(!auto_close){
-				MessageBox::Show("UPnP获取端口映射信息失败。\n", mestitle, MessageBoxButtons::OK, MessageBoxIcon::Information);
-			}
-			return;
-		}
-		if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UDP端口映射信息获取成功");}
-
-		
-		// 确认端口设置是否存在 并核对说明文
-		if(maps->get_Item(port, proto, &map) == S_OK){
-			// 有设定
-			map->get_Description(&buf);
-			if(MTINFO.DEBUG){Debug::WriteLine(String::Format("UPnP > map->get_描述: {0}", gcnew String(buf)));}
-
-			if(s){ // 开放：覆盖确认
-				if(MessageBox::Show(String::Format("已经存在UPnP设置。\n是否覆盖设置？\n端口说明: {0}", gcnew String(buf)), mestitle, MessageBoxButtons::YesNo, MessageBoxIcon::Question)
-					!= ::DialogResult::Yes){
-					return;
-				}
-			}
-			else if(gcnew String(buf) != gcnew String(desc)){	// 关闭：因为是在LilithPort外的设置所以警告
-				if(auto_close){return;}	// 自动就算了
-				if(MessageBox::Show(String::Format("关闭LilithPort以外的UPnP设置。\n可能在另一个通信中使用。\n可以关闭吗？\n端口说明: {0}", gcnew String(buf)), mestitle, MessageBoxButtons::YesNo, MessageBoxIcon::Question)
-					!= ::DialogResult::Yes){
-					return;
-				}
-			}
-		}else{
-			// 没有设置
-			if(MTINFO.DEBUG){Debug::WriteLine("UPnP > maps->get_项目 != S_OK");}
-
-			if(!s){ // 关闭：不需要
-				if(auto_close){return;} // 没问题
-				MessageBox::Show("不存在要关闭的UPnP设置。\n不需要关闭。", mestitle, MessageBoxButtons::OK, MessageBoxIcon::Information);
-				return;
-			}
-		}
-		
-		if(){  // 开放
-			if(maps->Add(port, proto, port, localip, VARIANT_TRUE, desc, &map) != S_OK){
-				MessageBox::Show("端口打开失败。" + errmes_tmp, mestitle, MessageBoxButtons::OK, MessageBoxIcon::Error);
-				if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UDP端口打开失败");}
-				return;
-			}
-			MessageBox::Show(String::Format("成功打开端口。\n端口号: {0}\n\n※即使显示此消息，\n根据环境的不同，可能无法进行通信。", port), mestitle, MessageBoxButtons::OK, MessageBoxIcon::Information);
-			if(MTINFO.DEBUG){
-				Debug::WriteLine(String::Format("UPnP > UDP端口开放成功 > 端口号: {0}", port));
-			}
-		}else{	// 关闭
-			if(maps->Remove(port, proto) != S_OK){
-				if(!auto_close){
-					MessageBox::Show("端口关闭失败。" + errmes_tmp, mestitle, MessageBoxButtons::OK, MessageBoxIcon::Error);
-				}
-				if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UDP端口关闭失败");}
-				return;
-			}
-			if(!auto_close){
-				MessageBox::Show(String::Format("成功关闭端口。\n端口号: {0}", port), mestitle, MessageBoxButtons::OK, MessageBoxIcon::Information);
-			}
-			if(MTINFO.DEBUG){Debug::WriteLine(String::Format("UPnP > UDP端口成功关闭 > 端口号: {0}", port));}
-		}
-		// WAN-IP抽出
-		//maps->get_Item(NULL,NULL,&item);
-		//maps->get_Item(port, proto, &item);
-		//item->get_ExternalIPAddress(&exip);
-		//WriteMessage(String::Format("{0}\n", gcnew String(exip)), DebugMessageColor);
-
-		// 从开放端口信息中提取WAN-IP
-		//map->get_ExternalIPAddress(&externalip);
-		//WriteMessage(String::Format("{0}\n", gcnew String(externalip)), DebugMessageColor);
-	}
-	catch(Exception^ e){
-		MessageBox::Show("发生了错误。" + errmes_tmp, mestitle, MessageBoxButtons::OK, MessageBoxIcon::Error);
-		if(MTINFO.DEBUG){if(MTINFO.DEBUG){Debug::WriteLine( String::Format("{0}\n", e->ToString() ));}}
-	}
-	finally{
-		if(nat	!= nullptr){nat->Release();}
-		if(maps != nullptr){maps->Release();}
-		if(map	!= nullptr){map->Release();}
-		if(item	!= nullptr){item->Release();}
-		CoUninitialize();
-	}
-}
+#include "OptionForm.h"
