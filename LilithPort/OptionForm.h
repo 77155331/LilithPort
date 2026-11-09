@@ -1673,16 +1673,16 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 
 		void CheckStageValue(){
 			if(numericUpDownStageSelect->Value > numericUpDownMaxStage->Value){
-				labelMaxStage->Text    = gcnew String("开始关卡");
-				labelStageSelect->Text = gcnew String("终端阶段");
+				labelMaxStage->Text    = gcnew String("开始场景");
+				labelStageSelect->Text = gcnew String("结束场景");
 			}
 			else{
-				labelMaxStage->Text    = gcnew String("最大关卡数");
-				labelStageSelect->Text = gcnew String("对战舞台");
+				labelMaxStage->Text    = gcnew String("最大场景数");
+				labelStageSelect->Text = gcnew String("对战场景");
 			}
 
 			if(numericUpDownStageSelect->Value == 0){
-				labelStageSelect->Text = gcnew String("随机关卡");
+				labelStageSelect->Text = gcnew String("随机场景");
 			}
 		}
 
@@ -1701,195 +1701,181 @@ private: System::Windows::Forms::CheckBox^  checkBoxLogClearWithoutWelcome;
 		}
 
 	private:
-		System::Void OptionForm_Load(System::Object^  sender, System::EventArgs^  e) {
+System::Void OptionForm_Load(System::Object^  sender, System::EventArgs^  e) {
+	// 控件基础赋值，设计器模式可以执行
+	textBoxGameExe->MaxLength          = _MAX_PATH;
+	textBoxReplayFolder->MaxLength     = _MAX_PATH;
+	textBoxVSSound->MaxLength          = _MAX_PATH;
+	textBoxNoticeSound->MaxLength      = _MAX_PATH;
+	textBoxEnterSound->MaxLength       = _MAX_PATH;
+	textBoxTalkSound->MaxLength        = _MAX_PATH;
+	textBoxSeekSound->MaxLength        = _MAX_PATH;
+	textBoxKeywordSoundPath->MaxLength = _MAX_PATH;
+	textBoxComment->MaxLength = MAX_NAME;
 
-			textBoxGameExe->MaxLength          = _MAX_PATH;
-			textBoxReplayFolder->MaxLength     = _MAX_PATH;
-			textBoxVSSound->MaxLength          = _MAX_PATH;
-			textBoxNoticeSound->MaxLength      = _MAX_PATH;
-			textBoxEnterSound->MaxLength       = _MAX_PATH;
-			textBoxTalkSound->MaxLength        = _MAX_PATH;
-			textBoxSeekSound->MaxLength        = _MAX_PATH;
-			textBoxKeywordSoundPath->MaxLength = _MAX_PATH;
-
-			textBoxComment->MaxLength = MAX_NAME;
-
-			comboBoxProfile->Items->Clear();
-			for(int i=0; i < Profile::ProfileList->Count; i++){
-				comboBoxProfile->Items->Add(Profile::ProfileList[i]);
-				if(Profile::ProfileList[i] == gcnew String(MTOPTION.PROFILE)){
-					comboBoxProfile->SelectedIndex = i;
-				}
+	if (!DesignMode)
+	{
+		// ========== 所有业务逻辑、原生API全部包在这里，设计器不会进入 ==========
+		comboBoxProfile->Items->Clear();
+		for(int i=0; i < Profile::ProfileList->Count; i++){
+			comboBoxProfile->Items->Add(Profile::ProfileList[i]);
+			if(Profile::ProfileList[i] == gcnew String(MTOPTION.PROFILE)){
+				comboBoxProfile->SelectedIndex = i;
 			}
+		}
+		textBoxGameExe->Text          = gcnew String(MTOPTION.GAME_EXE);
+		textBoxReplayFolder->Text     = gcnew String(MTOPTION.REPLAY_FOLDER);
+		textBoxComment->Text          = gcnew String(MTOPTION.COMMENT);
+		textBoxVSSound->Text          = gcnew String(MTOPTION.VS_SOUND);
+		textBoxNoticeSound->Text      = gcnew String(MTOPTION.NOTICE_SOUND);
+		textBoxEnterSound->Text       = gcnew String(MTOPTION.ENTER_SOUND);
+		textBoxNameSound->Text        = gcnew String(MTOPTION.NAME_SOUND);
+		textBoxTalkSound->Text        = gcnew String(MTOPTION.TALK_SOUND);
+		textBoxSeekSound->Text        = gcnew String(MTOPTION.SEEK_SOUND);
+		textBoxKeywordSoundPath->Text = gcnew String(MTOPTION.KEYWORD_SOUND);
+		textBoxKeyword->Text          = gcnew String(MTOPTION.KEYWORD);
 
-			textBoxGameExe->Text          = gcnew String(MTOPTION.GAME_EXE);
-			textBoxReplayFolder->Text     = gcnew String(MTOPTION.REPLAY_FOLDER);
-			textBoxComment->Text          = gcnew String(MTOPTION.COMMENT);
-			textBoxVSSound->Text          = gcnew String(MTOPTION.VS_SOUND);
-			textBoxNoticeSound->Text      = gcnew String(MTOPTION.NOTICE_SOUND);
-			textBoxEnterSound->Text       = gcnew String(MTOPTION.ENTER_SOUND);
-			textBoxNameSound->Text        = gcnew String(MTOPTION.NAME_SOUND);
-			textBoxTalkSound->Text        = gcnew String(MTOPTION.TALK_SOUND);
-			textBoxSeekSound->Text        = gcnew String(MTOPTION.SEEK_SOUND);
-			textBoxKeywordSoundPath->Text = gcnew String(MTOPTION.KEYWORD_SOUND);
-			textBoxKeyword->Text          = gcnew String(MTOPTION.KEYWORD);
+		textBoxGameExe->SelectionStart          = textBoxGameExe->Text->Length;
+		textBoxReplayFolder->SelectionStart     = textBoxReplayFolder->Text->Length;
+		textBoxComment->SelectionStart          = textBoxComment->Text->Length;
+		textBoxVSSound->SelectionStart          = textBoxVSSound->Text->Length;
+		textBoxNoticeSound->SelectionStart      = textBoxNoticeSound->Text->Length;
+		textBoxEnterSound->SelectionStart       = textBoxEnterSound->Text->Length;
+		textBoxNameSound->SelectionStart        = textBoxNameSound->Text->Length;
+		textBoxTalkSound->SelectionStart        = textBoxTalkSound->Text->Length;
+		textBoxSeekSound->SelectionStart        = textBoxSeekSound->Text->Length;
+		textBoxKeywordSoundPath->SelectionStart = textBoxKeywordSoundPath->Text->Length;
 
-			// 把路径选择放到末尾
-			textBoxGameExe->SelectionStart          = textBoxGameExe->Text->Length;
-			textBoxReplayFolder->SelectionStart     = textBoxReplayFolder->Text->Length;
-			textBoxComment->SelectionStart          = textBoxComment->Text->Length;
-			textBoxVSSound->SelectionStart          = textBoxVSSound->Text->Length;
-			textBoxNoticeSound->SelectionStart      = textBoxNoticeSound->Text->Length;
-			textBoxEnterSound->SelectionStart       = textBoxEnterSound->Text->Length;
-			textBoxNameSound->SelectionStart        = textBoxNameSound->Text->Length;
-			textBoxTalkSound->SelectionStart        = textBoxTalkSound->Text->Length;
-			textBoxSeekSound->SelectionStart        = textBoxSeekSound->Text->Length;
-			textBoxKeywordSoundPath->SelectionStart = textBoxKeywordSoundPath->Text->Length;
+		checkBoxVSSound->Checked          = MTOPTION.VS_SOUND_ENABLE;
+		checkBoxNoticeSound->Checked      = MTOPTION.NOTICE_SOUND_ENABLE;
+		checkBoxEnterSound->Checked       = MTOPTION.ENTER_SOUND_ENABLE;
+		checkBoxNameSound->Checked        = MTOPTION.NAME_SOUND_ENABLE;
+		checkBoxTalkSound->Checked        = MTOPTION.TALK_SOUND_ENABLE;
+		checkBoxSeekSound->Checked        = MTOPTION.SEEK_SOUND_ENABLE;
+		checkBoxKeywordSound->Checked     = MTOPTION.KEYWORD_SOUND_ENABLE;
+		checkBoxGetIP->Checked            = MTOPTION.GET_IP_ENABLE;
+		checkBoxShowGameOption->Checked   = MTOPTION.SHOW_GAME_OPTION;
+		checkBoxShowResult->Checked       = MTOPTION.SHOW_RESULT;
+		checkBoxLogClearWithoutWelcome->Checked = MTOPTION.LOG_CLEAR_WITHOUT_WELCOME;
+		numericUpDownMaxConnection->Value = MTOPTION.MAX_CONNECTION;
+		trackBarBGM->Value                = MTOPTION.BGM_VOLUME / 5;
+		trackBarSE->Value                 = MTOPTION.SE_VOLUME / 5;
+		numericUpDownMaxStage->Value      = MTOPTION.MAX_STAGE;
+		numericUpDownStageSelect->Value   = MTOPTION.STAGE_SELECT;
+		numericUpDownRound->Value         = MTOPTION.ROUND;
+		numericUpDownTimer->Value         = MTOPTION.TIMER;
+		numericUpDownSimDelay->Value      = MTOPTION.SIMULATE_DELAY;
+		checkBoxHitJudge->Checked         = MTOPTION.HIT_JUDGE;
+		checkBoxName->Checked             = MTOPTION.DISPLAY_NAME;
+		checkBoxVersus->Checked           = MTOPTION.DISPLAY_VERSUS;
+		checkBoxFramerate->Checked        = MTOPTION.DISPLAY_FRAMERATE;
+		checkBoxRand->Checked             = MTOPTION.DISPLAY_RAND;
+		checkBoxDivide->Checked           = MTOPTION.REPLAY_DIVIDE;
+		checkBoxWindowSize->Checked       = MTOPTION.CHANGE_WINDOW_SIZE;
 
-			checkBoxVSSound->Checked          = MTOPTION.VS_SOUND_ENABLE;
-			checkBoxNoticeSound->Checked      = MTOPTION.NOTICE_SOUND_ENABLE;
-			checkBoxEnterSound->Checked       = MTOPTION.ENTER_SOUND_ENABLE;
-			checkBoxNameSound->Checked        = MTOPTION.NAME_SOUND_ENABLE;
-			checkBoxTalkSound->Checked        = MTOPTION.TALK_SOUND_ENABLE;
-			checkBoxSeekSound->Checked        = MTOPTION.SEEK_SOUND_ENABLE;
-			checkBoxKeywordSound->Checked     = MTOPTION.KEYWORD_SOUND_ENABLE;
+		if(MTOPTION.LOG_FORMAT_RTF){
+			radioButtonLogRTF->Checked    = true;
+			radioButtonLogTXT->Checked    = false;
+		}else{
+			radioButtonLogRTF->Checked    = false;
+			radioButtonLogTXT->Checked    = true;
+		}
 
-			checkBoxGetIP->Checked            = MTOPTION.GET_IP_ENABLE;
-			checkBoxShowGameOption->Checked   = MTOPTION.SHOW_GAME_OPTION;
-			checkBoxShowResult->Checked       = MTOPTION.SHOW_RESULT;
-			checkBoxLogClearWithoutWelcome->Checked = MTOPTION.LOG_CLEAR_WITHOUT_WELCOME;
+		checkBoxTalkFlash->Checked        = MTOPTION.TALK_FLASH;
+		checkBoxNameFlash->Checked        = MTOPTION.NAME_FLASH;
+		checkBoxTeamRoundHP->Checked      = MTOPTION.TEAM_ROUND_HP;
 
-			numericUpDownMaxConnection->Value = MTOPTION.MAX_CONNECTION;
-			trackBarBGM->Value                = MTOPTION.BGM_VOLUME / 5;
-			trackBarSE->Value                 = MTOPTION.SE_VOLUME / 5;
-			numericUpDownMaxStage->Value      = MTOPTION.MAX_STAGE;
-			numericUpDownStageSelect->Value   = MTOPTION.STAGE_SELECT;
-			numericUpDownRound->Value         = MTOPTION.ROUND;
-			numericUpDownTimer->Value         = MTOPTION.TIMER;
-			numericUpDownSimDelay->Value      = MTOPTION.SIMULATE_DELAY;
-			checkBoxHitJudge->Checked         = MTOPTION.HIT_JUDGE;
-			checkBoxName->Checked             = MTOPTION.DISPLAY_NAME;
-			checkBoxVersus->Checked           = MTOPTION.DISPLAY_VERSUS;
-			checkBoxFramerate->Checked        = MTOPTION.DISPLAY_FRAMERATE;
-			checkBoxRand->Checked             = MTOPTION.DISPLAY_RAND;
-			checkBoxDivide->Checked           = MTOPTION.REPLAY_DIVIDE;
-			checkBoxWindowSize->Checked       = MTOPTION.CHANGE_WINDOW_SIZE;
+		CheckStageValue();
 
-			if(MTOPTION.LOG_FORMAT_RTF){
-				radioButtonLogRTF->Checked    = true;
-				radioButtonLogTXT->Checked    = false;
-			}else{
-				radioButtonLogRTF->Checked    = false;
-				radioButtonLogTXT->Checked    = true;
-			}
+		labelBGM->Text = String::Format("{0,3}%", trackBarBGM->Value * 5);
+		labelSE->Text = String::Format("{0,3}%", trackBarSE->Value * 5);
 
-			checkBoxTalkFlash->Checked        = MTOPTION.TALK_FLASH;
-			checkBoxNameFlash->Checked        = MTOPTION.NAME_FLASH;
-			checkBoxTeamRoundHP->Checked      = MTOPTION.TEAM_ROUND_HP;
+		if(MTOPTION.REPLAY_VERSION == 2){
+			radioButtonReplayVersion1->Checked = false;
+			radioButtonReplayVersion2->Checked = true;
+		}
+		else{
+			radioButtonReplayVersion1->Checked = true;
+			radioButtonReplayVersion2->Checked = false;
+		}
 
-			CheckStageValue();
+		buttonServerName->ForeColor    = Color::FromArgb(MTCOLOR.SERVER_NAME);
+		buttonHostName->ForeColor      = Color::FromArgb(MTCOLOR.HOST_NAME);
+		buttonClientName->ForeColor    = Color::FromArgb(MTCOLOR.CLIENT_NAME);
+		buttonRestState->BackColor     = Color::FromArgb(MTCOLOR.REST_STATE);
+		buttonVSState->BackColor       = Color::FromArgb(MTCOLOR.VS_STATE);
+		buttonWatchState->BackColor    = Color::FromArgb(MTCOLOR.WATCH_STATE);
+		buttonSeekState->BackColor     = Color::FromArgb(MTCOLOR.SEEK_STATE);
+		buttonSystemMessage->ForeColor = Color::FromArgb(MTCOLOR.SYSTEM_MESSAGE);
+		buttonErrorMessage->ForeColor  = Color::FromArgb(MTCOLOR.ERROR_MESSAGE);
+		buttonDebugMessage->ForeColor  = Color::FromArgb(MTCOLOR.DEBUG_MESSAGE);
+		buttonNoticeBack->BackColor    = Color::FromArgb(MTCOLOR.NOTICE_BACK);
+		buttonCommentBack->BackColor   = Color::FromArgb(MTCOLOR.COMMENT_BACK);
+		buttonSecret->ForeColor        = Color::FromArgb(MTCOLOR.SECRET);
 
-			labelBGM->Text = String::Format("{0,3}%", trackBarBGM->Value * 5);
-			labelSE->Text = String::Format("{0,3}%", trackBarSE->Value * 5);
-
-			if(MTOPTION.REPLAY_VERSION == 2){
-				radioButtonReplayVersion1->Checked = false;
-				radioButtonReplayVersion2->Checked = true;
+		// SW合成器 mixer API，仅运行时执行，设计器跳过
+		try{
+			hMixer = NULL;
+			pin_ptr<HMIXER> p_hm = &hMixer;
+			if(mixerOpen(p_hm, 0, 0, 0, MIXER_OBJECTF_MIXER) != MMSYSERR_NOERROR){
+				throw gcnew Exception;
 			}
 			else{
-				radioButtonReplayVersion1->Checked = true;
-				radioButtonReplayVersion2->Checked = false;
-			}
-
-			buttonServerName->ForeColor    = Color::FromArgb(MTCOLOR.SERVER_NAME);
-			buttonHostName->ForeColor      = Color::FromArgb(MTCOLOR.HOST_NAME);
-			buttonClientName->ForeColor    = Color::FromArgb(MTCOLOR.CLIENT_NAME);
-			buttonRestState->BackColor     = Color::FromArgb(MTCOLOR.REST_STATE);
-			buttonVSState->BackColor       = Color::FromArgb(MTCOLOR.VS_STATE);
-			buttonWatchState->BackColor    = Color::FromArgb(MTCOLOR.WATCH_STATE);
-			buttonSeekState->BackColor     = Color::FromArgb(MTCOLOR.SEEK_STATE);
-
-			buttonSystemMessage->ForeColor = Color::FromArgb(MTCOLOR.SYSTEM_MESSAGE);
-			buttonErrorMessage->ForeColor  = Color::FromArgb(MTCOLOR.ERROR_MESSAGE);
-			buttonDebugMessage->ForeColor  = Color::FromArgb(MTCOLOR.DEBUG_MESSAGE);
-			buttonNoticeBack->BackColor    = Color::FromArgb(MTCOLOR.NOTICE_BACK);
-			buttonCommentBack->BackColor   = Color::FromArgb(MTCOLOR.COMMENT_BACK);
-			buttonSecret->ForeColor        = Color::FromArgb(MTCOLOR.SECRET);
-
-			// SW合成器
-			try{
-				hMixer = NULL;
-				pin_ptr<HMIXER> p_hm = &hMixer;
-
-				if(mixerOpen(p_hm, 0, 0, 0, MIXER_OBJECTF_MIXER) != MMSYSERR_NOERROR){
+				MIXERLINE line;
+				MIXERLINECONTROLS lc;
+				MIXERCONTROL ctrl;
+				line.cbStruct        = sizeof(MIXERLINE);
+				line.dwComponentType = MIXERLINE_COMPONENTTYPE_SRC_SYNTHESIZER;
+				if(mixerGetLineInfo((HMIXEROBJ)hMixer, &line, MIXER_OBJECTF_HMIXER | MIXER_GETLINEINFOF_COMPONENTTYPE) != MMSYSERR_NOERROR){
 					throw gcnew Exception;
 				}
-				else{
-					// 准备
-					MIXERLINE line;
-					MIXERLINECONTROLS lc;
-					MIXERCONTROL ctrl;
-
-					line.cbStruct        = sizeof(MIXERLINE);
-					line.dwComponentType = MIXERLINE_COMPONENTTYPE_SRC_SYNTHESIZER;
-
-					if(mixerGetLineInfo((HMIXEROBJ)hMixer, &line, MIXER_OBJECTF_HMIXER | MIXER_GETLINEINFOF_COMPONENTTYPE) != MMSYSERR_NOERROR){
-						throw gcnew Exception;
-					}
-
-					lc.cbStruct      = sizeof(MIXERLINECONTROLS);
-					lc.dwLineID      = line.dwLineID;
-					lc.dwControlType = MIXERCONTROL_CONTROLTYPE_VOLUME;
-					lc.cControls     = 1;
-					lc.cbmxctrl      = sizeof(MIXERCONTROL);
-					lc.pamxctrl      = &ctrl;
-
-					if(mixerGetLineControls((HMIXEROBJ)hMixer, &lc, MIXER_OBJECTF_HMIXER | MIXER_GETLINECONTROLSF_ONEBYTYPE) != MMSYSERR_NOERROR){
-						throw gcnew Exception;
-					}
-
-					MixerControlID = ctrl.dwControlID;
-					MixerVolumeMin = ctrl.Bounds.dwMinimum;
-					MixerVolumeMax = ctrl.Bounds.dwMaximum;
-
-					// 壒検庢摼
-					MIXERCONTROLDETAILS mcd;
-					MIXERCONTROLDETAILS_UNSIGNED vol;
-
-					mcd.cbStruct       = sizeof(MIXERCONTROLDETAILS);
-					mcd.dwControlID    = ctrl.dwControlID;
-					mcd.cChannels      = 1;
-					mcd.cMultipleItems = 0;
-					mcd.cbDetails      = sizeof(MIXERCONTROLDETAILS_UNSIGNED);
-					mcd.paDetails      = &vol;
-
-					if(mixerGetControlDetails((HMIXEROBJ)hMixer, &mcd, MIXER_OBJECTF_HMIXER | MIXER_GETCONTROLDETAILSF_VALUE) != MMSYSERR_NOERROR){
-						throw gcnew Exception;
-					}
-
-					DWORD delta = MixerVolumeMax - MixerVolumeMin;
-					trackBarMidi->Value = ((vol.dwValue - MixerVolumeMin)*100 + delta/2)/delta;
-
-					labelMidi->Text = String::Format("{0,3}%", trackBarMidi->Value);
+				lc.cbStruct      = sizeof(MIXERLINECONTROLS);
+				lc.dwLineID      = line.dwLineID;
+				lc.dwControlType = MIXERCONTROL_CONTROLTYPE_VOLUME;
+				lc.cControls     = 1;
+				lc.cbmxctrl      = sizeof(MIXERCONTROL);
+				lc.pamxctrl      = &ctrl;
+				if(mixerGetLineControls((HMIXEROBJ)hMixer, &lc, MIXER_OBJECTF_HMIXER | MIXER_GETLINECONTROLSF_ONEBYTYPE) != MMSYSERR_NOERROR){
+					throw gcnew Exception;
 				}
-			}
-			catch(Exception^){
-				if(hMixer != NULL){
-					mixerClose(hMixer);
-					hMixer = NULL;
+				MixerControlID = ctrl.dwControlID;
+				MixerVolumeMin = ctrl.Bounds.dwMinimum;
+				MixerVolumeMax = ctrl.Bounds.dwMaximum;
+
+				MIXERCONTROLDETAILS mcd;
+				MIXERCONTROLDETAILS_UNSIGNED vol;
+				mcd.cbStruct       = sizeof(MIXERCONTROLDETAILS);
+				mcd.dwControlID    = ctrl.dwControlID;
+				mcd.cChannels      = 1;
+				mcd.cMultipleItems = 0;
+				mcd.cbDetails      = sizeof(MIXERCONTROLDETAILS_UNSIGNED);
+				mcd.paDetails      = &vol;
+				if(mixerGetControlDetails((HMIXEROBJ)hMixer, &mcd, MIXER_OBJECTF_HMIXER | MIXER_GETCONTROLDETAILSF_VALUE) != MMSYSERR_NOERROR){
+					throw gcnew Exception;
 				}
-
-				labelMidi->Text = gcnew String("xxx");
-				groupBoxMidi->Enabled = false;
+				DWORD delta = MixerVolumeMax - MixerVolumeMin;
+				trackBarMidi->Value = ((vol.dwValue - MixerVolumeMin)*100 + delta/2)/delta;
+				labelMidi->Text = String::Format("{0,3}%", trackBarMidi->Value);
 			}
-
-			if(MTWS.DIALOG_LEFT > 0 && MTWS.DIALOG_TOP > 0){
-				this->StartPosition = FormStartPosition::Manual;
-				this->Location = Point(MTWS.DIALOG_LEFT, MTWS.DIALOG_TOP);
-			}
-
-			buttonApply->Enabled = false;
 		}
+		catch(Exception^){
+			if(hMixer != NULL){
+				mixerClose(hMixer);
+				hMixer = NULL;
+			}
+			labelMidi->Text = gcnew String("xxx");
+			groupBoxMidi->Enabled = false;
+		}
+
+		if(MTWS.DIALOG_LEFT > 0 && MTWS.DIALOG_TOP > 0){
+			this->StartPosition = FormStartPosition::Manual;
+			this->Location = Point(MTWS.DIALOG_LEFT, MTWS.DIALOG_TOP);
+		}
+	} // !DesignMode 结束
+
+	buttonApply->Enabled = false;
+}
+
 
 		System::Void OptionForm_Shown(System::Object^  sender, System::EventArgs^  e) {
 			if(GameExePathError){
