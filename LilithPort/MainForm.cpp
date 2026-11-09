@@ -2965,7 +2965,7 @@ void MainForm::RunGame(Object^ obj)
 			NetVS->SEQUENCE = VS_END;
 			UDP->Send(gcnew array<BYTE>{ PH_VS_END }, 1, NetVS->IP_EP);
 
-			// ロック開放待ち
+			// 等待解锁
 			Monitor::Enter(NetVS->LOCAL);
 			Monitor::Exit(NetVS->LOCAL);
 			Monitor::Enter(NetVS->REMOTE);
