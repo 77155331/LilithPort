@@ -2137,13 +2137,13 @@
     <value>16, 76</value>
   </data>
   <data name="labelRound.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 12</value>
+    <value>53, 12</value>
   </data>
   <data name="labelRound.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="labelRound.Text" xml:space="preserve">
-    <value>回合数</value>
+    <value>回 合 数</value>
   </data>
   <data name="&gt;&gt;labelRound.Name" xml:space="preserve">
     <value>labelRound</value>
@@ -2164,13 +2164,13 @@
     <value>16, 104</value>
   </data>
   <data name="labelTimer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 12</value>
+    <value>65, 12</value>
   </data>
   <data name="labelTimer.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="labelTimer.Text" xml:space="preserve">
-    <value>时间</value>
+    <value>时间（秒）</value>
   </data>
   <data name="&gt;&gt;labelTimer.Name" xml:space="preserve">
     <value>labelTimer</value>
@@ -2239,7 +2239,7 @@
     <value>0</value>
   </data>
   <data name="labelMaxStage.Text" xml:space="preserve">
-    <value>最大关卡数</value>
+    <value>最大场景数</value>
   </data>
   <data name="&gt;&gt;labelMaxStage.Name" xml:space="preserve">
     <value>labelMaxStage</value>
@@ -2266,7 +2266,7 @@
     <value>0</value>
   </data>
   <data name="labelStageSelect.Text" xml:space="preserve">
-    <value>对战舞台</value>
+    <value>对战场景</value>
   </data>
   <data name="&gt;&gt;labelStageSelect.Name" xml:space="preserve">
     <value>labelStageSelect</value>
