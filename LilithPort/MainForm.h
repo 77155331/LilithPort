@@ -1275,7 +1275,7 @@ private: System::Windows::Forms::ToolStripMenuItem^  toolStripMenuItemClipBoardC
 					if(ps->Length > 0){
 						for(int i=0; i < ps->Length; i++){
 							if(ps[0]->MainWindowTitle == game){
-								WriteMessage(String::Format("{0}を終了します。\n", ps[0]->MainWindowTitle), SystemMessageColor);
+								WriteMessage(String::Format("{0}结束了。\n", ps[0]->MainWindowTitle), SystemMessageColor);
 								ps[0]->CloseMainWindow();
 							}
 						}
@@ -2279,7 +2279,7 @@ private: System::Windows::Forms::ToolStripMenuItem^  toolStripMenuItemClipBoardC
 			WatchHistory        = gcnew array<UINT16>(TIME_OUT/5 * 3);
 			InputHistory        = gcnew array<UINT16>(TIME_OUT/5 * 3);
 
-			// richtextboxのデフォルトfalseバグ対策
+			// richtextbox 默认 false 的 bug 对策
 			richTextBoxLog->AutoWordSelection = true;
 			richTextBoxLog->AutoWordSelection = false;
 
