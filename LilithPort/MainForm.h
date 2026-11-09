@@ -2291,7 +2291,14 @@ private: System::Windows::Forms::ToolStripMenuItem^  toolStripMenuItemClipBoardC
 
 			this->toolStripMenuItemVersion_Click(nullptr, nullptr);
 
-			if(MTINFO.SERVER_MODE){
+			if(MTCMD.ACTIVE){
+				// CLI mode: connection type/port/nick/room/game path are already set
+				if(!File::Exists(gcnew String(MTOPTION.GAME_EXE))){
+					WriteMessage(L"\u547D\u4EE4\u884C\u6A21\u5F0F\uFF1A\u627E\u4E0D\u5230\u6E38\u620F\u53EF\u6267\u884C\u6587\u4EF6\uFF0C\u8BF7\u7528 -g \u6307\u5B9A\u6216\u7A0D\u540E\u5728\u83DC\u5355\u91CC\u8BBE\u7F6E\u3002", SystemMessageColor);
+				}
+			}
+			else if(MTINFO.SERVER_MODE){
+
 				// 服务器模式启动
 				MTOPTION.CONNECTION_TYPE = CT_SERVER;
 				if(MTINFO.SERVER_MODE_PORT > 0){
@@ -2311,6 +2318,20 @@ private: System::Windows::Forms::ToolStripMenuItem^  toolStripMenuItemClipBoardC
 			}
 
 			Begin();
+
+			if(MTCMD.ACTIVE && MTCMD.AUTOSTART){
+				if(MTCMD.GAME_TYPE == (UINT)RT_PLAYBACK && MTCMD.REPLAY_FILE[0] != 0){
+					ReplayFilePath = gcnew String(MTCMD.REPLAY_FILE);
+				}
+
+				if(File::Exists(gcnew String(MTOPTION.GAME_EXE))){
+					StartGame(MTCMD.GAME_TYPE);
+				}
+				else{
+					WriteMessage(L"\u547D\u4EE4\u884C\u6A21\u5F0F\uFF1A\u6E38\u620F\u53EF\u6267\u884C\u6587\u4EF6\u65E0\u6548\uFF0C\u5DF2\u8DF3\u8FC7\u81EA\u52A8\u542F\u52A8\u3002", ErrorMessageColor);
+				}
+			}
+
 		}
 
 		System::Void MainForm_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
