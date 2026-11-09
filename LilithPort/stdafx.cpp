@@ -773,7 +773,8 @@ BSTR GetLocalIP(){
 		}
 		// 从主机名获取IP
 		memcpy(&inaddr, hostent->h_addr_list[0], 4);
-		strcpy(ip, inet_ntoa(inaddr));
+		//strcpy(ip, inet_ntoa(inaddr));
+		strcpy_s(ip, _countof(ip), inet_ntoa(inaddr));
 
 		// IP的字符串类型转换 CHAR -> TCHAR -> BSTR
 		TCHAR buf[sizeof(ip)];
