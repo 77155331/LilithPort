@@ -82,7 +82,8 @@ void MainForm::Begin()
 	if(UDP != nullptr && MTOPTION.CONNECTION_TYPE != CT_FREE){
 
 		// 保存设置
-		SaveMTOption();
+		// CLI mode does not persist its overrides
+		if(!MTCMD.ACTIVE) SaveMTOption();
 
 		// 自动休息线程启动
 		if(MTOPTION.AUTO_REST && MemberList[0]->STATE == MS_FREE){
