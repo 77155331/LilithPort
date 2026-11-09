@@ -5,16 +5,16 @@
 using namespace LilithPort;
 
 bool StartupForm::CheckValidate() {
-	// »Î¡¶•¡•ß•√•Ø
+	// ËæìÂÖ•Ê£ÄÊü•
 	IntPtr mp;
 	TCHAR p1[MAX_ARRAY];
 	TCHAR *p2;
 	if(radioButtonServer->Checked){
 		MTOPTION.CONNECTION_TYPE = CT_SERVER;
 
-		// •µ©`•–√˚•¡•ß•√•Ø
+		// ÊúçÂä°Âô®ÂêçÊ£ÄÊü•
 		if(textBoxServerName->Text->Length == 0){
-			MessageBox::Show("«Î ‰»Î∑˛ŒÒ∆˜√˚≥∆°£\n\n“™‘⁄∑˛ŒÒ∆˜ƒ£ Ωœ¬∆Ù∂Ø£¨\n–Ë“™ ‰»Î∑˛ŒÒ∆˜√˚≥∆°£", "∑˛ŒÒ∆˜ƒ£ Ω¥ÌŒÛŒÛ", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			MessageBox::Show("ËØ∑ËæìÂÖ•ÊúçÂä°Âô®ÂêçÁß∞„ÄÇ\n\nË¶ÅÂú®ÊúçÂä°Âô®Ê®°Âºè‰∏ãÂêØÂä®Ôºå\nÈúÄË¶ÅËæìÂÖ•ÊúçÂä°Âô®ÂêçÁß∞„ÄÇ", "ÊúçÂä°Âô®Ê®°ÂºèÈîôËØØËØØ", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
 			return false;
 		}
 		mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxServerName->Text);
@@ -22,7 +22,7 @@ bool StartupForm::CheckValidate() {
 		Runtime::InteropServices::Marshal::FreeHGlobal(mp);
 		p2 = _tcschr(p1, _T(','));
 		if (p2 != NULL){
-			MessageBox::Show("∑˛ŒÒ∆˜√˚≥∆÷–”–Œﬁ∑® π”√µƒ◊÷∑˚(,)°£\n«Î»∑»œ∑˛ŒÒ∆˜√˚≥∆°£", "∑˛ŒÒ∆˜ƒ£ Ω¥ÌŒÛ", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			MessageBox::Show("ÊúçÂä°Âô®ÂêçÁß∞‰∏≠ÊúâÊó†Ê≥ï‰ΩøÁî®ÁöÑÂ≠óÁ¨¶(,)„ÄÇ\nËØ∑Á°ÆËÆ§ÊúçÂä°Âô®ÂêçÁß∞„ÄÇ", "ÊúçÂä°Âô®Ê®°ÂºèÈîôËØØ", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
 			return false;
 		}
 	}
@@ -36,40 +36,40 @@ bool StartupForm::CheckValidate() {
 		MTOPTION.CONNECTION_TYPE = CT_FREE;
 	}
 	
-	// •µ©`•–√˚
+	// ÊúçÂä°Âô®Âêç
 	if(MTOPTION.CONNECTION_TYPE == CT_SERVER){
 		mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxServerName->Text);
 		_tcscpy_s(MTOPTION.SERVER_NAME, static_cast<PTCHAR>(mp.ToPointer()));
 		Runtime::InteropServices::Marshal::FreeHGlobal(mp);
 	}
 
-	// •¢•…•Ï•π»Î¡¶•¡•ß•√•Ø
+	// Âú∞ÂùÄËæìÂÖ•Ê£ÄÊü•
 	if(MTOPTION.CONNECTION_TYPE == CT_HOST || MTOPTION.CONNECTION_TYPE == CT_CLIENT) {
 		if(textBoxIP->Text->Length == 0){
-			MessageBox::Show("«Î ‰»Î¡¨Ω”µÿ÷∑°£\n\n“™‘⁄÷˜ª˙∂À,øÕªß∂Àƒ£ Ωœ¬∆Ù∂Ø£¨\n–Ë“™ ‰»Î¡¨Ω”µÿ÷∑°£", "÷˜ª˙∂À£¨øÕªß∂Àƒ£ Ω¥ÌŒÛ", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			MessageBox::Show("ËØ∑ËæìÂÖ•ËøûÊé•Âú∞ÂùÄ„ÄÇ\n\nË¶ÅÂú®‰∏ªÊú∫Á´Ø,ÂÆ¢Êà∑Á´ØÊ®°Âºè‰∏ãÂêØÂä®Ôºå\nÈúÄË¶ÅËæìÂÖ•ËøûÊé•Âú∞ÂùÄ„ÄÇ", "‰∏ªÊú∫Á´ØÔºåÂÆ¢Êà∑Á´ØÊ®°ÂºèÈîôËØØ", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
 			return false;
 		}
 		mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxIP->Text);
 		_tcscpy_s(p1, static_cast<PTCHAR>(mp.ToPointer()));
 		p2 = _tcschr(p1, _T(','));
 		if (p2 != NULL){
-			MessageBox::Show("¡¨Ω”µÿ÷∑÷–¥Ê‘⁄Œﬁ∑® π”√µƒ◊÷∑˚(,)°£\n«Î»∑»œ¡¨Ω”µÿ÷∑°£", "÷˜ª˙∂À£¨øÕªß∂Àƒ£ Ω¥ÌŒÛ", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			MessageBox::Show("ËøûÊé•Âú∞ÂùÄ‰∏≠Â≠òÂú®Êó†Ê≥ï‰ΩøÁî®ÁöÑÂ≠óÁ¨¶(,)„ÄÇ\nËØ∑Á°ÆËÆ§ËøûÊé•Âú∞ÂùÄ„ÄÇ", "‰∏ªÊú∫Á´ØÔºåÂÆ¢Êà∑Á´ØÊ®°ÂºèÈîôËØØ", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
 			return false;
 		}
 
-		// Ω”æA•¢•…•Ï•π
+		// ËøûÊé•Âú∞ÂùÄ
 		mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(textBoxIP->Text);
 		_tcscpy_s(MTOPTION.CONNECTION_IP, static_cast<PTCHAR>(mp.ToPointer()));
 		Runtime::InteropServices::Marshal::FreeHGlobal(mp);
 
 	}
 
-	// √˚«∞•¡•ß•√•Ø
+	// ÂêçÂ≠óÊ£ÄÊü•
 	if(textBoxName->Text->Length == 0){
 		textBoxName->Text = gcnew String(MTOPTION.NAME);
 
 		if(textBoxName->Text->Length == 0){
-			textBoxName->Text = gcnew String("ƒ‰√˚");
+			textBoxName->Text = gcnew String("ÂåøÂêç");
 		}
 	}
 
