@@ -871,7 +871,7 @@ void UPnP_PortOpenClose(bool s, bool auto_close){ /* open:close, auto:manual */
 			}
 		}
 		
-		if(){	// 开放
+		if(){  // 开放
 			if(maps->Add(port, proto, port, localip, VARIANT_TRUE, desc, &map) != S_OK){
 				MessageBox::Show("端口打开失败。" + errmes_tmp, mestitle, MessageBoxButtons::OK, MessageBoxIcon::Error);
 				if(MTINFO.DEBUG){Debug::WriteLine("UPnP > UDP端口打开失败");}
