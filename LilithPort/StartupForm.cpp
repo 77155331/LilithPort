@@ -233,6 +233,12 @@ void StartupForm::SearchServers()
 			// skip the local machine's own server
 			if(IPAddress::IsLoopback(ep->Address) || localIPs->Contains(ip)) continue;
 
+			// the same server answers every broadcast we send (each NIC, both ports),
+			// so keep only one entry per ip:port
+			String^ key = String::Format("{0}:{1}", ip, port);
+
+			if(SearchTargets->Contains(key)) continue;
+
 			String^ sname = name->Length > 0 ? name : "(未命名服务器)";
 			String^ entry = String::Format("{0}  {1}:{2}  人数:{3}", sname, ip, port, players);
 
@@ -240,7 +246,7 @@ void StartupForm::SearchServers()
 				entry = String::Format("{0}  {1}", entry, nick);
 			}
 
-			SearchTargets->Add(String::Format("{0}:{1}", ip, port));
+			SearchTargets->Add(key);
 			listBoxServers->Items->Add(entry);
 		}
 		catch(Exception^){
