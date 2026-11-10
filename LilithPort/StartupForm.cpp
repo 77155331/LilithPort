@@ -102,9 +102,9 @@ void StartupForm::InitSearchUI()
 	buttonSearch   = gcnew Button();
 	listBoxServers = gcnew ListBox();
 
-	groupBoxSearch->Text     = "服务器搜索 (LAN / n2n)";
+	groupBoxSearch->Text     = "服务器搜索 ( LAN / N2N )";
 	groupBoxSearch->Location = Drawing::Point(12, 236);
-	groupBoxSearch->Size     = Drawing::Size(396, 110);
+	groupBoxSearch->Size     = Drawing::Size(396, 140);
 
 	buttonSearch->Text     = "搜索服务器";
 	buttonSearch->Location = Drawing::Point(10, 20);
@@ -112,7 +112,7 @@ void StartupForm::InitSearchUI()
 	buttonSearch->Click   += gcnew EventHandler(this, &StartupForm::buttonSearch_Click);
 
 	listBoxServers->Location       = Drawing::Point(10, 50);
-	listBoxServers->Size           = Drawing::Size(376, 50);
+	listBoxServers->Size           = Drawing::Size(376, 80);
 	listBoxServers->IntegralHeight = false;
 	listBoxServers->DoubleClick   += gcnew EventHandler(this, &StartupForm::listBoxServers_DoubleClick);
 
@@ -120,7 +120,7 @@ void StartupForm::InitSearchUI()
 	groupBoxSearch->Controls->Add(listBoxServers);
 	this->Controls->Add(groupBoxSearch);
 
-	this->ClientSize = Drawing::Size(423, 356);
+	this->ClientSize = Drawing::Size(423, 386);
 }
 
 void StartupForm::SearchServers()
@@ -144,11 +144,31 @@ void StartupForm::SearchServers()
 	req[0] = (BYTE)PH_DISCOVER_REQ;
 	req[1] = (BYTE)LP_VERSION;
 
-	// limited broadcast
+	// every local address: the server running on this machine is hidden from the list
+	Generic::List<String^>^ localIPs = gcnew Generic::List<String^>();
+
 	try{
-		udp->Send(req, req->Length, gcnew IPEndPoint(IPAddress::Broadcast, DISCOVERY_PORT));
+		for each(System::Net::NetworkInformation::NetworkInterface^ ni in System::Net::NetworkInformation::NetworkInterface::GetAllNetworkInterfaces()){
+			for each(System::Net::NetworkInformation::UnicastIPAddressInformation^ ua in ni->GetIPProperties()->UnicastAddresses){
+				if(ua->Address->AddressFamily != System::Net::Sockets::AddressFamily::InterNetwork) continue;
+
+				localIPs->Add(ua->Address->ToString());
+			}
+		}
 	}
 	catch(Exception^){
+	}
+
+	// both the main and the spare discovery port are probed
+	UINT discoverPorts[2] = { DISCOVERY_PORT, DISCOVERY_PORT_ALT };
+
+	// limited broadcast
+	for(int pi = 0; pi < 2; pi++){
+		try{
+			udp->Send(req, req->Length, gcnew IPEndPoint(IPAddress::Broadcast, discoverPorts[pi]));
+		}
+		catch(Exception^){
+		}
 	}
 
 	// subnet broadcast of every up interface (covers LAN and n2n virtual adapter)
@@ -171,10 +191,12 @@ void StartupForm::SearchServers()
 					bca[k] = (BYTE)(addr[k] | ((~msk[k]) & 0xFF));
 				}
 
-				try{
-					udp->Send(req, req->Length, gcnew IPEndPoint(gcnew IPAddress(bca), DISCOVERY_PORT));
-				}
-				catch(Exception^){
+				for(int pi = 0; pi < 2; pi++){
+					try{
+						udp->Send(req, req->Length, gcnew IPEndPoint(gcnew IPAddress(bca), discoverPorts[pi]));
+					}
+					catch(Exception^){
+					}
 				}
 			}
 		}
@@ -205,13 +227,17 @@ void StartupForm::SearchServers()
 			array<BYTE>^ cm = pd->Divide(clen);
 
 			String^ name = Encoding::Unicode->GetString(nm);
-			String^ sign = Encoding::Unicode->GetString(cm);
+			String^ nick = Encoding::Unicode->GetString(cm);
 			String^ ip   = ep->Address->ToString();
 
-			String^ entry = String::Format("{0}  {1}:{2}  人数:{3}", name, ip, port, players);
+			// skip the local machine's own server
+			if(IPAddress::IsLoopback(ep->Address) || localIPs->Contains(ip)) continue;
 
-			if(sign->Length > 0){
-				entry = String::Format("{0}  -  {1}", entry, sign);
+			String^ sname = name->Length > 0 ? name : "(未命名服务器)";
+			String^ entry = String::Format("{0}  {1}:{2}  人数:{3}", sname, ip, port, players);
+
+			if(nick->Length > 0){
+				entry = String::Format("{0}  {1}", entry, nick);
 			}
 
 			SearchTargets->Add(String::Format("{0}:{1}", ip, port));
@@ -229,7 +255,7 @@ void StartupForm::SearchServers()
 	}
 
 	if(listBoxServers->Items->Count == 0){
-		listBoxServers->Items->Add("没有搜到服务器（确认房主已开房，且防火墙放行 UDP 7510）");
+		listBoxServers->Items->Add("没有服务器（防火墙请放行 UDP 7510/7511；本机会被自动屏蔽）");
 	}
 }
 
@@ -252,5 +278,5 @@ System::Void StartupForm::listBoxServers_DoubleClick(System::Object^ sender, Sys
 	if(index < 0 || index >= SearchTargets->Count) return;
 
 	textBoxIP->Text = SearchTargets[index];
-	radioButtonClient->Checked = true;
+	radioButtonHost->Checked = true;
 }
