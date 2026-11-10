@@ -3659,17 +3659,24 @@ void MainForm::RunDiscovery()
 			}
 
 			array<BYTE>^ name = Encoding::Unicode->GetBytes(ServerName);
-			array<BYTE>^ cmnt = Encoding::Unicode->GetBytes(gcnew String(MTOPTION.COMMENT));
 
-			UINT players = 0;
+			UINT    players = 0;
+			String^ nick    = gcnew String(MTOPTION.NAME);
 
 			Monitor::Enter(MemberList);
 			try{
 				players = MemberList->Count > 0 ? MemberList->Count - 1 : 0;
+
+				// MemberList[0] is the server itself: use its current nickname
+				if(MemberList->Count > 0 && MemberList[0]->NAME != nullptr && MemberList[0]->NAME->Length > 0){
+					nick = MemberList[0]->NAME;
+				}
 			}
 			finally{
 				Monitor::Exit(MemberList);
 			}
+
+			array<BYTE>^ nickBytes = Encoding::Unicode->GetBytes(nick);
 
 			PacketPacker^ pp = gcnew PacketPacker();
 
@@ -3679,8 +3686,8 @@ void MainForm::RunDiscovery()
 			pp->Pack(BitConverter::GetBytes((UINT16)players));
 			pp->Pack((BYTE)(name->Length > 250 ? 250 : name->Length));
 			pp->Pack(name);
-			pp->Pack((BYTE)(cmnt->Length > 250 ? 250 : cmnt->Length));
-			pp->Pack(cmnt);
+			pp->Pack((BYTE)(nickBytes->Length > 250 ? 250 : nickBytes->Length));
+			pp->Pack(nickBytes);
 
 			DiscoveryUDP->Send(pp->Packet, pp->Length, ep);
 
@@ -3692,23 +3699,44 @@ void MainForm::RunDiscovery()
 	}
 }
 
+static UdpClient^ TryBindDiscovery(UINT port)
+{
+    try
+    {
+        UdpClient^ udp = gcnew UdpClient();
+        Socket^ sock = udp->Client;
+        sock->SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::ReuseAddress, 1);
+        sock->Bind(gcnew IPEndPoint(IPAddress::Any, port));
+        return udp;
+    }
+    catch(Exception^)
+    {
+        return nullptr;
+    }
+}
+
 void MainForm::StartDiscovery()
 {
 	StopDiscovery();
 
-	try{
-		DiscoveryUDP     = gcnew UdpClient(DISCOVERY_PORT);
-		DiscoveryRunning = true;
+	DiscoveryUDP = TryBindDiscovery(DISCOVERY_PORT);
 
-		DiscoveryThread = gcnew Thread(gcnew ThreadStart(this, &MainForm::RunDiscovery));
-		DiscoveryThread->IsBackground = true;
-		DiscoveryThread->Start();
+	// the fixed port may be taken by another program: fall back to the spare one
+	if(DiscoveryUDP == nullptr){
+		DiscoveryUDP = TryBindDiscovery(DISCOVERY_PORT_ALT);
 	}
-	catch(Exception^){
-		DiscoveryUDP     = nullptr;
+
+	if(DiscoveryUDP == nullptr){
 		DiscoveryThread  = nullptr;
 		DiscoveryRunning = false;
+		return;
 	}
+
+	DiscoveryRunning = true;
+
+	DiscoveryThread = gcnew Thread(gcnew ThreadStart(this, &MainForm::RunDiscovery));
+	DiscoveryThread->IsBackground = true;
+	DiscoveryThread->Start();
 }
 
 void MainForm::StopDiscovery()
