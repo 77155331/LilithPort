@@ -177,7 +177,7 @@ void OptionForm::SaveOption(bool apply){
 	SaveMTOption();
 }
 void OptionForm::CloseOption(){
-	MainForm^ parent = safe_cast<MainForm^>(this->拥有者);
+	MainForm^ parent = safe_cast<MainForm^>(this->Owner);
 	parent->ChangeProfileEnabled();
 }
 bool OptionForm::CheckTextProfileName(String^ buf){
