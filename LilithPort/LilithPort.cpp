@@ -111,6 +111,113 @@ bool LoadGameIniOption()
 	return true;
 }
 
+// ---------------------------------------------------------------------------
+// -auto : look for a server on the LAN / n2n; join it as CT_HOST when found
+//         (same discovery rules as the search dialog, but headless)
+// ---------------------------------------------------------------------------
+static bool AutoFindServer(String^% ipPort, UINT timeoutMs)
+{
+	UdpClient^ udp = nullptr;
+
+	try{
+		udp = gcnew UdpClient();
+		udp->EnableBroadcast = true;
+		udp->Client->ReceiveTimeout = 120;
+	}
+	catch(Exception^){
+		return false;
+	}
+
+	array<BYTE>^ req = gcnew array<BYTE>(2);
+	req[0] = (BYTE)PH_DISCOVER_REQ;
+	req[1] = (BYTE)LP_VERSION;
+
+	UINT ports[2] = { DISCOVERY_PORT, DISCOVERY_PORT_ALT };
+
+	// every local address: a server on this machine must not be picked
+	Generic::List<String^>^ localIPs = gcnew Generic::List<String^>();
+
+	try{
+		for(int pi = 0; pi < 2; pi++){
+			try{
+				udp->Send(req, req->Length, gcnew IPEndPoint(IPAddress::Broadcast, ports[pi]));
+			}
+			catch(Exception^){
+			}
+		}
+
+		for each(System::Net::NetworkInformation::NetworkInterface^ ni in System::Net::NetworkInformation::NetworkInterface::GetAllNetworkInterfaces()){
+			if(ni->OperationalStatus != System::Net::NetworkInformation::OperationalStatus::Up) continue;
+			if(ni->NetworkInterfaceType == System::Net::NetworkInformation::NetworkInterfaceType::Loopback) continue;
+
+			for each(System::Net::NetworkInformation::UnicastIPAddressInformation^ ua in ni->GetIPProperties()->UnicastAddresses){
+				if(ua->Address->AddressFamily != System::Net::Sockets::AddressFamily::InterNetwork) continue;
+
+				localIPs->Add(ua->Address->ToString());
+
+				IPAddress^ mask = ua->IPv4Mask;
+				if(mask == nullptr) continue;
+
+				array<BYTE>^ addr = ua->Address->GetAddressBytes();
+				array<BYTE>^ msk  = mask->GetAddressBytes();
+				array<BYTE>^ bca  = gcnew array<BYTE>(4);
+
+				for(int k = 0; k < 4; k++){
+					bca[k] = (BYTE)(addr[k] | ((~msk[k]) & 0xFF));
+				}
+
+				for(int pi = 0; pi < 2; pi++){
+					try{
+						udp->Send(req, req->Length, gcnew IPEndPoint(gcnew IPAddress(bca), ports[pi]));
+					}
+					catch(Exception^){
+					}
+				}
+			}
+		}
+	}
+	catch(Exception^){
+	}
+
+	bool found = false;
+	UINT start = (UINT)Environment::TickCount;
+
+	while(((UINT)Environment::TickCount - start) < timeoutMs){
+		try{
+			IPEndPoint^ ep   = gcnew IPEndPoint(IPAddress::Any, 0);
+			array<BYTE>^ rcv = udp->Receive(ep);
+
+			if(rcv->Length < 8) continue;
+
+			PacketDivider^ pd = gcnew PacketDivider(rcv);
+
+			if(pd->Divide() != (BYTE)PH_DISCOVER_RES) continue;
+			pd->Divide();                                                  // version
+
+			UINT16 port = BitConverter::ToUInt16(pd->Divide(2), 0);
+
+			String^ ip = ep->Address->ToString();
+
+			if(IPAddress::IsLoopback(ep->Address) || localIPs->Contains(ip)) continue;
+
+			ipPort = String::Format("{0}:{1}", ip, port);
+			found  = true;
+
+			break;
+		}
+		catch(Exception^){
+		}
+	}
+
+	try{
+		udp->Close();
+	}
+	catch(Exception^){
+	}
+
+	return found;
+}
+
 // Parse the command line. Must be called after LoadMTOption()/CheckMTOption()
 bool ParseCommandLine(array<String^>^ args)
 {
@@ -140,6 +247,7 @@ bool ParseCommandLine(array<String^>^ args)
 	bool flagFree     = false;
 	bool flagJoinHost = false;
 	bool portGiven    = false;
+	bool flagAuto     = false;
 	UINT optPort      = 0;
 	UINT tmpPort      = 0;
 
@@ -258,7 +366,26 @@ bool ParseCommandLine(array<String^>^ args)
 		else if(key == "-f" || key == "--free" || key == "-free"){
 			flagFree = true;
 		}
+		else if(key == "-auto" || key == "--auto" || key == "-find" || key == "--find" || key == "-as" || key == "--as"){
+			flagAuto = true;
+		}
 		// unknown arguments are ignored
+	}
+
+	// ---------------------------- -auto: decide the role from the discovery result
+	if(flagAuto){
+		String^ found = nullptr;
+
+		if(AutoFindServer(found, 1500)){
+			// a server answered: join it as CT_HOST
+			optConnect   = found;
+			flagClient   = true;
+			flagJoinHost = true;
+		}
+		else{
+			// nobody answered: become the server
+			flagHost = true;
+		}
 	}
 
 	// ---------------------------- apply to global settings
@@ -386,7 +513,7 @@ bool ParseCommandLine(array<String^>^ args)
 		MTOPTION.TIMER = MTCMD.TIMER;
 	}
 
-	MTCMD.ACTIVE = (flagHost || flagClient || flagFree || MTCMD.AUTOSTART
+	MTCMD.ACTIVE = (flagHost || flagClient || flagFree || flagAuto || MTCMD.AUTOSTART
 		|| optNick != nullptr || optRoom != nullptr || optGame != nullptr
 		|| optReplay != nullptr || MTCMD.STAGE > 0 || MTCMD.ROUND > 0 || MTCMD.TIMER > 0);
 
@@ -395,7 +522,25 @@ bool ParseCommandLine(array<String^>^ args)
 
 void ShowCommandLineHelp()
 {
-	MessageBox::Show(L"LilithPort \u547D\u4EE4\u884C\u542F\u52A8\u53C2\u6570\n\n\u8FDE\u63A5 / \u623F\u95F4\n  -c, --connect <ip[:port]>   \u76F4\u8FDE\u670D\u52A1\u5668\u5E76\u8FDB\u623F\n  -ip <ip[:port]>             \u540C -c\n  -jh, --join-host <ip[:port]>  \u4EE5\u4E3B\u673A\u8EAB\u4EFD\u8FDB\u522B\u4EBA\u7684\u623F\n  -s, --server [port]         \u672C\u673A\u5F00\u623F(\u670D\u52A1\u5668\u6A21\u5F0F)\n  -host [port]                \u540C -s\n  -p, --port <port>           \u8FDE\u63A5/\u76D1\u542C\u7AEF\u53E3\n  -room, --room <name>        \u623F\u95F4\u540D(\u670D\u52A1\u5668\u663E\u793A\u540D)\n  -n, --nick <name>           \u6635\u79F0\n  -motd <text>                \u670D\u52A1\u5668\u516C\u544A (_ = \u6362\u884C, \u4E0D\u8D85\u8FC7 120 \u5B57)\n  -sign <text>                \u6635\u79F0\u540E\u9762\u7684\u7B7E\u540D (\u4E0D\u8D85\u8FC7 32 \u5B57)\n  -f, --free                  \u5355\u673A\u6A21\u5F0F(\u4E0D\u8054\u7F51)\n\n\u6E38\u620F\n  -g, --game <exe>            \u6307\u5B9A 2DFM \u6E38\u620F\u53EF\u6267\u884C\u6587\u4EF6\n  -a, --autostart             \u542F\u52A8\u540E\u81EA\u52A8\u8FD0\u884C\u6E38\u620F(\u5355\u673A\u5BF9\u6218)\n  -replay <file.mtr>          \u542F\u52A8\u540E\u81EA\u52A8\u64AD\u653E\u5F55\u50CF\n  -stage <n>                  \u6307\u5B9A\u573A\u666F\u53F7(\u4ECE 1 \u5F00\u59CB)\n  -round <n>                  \u9ED8\u8BA4\u56DE\u5408\u6570\n  -timer <n>                  \u9ED8\u8BA4\u65F6\u95F4(\u79D2, 0=\u4E0D\u9650)\n\n\u5176\u5B83\n  -h, --help                  \u663E\u793A\u672C\u5E2E\u52A9", _T("LilithPort"), MessageBoxButtons::OK, MessageBoxIcon::Information);
+    String^ helpText = 
+        L"LilithPort 命令行启动参数\r\n"
+        L"\r\n"
+        L"-s [port]        启动服务端(主机)，端口可选，默认7500\r\n"
+        L"-c <ip:port>     连接到远程主机\r\n"
+        L"-n <name>        玩家昵称\r\n"
+        L"-room <str>      服务器名称\r\n"
+        L"-motd <str>      服务器公告\r\n"
+        L"-sign <str>      玩家签名\r\n"
+        L"-g <exe_path>    游戏EXE路径\r\n"
+        L"-a               准备就绪后自动启动游戏\r\n"
+        L"-f               离线自由模式\r\n"
+        L"-stage <num>     选择关卡编号\r\n"
+        L"-round <num>     对局回合数\r\n"
+        L"-timer <num>     对战倒计时\r\n"
+        L"-auto            自动搜索服务器，有房就加入，无房自建\r\n"
+        L"-h               显示本帮助\r\n";
+
+    MessageBox::Show(helpText, L"帮助");
 }
 
 
