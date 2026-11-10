@@ -960,6 +960,11 @@ private: System::Windows::Forms::ToolStripMenuItem^  toolStripMenuItemClipBoardC
 		static OptionForm^ Option;
 
 		static bool IsFormClosing;
+
+		// LAN / n2n server discovery
+		UdpClient^ DiscoveryUDP;
+		Thread^    DiscoveryThread;
+		bool       DiscoveryRunning;
 		static SERVER_MODE ServerMode;
 		static LIST_VIEW ListView;
 		static String^ ReplayFilePath;
@@ -1067,6 +1072,9 @@ private: System::Windows::Forms::ToolStripMenuItem^  toolStripMenuItemClipBoardC
 
 		// 写在MainForm.cpp里
 		void Begin();
+		void StartDiscovery();
+		void StopDiscovery();
+		void RunDiscovery();
 		void TimerGetIP();
 		void SetTeamHP();
 		void RunSonar();
@@ -2353,6 +2361,7 @@ private: System::Windows::Forms::ToolStripMenuItem^  toolStripMenuItemClipBoardC
 			}
 
 			QuitWatch(true);
+			StopDiscovery();
 			CloseUdp(true);
 
 			// 取消IP获取
