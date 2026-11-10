@@ -27,6 +27,7 @@ namespace LilithPort {
 		StartupForm(void)
 		{
 			InitializeComponent();
+			InitSearchUI();
 			//
 			//TODO:在此处添加构造函数代码
 			//
@@ -69,6 +70,10 @@ namespace LilithPort {
 	private: System::Windows::Forms::RichTextBox^  textBoxWelcome;
 	private: System::Windows::Forms::ToolTip^  toolTipStartupForm;
 	private: System::Windows::Forms::Button^  buttonConnect;
+	private: System::Windows::Forms::GroupBox^ groupBoxSearch;          // LAN / n2n 服务器搜索
+	private: System::Windows::Forms::Button^   buttonSearch;
+	private: System::Windows::Forms::ListBox^  listBoxServers;
+	private: Generic::List<String^>^           SearchTargets;
 	private: System::Windows::Forms::Button^  buttonOpenPortUPnP;
 	private: System::Windows::Forms::Button^  buttonClosePortUPnP;
 	private: System::Windows::Forms::Label^  labelButtonUPnP;
@@ -457,6 +462,10 @@ namespace LilithPort {
 
 		// StartupForm.cpp
 		bool StartupForm::CheckValidate();
+		void InitSearchUI();
+		void SearchServers();
+		System::Void buttonSearch_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void listBoxServers_DoubleClick(System::Object^ sender, System::EventArgs^ e);
 
 	private:
 
