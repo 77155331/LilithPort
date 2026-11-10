@@ -226,6 +226,7 @@ const UINT MAX_PROFILE = 2048;
 
 const BYTE TYMT_VERSION = 6;
 const UINT TIME_OUT = 3000;
+const UINT DISCOVERY_PORT = 7510;      // LAN / n2n server search port
 
 // 团队游戏人数
 const UINT MAX_TEAM_ROUND = 4;
@@ -449,6 +450,8 @@ typedef enum {
 	PH_WATCH_DATA,       // 4:frame 40:10一帧的数据
 	PH_WATCH_END,        // 2:如果是自己的ID就结束观看，如果是其他ID就从列表中删除
 	PH_SECRET,           // 1:type n:按类型各种各样
+	PH_DISCOVER_REQ,     // 1:version  (LAN / n2n server search request)
+	PH_DISCOVER_RES,     // 1:version 2:port 2:players 1:name_l n:name 1:comment_l n:comment
 } MT_SP_PACKET_HEADER;
 
 typedef enum {
