@@ -226,7 +226,8 @@ const UINT MAX_PROFILE = 2048;
 
 const BYTE TYMT_VERSION = 6;
 const UINT TIME_OUT = 3000;
-const UINT DISCOVERY_PORT = 7510;      // LAN / n2n server search port
+const UINT DISCOVERY_PORT     = 7510;  // LAN / n2n server search port
+const UINT DISCOVERY_PORT_ALT = 7511;  // spare port, used when 7510 is taken
 
 // 团队游戏人数
 const UINT MAX_TEAM_ROUND = 4;
