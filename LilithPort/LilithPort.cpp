@@ -133,6 +133,7 @@ bool ParseCommandLine(array<String^>^ args)
 	String^ optConnect = nullptr;
 	String^ optReplay  = nullptr;
 	String^ optMotd    = nullptr;
+	String^ optSign    = nullptr;
 
 	bool flagHost     = false;
 	bool flagClient   = false;
@@ -236,6 +237,12 @@ bool ParseCommandLine(array<String^>^ args)
 				optMotd = v;
 			}
 		}
+		else if(key == "-sign" || key == "--sign" || key == "-comment" || key == "--comment" || key == "-sig" || key == "--sig"){
+			String^ v = CLIGetValue(args, i, val);
+			if(v != nullptr && v->Length > 0){
+				optSign = v;
+			}
+		}
 		else if(key == "-stage" || key == "--stage"){
 			String^ v = CLIGetValue(args, i, val);
 			if(v != nullptr && CLIStringToUInt(v, tmpPort)) MTCMD.STAGE = tmpPort;
@@ -299,6 +306,11 @@ bool ParseCommandLine(array<String^>^ args)
 
 	if(optNick != nullptr){
 		CLICopyTchar(optNick, MTOPTION.NAME, MAX_NAME);
+	}
+
+	// Signature (the text shown after the nickname in the member list)
+	if(optSign != nullptr && optSign->Length > 0){
+		CLICopyTchar(optSign, MTOPTION.COMMENT, MAX_NAME);
 	}
 
 	if(optRoom != nullptr){
@@ -383,7 +395,7 @@ bool ParseCommandLine(array<String^>^ args)
 
 void ShowCommandLineHelp()
 {
-	MessageBox::Show(L"LilithPort \u547D\u4EE4\u884C\u542F\u52A8\u53C2\u6570\n\n\u8FDE\u63A5 / \u623F\u95F4\n  -c, --connect <ip[:port]>   \u76F4\u8FDE\u670D\u52A1\u5668\u5E76\u8FDB\u623F\n  -ip <ip[:port]>             \u540C -c\n  -jh, --join-host <ip[:port]>  \u4EE5\u4E3B\u673A\u8EAB\u4EFD\u8FDB\u522B\u4EBA\u7684\u623F\n  -s, --server [port]         \u672C\u673A\u5F00\u623F(\u670D\u52A1\u5668\u6A21\u5F0F)\n  -host [port]                \u540C -s\n  -p, --port <port>           \u8FDE\u63A5/\u76D1\u542C\u7AEF\u53E3\n  -room, --room <name>        \u623F\u95F4\u540D(\u670D\u52A1\u5668\u663E\u793A\u540D)\n  -n, --nick <name>           \u6635\u79F0\n  -motd <text>                \u670D\u52A1\u5668\u516C\u544A (_ = \u6362\u884C, \u4E0D\u8D85\u8FC7 120 \u5B57)\n  -f, --free                  \u5355\u673A\u6A21\u5F0F(\u4E0D\u8054\u7F51)\n\n\u6E38\u620F\n  -g, --game <exe>            \u6307\u5B9A 2DFM \u6E38\u620F\u53EF\u6267\u884C\u6587\u4EF6\n  -a, --autostart             \u542F\u52A8\u540E\u81EA\u52A8\u8FD0\u884C\u6E38\u620F(\u5355\u673A\u5BF9\u6218)\n  -replay <file.mtr>          \u542F\u52A8\u540E\u81EA\u52A8\u64AD\u653E\u5F55\u50CF\n  -stage <n>                  \u6307\u5B9A\u573A\u666F\u53F7(\u4ECE 1 \u5F00\u59CB)\n  -round <n>                  \u9ED8\u8BA4\u56DE\u5408\u6570\n  -timer <n>                  \u9ED8\u8BA4\u65F6\u95F4(\u79D2, 0=\u4E0D\u9650)\n\n\u5176\u5B83\n  -h, --help                  \u663E\u793A\u672C\u5E2E\u52A9", _T("LilithPort"), MessageBoxButtons::OK, MessageBoxIcon::Information);
+	MessageBox::Show(L"LilithPort \u547D\u4EE4\u884C\u542F\u52A8\u53C2\u6570\n\n\u8FDE\u63A5 / \u623F\u95F4\n  -c, --connect <ip[:port]>   \u76F4\u8FDE\u670D\u52A1\u5668\u5E76\u8FDB\u623F\n  -ip <ip[:port]>             \u540C -c\n  -jh, --join-host <ip[:port]>  \u4EE5\u4E3B\u673A\u8EAB\u4EFD\u8FDB\u522B\u4EBA\u7684\u623F\n  -s, --server [port]         \u672C\u673A\u5F00\u623F(\u670D\u52A1\u5668\u6A21\u5F0F)\n  -host [port]                \u540C -s\n  -p, --port <port>           \u8FDE\u63A5/\u76D1\u542C\u7AEF\u53E3\n  -room, --room <name>        \u623F\u95F4\u540D(\u670D\u52A1\u5668\u663E\u793A\u540D)\n  -n, --nick <name>           \u6635\u79F0\n  -motd <text>                \u670D\u52A1\u5668\u516C\u544A (_ = \u6362\u884C, \u4E0D\u8D85\u8FC7 120 \u5B57)\n  -sign <text>                \u6635\u79F0\u540E\u9762\u7684\u7B7E\u540D (\u4E0D\u8D85\u8FC7 32 \u5B57)\n  -f, --free                  \u5355\u673A\u6A21\u5F0F(\u4E0D\u8054\u7F51)\n\n\u6E38\u620F\n  -g, --game <exe>            \u6307\u5B9A 2DFM \u6E38\u620F\u53EF\u6267\u884C\u6587\u4EF6\n  -a, --autostart             \u542F\u52A8\u540E\u81EA\u52A8\u8FD0\u884C\u6E38\u620F(\u5355\u673A\u5BF9\u6218)\n  -replay <file.mtr>          \u542F\u52A8\u540E\u81EA\u52A8\u64AD\u653E\u5F55\u50CF\n  -stage <n>                  \u6307\u5B9A\u573A\u666F\u53F7(\u4ECE 1 \u5F00\u59CB)\n  -round <n>                  \u9ED8\u8BA4\u56DE\u5408\u6570\n  -timer <n>                  \u9ED8\u8BA4\u65F6\u95F4(\u79D2, 0=\u4E0D\u9650)\n\n\u5176\u5B83\n  -h, --help                  \u663E\u793A\u672C\u5E2E\u52A9", _T("LilithPort"), MessageBoxButtons::OK, MessageBoxIcon::Information);
 }
 
 
