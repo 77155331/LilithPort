@@ -101,6 +101,9 @@ void MainForm::Begin()
 			SonarThread = gcnew Thread(gcnew ThreadStart(this, &MainForm::RunSonar));
 			SonarThread->Start();
 
+			// LAN / n2n server discovery
+			StartDiscovery();
+
 			this->Text += String::Format("  [{0}] [服务端 端口:{1}]", ServerName, MTOPTION.OPEN_PORT);
 			WriteTime(0, SystemMessageColor);
 			WriteMessage("服务端已就绪。\n[服务器公告]\n-------------------------------\n", SystemMessageColor);
@@ -3638,4 +3641,95 @@ void MainForm::SaveLog(){
 	}
 
 	WriteMessage(String::Format("\"{0}\"已保存日志。\n", file), SystemMessageColor);
+}
+
+
+// ---------------------------------------------------------------------------
+// LAN / n2n server discovery
+// ---------------------------------------------------------------------------
+void MainForm::RunDiscovery()
+{
+	while(DiscoveryRunning && DiscoveryUDP != nullptr){
+		try{
+			IPEndPoint^ ep   = gcnew IPEndPoint(IPAddress::Any, 0);
+			array<BYTE>^ rcv = DiscoveryUDP->Receive(ep);
+
+			if(rcv->Length < 1 || rcv[0] != (BYTE)PH_DISCOVER_REQ){
+				continue;
+			}
+
+			array<BYTE>^ name = Encoding::Unicode->GetBytes(ServerName);
+			array<BYTE>^ cmnt = Encoding::Unicode->GetBytes(gcnew String(MTOPTION.COMMENT));
+
+			UINT players = 0;
+
+			Monitor::Enter(MemberList);
+			try{
+				players = MemberList->Count > 0 ? MemberList->Count - 1 : 0;
+			}
+			finally{
+				Monitor::Exit(MemberList);
+			}
+
+			PacketPacker^ pp = gcnew PacketPacker();
+
+			pp->Pack((BYTE)PH_DISCOVER_RES);
+			pp->Pack((BYTE)LP_VERSION);
+			pp->Pack(BitConverter::GetBytes((UINT16)MTOPTION.OPEN_PORT));
+			pp->Pack(BitConverter::GetBytes((UINT16)players));
+			pp->Pack((BYTE)(name->Length > 250 ? 250 : name->Length));
+			pp->Pack(name);
+			pp->Pack((BYTE)(cmnt->Length > 250 ? 250 : cmnt->Length));
+			pp->Pack(cmnt);
+
+			DiscoveryUDP->Send(pp->Packet, pp->Length, ep);
+
+			delete pp;
+		}
+		catch(Exception^){
+			Thread::Sleep(20);
+		}
+	}
+}
+
+void MainForm::StartDiscovery()
+{
+	StopDiscovery();
+
+	try{
+		DiscoveryUDP     = gcnew UdpClient(DISCOVERY_PORT);
+		DiscoveryRunning = true;
+
+		DiscoveryThread = gcnew Thread(gcnew ThreadStart(this, &MainForm::RunDiscovery));
+		DiscoveryThread->IsBackground = true;
+		DiscoveryThread->Start();
+	}
+	catch(Exception^){
+		DiscoveryUDP     = nullptr;
+		DiscoveryThread  = nullptr;
+		DiscoveryRunning = false;
+	}
+}
+
+void MainForm::StopDiscovery()
+{
+	DiscoveryRunning = false;
+
+	if(DiscoveryUDP != nullptr){
+		try{
+			DiscoveryUDP->关闭();
+		}
+		catch(Exception^){
+		}
+		DiscoveryUDP = nullptr;
+	}
+
+	if(DiscoveryThread != nullptr){
+		try{
+			DiscoveryThread->Join(500);
+		}
+		catch(Exception^){
+		}
+		DiscoveryThread = nullptr;
+	}
 }
