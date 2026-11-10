@@ -132,11 +132,7 @@ namespace LilithPort {
 			// 
 			// radioButtonServer
 			// 
-			this->radioButtonServer->AccessibleDescription = nullptr;
-			this->radioButtonServer->AccessibleName = nullptr;
 			resources->ApplyResources(this->radioButtonServer, L"radioButtonServer");
-			this->radioButtonServer->BackgroundImage = nullptr;
-			this->radioButtonServer->Font = nullptr;
 			this->radioButtonServer->Name = L"radioButtonServer";
 			this->toolTipStartupForm->SetToolTip(this->radioButtonServer, resources->GetString(L"radioButtonServer.ToolTip"));
 			this->radioButtonServer->UseVisualStyleBackColor = true;
@@ -144,11 +140,7 @@ namespace LilithPort {
 			// 
 			// radioButtonHost
 			// 
-			this->radioButtonHost->AccessibleDescription = nullptr;
-			this->radioButtonHost->AccessibleName = nullptr;
 			resources->ApplyResources(this->radioButtonHost, L"radioButtonHost");
-			this->radioButtonHost->BackgroundImage = nullptr;
-			this->radioButtonHost->Font = nullptr;
 			this->radioButtonHost->Name = L"radioButtonHost";
 			this->toolTipStartupForm->SetToolTip(this->radioButtonHost, resources->GetString(L"radioButtonHost.ToolTip"));
 			this->radioButtonHost->UseVisualStyleBackColor = true;
@@ -156,11 +148,7 @@ namespace LilithPort {
 			// 
 			// radioButtonClient
 			// 
-			this->radioButtonClient->AccessibleDescription = nullptr;
-			this->radioButtonClient->AccessibleName = nullptr;
 			resources->ApplyResources(this->radioButtonClient, L"radioButtonClient");
-			this->radioButtonClient->BackgroundImage = nullptr;
-			this->radioButtonClient->Font = nullptr;
 			this->radioButtonClient->Name = L"radioButtonClient";
 			this->toolTipStartupForm->SetToolTip(this->radioButtonClient, resources->GetString(L"radioButtonClient.ToolTip"));
 			this->radioButtonClient->UseVisualStyleBackColor = true;
@@ -168,10 +156,7 @@ namespace LilithPort {
 			// 
 			// labelServerName
 			// 
-			this->labelServerName->AccessibleDescription = nullptr;
-			this->labelServerName->AccessibleName = nullptr;
 			resources->ApplyResources(this->labelServerName, L"labelServerName");
-			this->labelServerName->Font = nullptr;
 			this->labelServerName->Name = L"labelServerName";
 			this->toolTipStartupForm->SetToolTip(this->labelServerName, resources->GetString(L"labelServerName.ToolTip"));
 			this->labelServerName->MouseLeave += gcnew System::EventHandler(this, &StartupForm::label_MouseLeave);
@@ -179,21 +164,13 @@ namespace LilithPort {
 			// 
 			// textBoxIP
 			// 
-			this->textBoxIP->AccessibleDescription = nullptr;
-			this->textBoxIP->AccessibleName = nullptr;
-			resources->ApplyResources(this->textBoxIP, L"textBoxIP");
-			this->textBoxIP->BackgroundImage = nullptr;
 			this->textBoxIP->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->textBoxIP->Font = nullptr;
+			resources->ApplyResources(this->textBoxIP, L"textBoxIP");
 			this->textBoxIP->Name = L"textBoxIP";
-			this->toolTipStartupForm->SetToolTip(this->textBoxIP, resources->GetString(L"textBoxIP.ToolTip"));
 			// 
 			// labelOpenPort
 			// 
-			this->labelOpenPort->AccessibleDescription = nullptr;
-			this->labelOpenPort->AccessibleName = nullptr;
 			resources->ApplyResources(this->labelOpenPort, L"labelOpenPort");
-			this->labelOpenPort->Font = nullptr;
 			this->labelOpenPort->Name = L"labelOpenPort";
 			this->toolTipStartupForm->SetToolTip(this->labelOpenPort, resources->GetString(L"labelOpenPort.ToolTip"));
 			this->labelOpenPort->MouseLeave += gcnew System::EventHandler(this, &StartupForm::label_MouseLeave);
@@ -201,25 +178,17 @@ namespace LilithPort {
 			// 
 			// numericUpDownOpenPort
 			// 
-			this->numericUpDownOpenPort->AccessibleDescription = nullptr;
-			this->numericUpDownOpenPort->AccessibleName = nullptr;
-			resources->ApplyResources(this->numericUpDownOpenPort, L"numericUpDownOpenPort");
 			this->numericUpDownOpenPort->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->numericUpDownOpenPort->Font = nullptr;
+			resources->ApplyResources(this->numericUpDownOpenPort, L"numericUpDownOpenPort");
 			this->numericUpDownOpenPort->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) {65535, 0, 0, 0});
 			this->numericUpDownOpenPort->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) {1024, 0, 0, 0});
 			this->numericUpDownOpenPort->Name = L"numericUpDownOpenPort";
 			this->numericUpDownOpenPort->Tag = L"";
-			this->toolTipStartupForm->SetToolTip(this->numericUpDownOpenPort, resources->GetString(L"numericUpDownOpenPort.ToolTip"));
 			this->numericUpDownOpenPort->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) {7500, 0, 0, 0});
 			// 
 			// buttonOK
 			// 
-			this->buttonOK->AccessibleDescription = nullptr;
-			this->buttonOK->AccessibleName = nullptr;
 			resources->ApplyResources(this->buttonOK, L"buttonOK");
-			this->buttonOK->BackgroundImage = nullptr;
-			this->buttonOK->Font = nullptr;
 			this->buttonOK->Name = L"buttonOK";
 			this->toolTipStartupForm->SetToolTip(this->buttonOK, resources->GetString(L"buttonOK.ToolTip"));
 			this->buttonOK->UseVisualStyleBackColor = true;
@@ -227,12 +196,8 @@ namespace LilithPort {
 			// 
 			// buttonCancel
 			// 
-			this->buttonCancel->AccessibleDescription = nullptr;
-			this->buttonCancel->AccessibleName = nullptr;
-			resources->ApplyResources(this->buttonCancel, L"buttonCancel");
-			this->buttonCancel->BackgroundImage = nullptr;
 			this->buttonCancel->DialogResult = System::Windows::Forms::DialogResult::Cancel;
-			this->buttonCancel->Font = nullptr;
+			resources->ApplyResources(this->buttonCancel, L"buttonCancel");
 			this->buttonCancel->Name = L"buttonCancel";
 			this->toolTipStartupForm->SetToolTip(this->buttonCancel, resources->GetString(L"buttonCancel.ToolTip"));
 			this->buttonCancel->UseVisualStyleBackColor = true;
@@ -240,21 +205,13 @@ namespace LilithPort {
 			// 
 			// textBoxComment
 			// 
-			this->textBoxComment->AccessibleDescription = nullptr;
-			this->textBoxComment->AccessibleName = nullptr;
-			resources->ApplyResources(this->textBoxComment, L"textBoxComment");
-			this->textBoxComment->BackgroundImage = nullptr;
 			this->textBoxComment->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->textBoxComment->Font = nullptr;
+			resources->ApplyResources(this->textBoxComment, L"textBoxComment");
 			this->textBoxComment->Name = L"textBoxComment";
-			this->toolTipStartupForm->SetToolTip(this->textBoxComment, resources->GetString(L"textBoxComment.ToolTip"));
 			// 
 			// labelComment
 			// 
-			this->labelComment->AccessibleDescription = nullptr;
-			this->labelComment->AccessibleName = nullptr;
 			resources->ApplyResources(this->labelComment, L"labelComment");
-			this->labelComment->Font = nullptr;
 			this->labelComment->Name = L"labelComment";
 			this->toolTipStartupForm->SetToolTip(this->labelComment, resources->GetString(L"labelComment.ToolTip"));
 			this->labelComment->MouseLeave += gcnew System::EventHandler(this, &StartupForm::label_MouseLeave);
@@ -262,21 +219,13 @@ namespace LilithPort {
 			// 
 			// textBoxName
 			// 
-			this->textBoxName->AccessibleDescription = nullptr;
-			this->textBoxName->AccessibleName = nullptr;
-			resources->ApplyResources(this->textBoxName, L"textBoxName");
-			this->textBoxName->BackgroundImage = nullptr;
 			this->textBoxName->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->textBoxName->Font = nullptr;
+			resources->ApplyResources(this->textBoxName, L"textBoxName");
 			this->textBoxName->Name = L"textBoxName";
-			this->toolTipStartupForm->SetToolTip(this->textBoxName, resources->GetString(L"textBoxName.ToolTip"));
 			// 
 			// labelName
 			// 
-			this->labelName->AccessibleDescription = nullptr;
-			this->labelName->AccessibleName = nullptr;
 			resources->ApplyResources(this->labelName, L"labelName");
-			this->labelName->Font = nullptr;
 			this->labelName->Name = L"labelName";
 			this->toolTipStartupForm->SetToolTip(this->labelName, resources->GetString(L"labelName.ToolTip"));
 			this->labelName->MouseLeave += gcnew System::EventHandler(this, &StartupForm::label_MouseLeave);
@@ -284,10 +233,6 @@ namespace LilithPort {
 			// 
 			// groupBoxStartMode
 			// 
-			this->groupBoxStartMode->AccessibleDescription = nullptr;
-			this->groupBoxStartMode->AccessibleName = nullptr;
-			resources->ApplyResources(this->groupBoxStartMode, L"groupBoxStartMode");
-			this->groupBoxStartMode->BackgroundImage = nullptr;
 			this->groupBoxStartMode->Controls->Add(this->labelButtonUPnP);
 			this->groupBoxStartMode->Controls->Add(this->buttonClosePortUPnP);
 			this->groupBoxStartMode->Controls->Add(this->buttonOpenPortUPnP);
@@ -298,17 +243,13 @@ namespace LilithPort {
 			this->groupBoxStartMode->Controls->Add(this->numericUpDownOpenPort);
 			this->groupBoxStartMode->Controls->Add(this->radioButtonHost);
 			this->groupBoxStartMode->Controls->Add(this->radioButtonClient);
-			this->groupBoxStartMode->Font = nullptr;
+			resources->ApplyResources(this->groupBoxStartMode, L"groupBoxStartMode");
 			this->groupBoxStartMode->Name = L"groupBoxStartMode";
 			this->groupBoxStartMode->TabStop = false;
-			this->toolTipStartupForm->SetToolTip(this->groupBoxStartMode, resources->GetString(L"groupBoxStartMode.ToolTip"));
 			// 
 			// labelButtonUPnP
 			// 
-			this->labelButtonUPnP->AccessibleDescription = nullptr;
-			this->labelButtonUPnP->AccessibleName = nullptr;
 			resources->ApplyResources(this->labelButtonUPnP, L"labelButtonUPnP");
-			this->labelButtonUPnP->Font = nullptr;
 			this->labelButtonUPnP->Name = L"labelButtonUPnP";
 			this->toolTipStartupForm->SetToolTip(this->labelButtonUPnP, resources->GetString(L"labelButtonUPnP.ToolTip"));
 			this->labelButtonUPnP->MouseLeave += gcnew System::EventHandler(this, &StartupForm::label_MouseLeave);
@@ -316,11 +257,7 @@ namespace LilithPort {
 			// 
 			// buttonClosePortUPnP
 			// 
-			this->buttonClosePortUPnP->AccessibleDescription = nullptr;
-			this->buttonClosePortUPnP->AccessibleName = nullptr;
 			resources->ApplyResources(this->buttonClosePortUPnP, L"buttonClosePortUPnP");
-			this->buttonClosePortUPnP->BackgroundImage = nullptr;
-			this->buttonClosePortUPnP->Font = nullptr;
 			this->buttonClosePortUPnP->Name = L"buttonClosePortUPnP";
 			this->toolTipStartupForm->SetToolTip(this->buttonClosePortUPnP, resources->GetString(L"buttonClosePortUPnP.ToolTip"));
 			this->buttonClosePortUPnP->UseVisualStyleBackColor = true;
@@ -328,11 +265,7 @@ namespace LilithPort {
 			// 
 			// buttonOpenPortUPnP
 			// 
-			this->buttonOpenPortUPnP->AccessibleDescription = nullptr;
-			this->buttonOpenPortUPnP->AccessibleName = nullptr;
 			resources->ApplyResources(this->buttonOpenPortUPnP, L"buttonOpenPortUPnP");
-			this->buttonOpenPortUPnP->BackgroundImage = nullptr;
-			this->buttonOpenPortUPnP->Font = nullptr;
 			this->buttonOpenPortUPnP->Name = L"buttonOpenPortUPnP";
 			this->toolTipStartupForm->SetToolTip(this->buttonOpenPortUPnP, resources->GetString(L"buttonOpenPortUPnP.ToolTip"));
 			this->buttonOpenPortUPnP->UseVisualStyleBackColor = true;
@@ -340,64 +273,41 @@ namespace LilithPort {
 			// 
 			// textBoxServerName
 			// 
-			this->textBoxServerName->AccessibleDescription = nullptr;
-			this->textBoxServerName->AccessibleName = nullptr;
-			resources->ApplyResources(this->textBoxServerName, L"textBoxServerName");
-			this->textBoxServerName->BackgroundImage = nullptr;
 			this->textBoxServerName->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->textBoxServerName->Font = nullptr;
+			resources->ApplyResources(this->textBoxServerName, L"textBoxServerName");
 			this->textBoxServerName->Name = L"textBoxServerName";
-			this->toolTipStartupForm->SetToolTip(this->textBoxServerName, resources->GetString(L"textBoxServerName.ToolTip"));
 			// 
 			// groupBoxConnection
 			// 
-			this->groupBoxConnection->AccessibleDescription = nullptr;
-			this->groupBoxConnection->AccessibleName = nullptr;
-			resources->ApplyResources(this->groupBoxConnection, L"groupBoxConnection");
-			this->groupBoxConnection->BackgroundImage = nullptr;
 			this->groupBoxConnection->Controls->Add(this->textBoxIP);
-			this->groupBoxConnection->Font = nullptr;
+			resources->ApplyResources(this->groupBoxConnection, L"groupBoxConnection");
 			this->groupBoxConnection->Name = L"groupBoxConnection";
 			this->groupBoxConnection->TabStop = false;
 			this->toolTipStartupForm->SetToolTip(this->groupBoxConnection, resources->GetString(L"groupBoxConnection.ToolTip"));
 			// 
 			// groupBoxProfile
 			// 
-			this->groupBoxProfile->AccessibleDescription = nullptr;
-			this->groupBoxProfile->AccessibleName = nullptr;
-			resources->ApplyResources(this->groupBoxProfile, L"groupBoxProfile");
-			this->groupBoxProfile->BackgroundImage = nullptr;
 			this->groupBoxProfile->Controls->Add(this->labelComment);
 			this->groupBoxProfile->Controls->Add(this->textBoxComment);
 			this->groupBoxProfile->Controls->Add(this->textBoxName);
 			this->groupBoxProfile->Controls->Add(this->labelName);
-			this->groupBoxProfile->Font = nullptr;
+			resources->ApplyResources(this->groupBoxProfile, L"groupBoxProfile");
 			this->groupBoxProfile->Name = L"groupBoxProfile";
 			this->groupBoxProfile->TabStop = false;
-			this->toolTipStartupForm->SetToolTip(this->groupBoxProfile, resources->GetString(L"groupBoxProfile.ToolTip"));
 			// 
 			// groupBoxWelcome
 			// 
-			this->groupBoxWelcome->AccessibleDescription = nullptr;
-			this->groupBoxWelcome->AccessibleName = nullptr;
-			resources->ApplyResources(this->groupBoxWelcome, L"groupBoxWelcome");
-			this->groupBoxWelcome->BackgroundImage = nullptr;
 			this->groupBoxWelcome->Controls->Add(this->textBoxWelcome);
-			this->groupBoxWelcome->Font = nullptr;
+			resources->ApplyResources(this->groupBoxWelcome, L"groupBoxWelcome");
 			this->groupBoxWelcome->Name = L"groupBoxWelcome";
 			this->groupBoxWelcome->TabStop = false;
 			this->toolTipStartupForm->SetToolTip(this->groupBoxWelcome, resources->GetString(L"groupBoxWelcome.ToolTip"));
 			// 
 			// textBoxWelcome
 			// 
-			this->textBoxWelcome->AccessibleDescription = nullptr;
-			this->textBoxWelcome->AccessibleName = nullptr;
-			resources->ApplyResources(this->textBoxWelcome, L"textBoxWelcome");
-			this->textBoxWelcome->BackgroundImage = nullptr;
 			this->textBoxWelcome->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->textBoxWelcome->Font = nullptr;
+			resources->ApplyResources(this->textBoxWelcome, L"textBoxWelcome");
 			this->textBoxWelcome->Name = L"textBoxWelcome";
-			this->toolTipStartupForm->SetToolTip(this->textBoxWelcome, resources->GetString(L"textBoxWelcome.ToolTip"));
 			// 
 			// toolTipStartupForm
 			// 
@@ -410,11 +320,7 @@ namespace LilithPort {
 			// 
 			// buttonConnect
 			// 
-			this->buttonConnect->AccessibleDescription = nullptr;
-			this->buttonConnect->AccessibleName = nullptr;
 			resources->ApplyResources(this->buttonConnect, L"buttonConnect");
-			this->buttonConnect->BackgroundImage = nullptr;
-			this->buttonConnect->Font = nullptr;
 			this->buttonConnect->Name = L"buttonConnect";
 			this->toolTipStartupForm->SetToolTip(this->buttonConnect, resources->GetString(L"buttonConnect.ToolTip"));
 			this->buttonConnect->UseVisualStyleBackColor = true;
@@ -422,11 +328,8 @@ namespace LilithPort {
 			// 
 			// StartupForm
 			// 
-			this->AccessibleDescription = nullptr;
-			this->AccessibleName = nullptr;
 			resources->ApplyResources(this, L"$this");
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->BackgroundImage = nullptr;
 			this->CancelButton = this->buttonCancel;
 			this->Controls->Add(this->buttonConnect);
 			this->Controls->Add(this->groupBoxWelcome);
@@ -435,14 +338,12 @@ namespace LilithPort {
 			this->Controls->Add(this->groupBoxStartMode);
 			this->Controls->Add(this->buttonOK);
 			this->Controls->Add(this->buttonCancel);
-			this->Font = nullptr;
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->MaximizeBox = false;
 			this->MinimizeBox = false;
 			this->Name = L"StartupForm";
 			this->Opacity = 0.85;
 			this->ShowInTaskbar = false;
-			this->toolTipStartupForm->SetToolTip(this, resources->GetString(L"$this.ToolTip"));
 			this->Load += gcnew System::EventHandler(this, &StartupForm::StartupForm_Load);
 			this->Shown += gcnew System::EventHandler(this, &StartupForm::StartupForm_Shown);
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &StartupForm::StartupForm_FormClosed);
