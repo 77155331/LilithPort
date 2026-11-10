@@ -117,131 +117,120 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;textBoxComment.Parent" xml:space="preserve">
-    <value>groupBoxProfile</value>
-  </data>
-  <data name="&gt;&gt;labelOpenPort.Name" xml:space="preserve">
-    <value>labelOpenPort</value>
-  </data>
-  <data name="labelButtonUPnP.Text" xml:space="preserve">
-    <value>UPnP
-端口开关:</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="textBoxComment.WordWrap" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="numericUpDownOpenPort.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;buttonOK.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="groupBoxStartMode.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="buttonConnect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 24</value>
-  </data>
-  <data name="buttonOK.Text" xml:space="preserve">
-    <value>启动</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="$this.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
-    <value>No</value>
-  </data>
-  <data name="textBoxServerName.WordWrap" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="numericUpDownOpenPort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 65</value>
-  </data>
-  <data name="groupBoxWelcome.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 143</value>
-  </data>
-  <data name="groupBoxProfile.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;numericUpDownOpenPort.Name" xml:space="preserve">
-    <value>numericUpDownOpenPort</value>
-  </data>
-  <data name="&gt;&gt;textBoxIP.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="labelOpenPort.AutoSize" type="System.Boolean, mscorlib">
+  <data name="radioButtonServer.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;radioButtonClient.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="radioButtonServer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 18</value>
   </data>
-  <data name="&gt;&gt;textBoxServerName.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;groupBoxStartMode.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="numericUpDownOpenPort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 17</value>
-  </data>
-  <data name="&gt;&gt;buttonConnect.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBoxStartMode.Name" xml:space="preserve">
-    <value>groupBoxStartMode</value>
-  </data>
-  <data name="radioButtonClient.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="radioButtonServer.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 16</value>
-  </data>
-  <data name="buttonCancel.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="groupBoxConnection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 50</value>
-  </data>
-  <data name="textBoxWelcome.WordWrap" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="labelName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 21</value>
-  </data>
-  <data name="labelOpenPort.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="radioButtonServer.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="groupBoxWelcome.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 86</value>
+  <data name="radioButtonServer.Text" xml:space="preserve">
+    <value>服务器</value>
   </data>
-  <data name="groupBoxConnection.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+  <metadata name="toolTipStartupForm.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="radioButtonServer.ToolTip" xml:space="preserve">
+    <value>建立服务器并等待其他连接者。
+需要释放指定的待机端口（UDP）。</value>
   </data>
-  <data name="labelComment.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;radioButtonServer.Name" xml:space="preserve">
+    <value>radioButtonServer</value>
+  </data>
+  <data name="&gt;&gt;radioButtonServer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButtonServer.Parent" xml:space="preserve">
+    <value>groupBoxStartMode</value>
+  </data>
+  <data name="&gt;&gt;radioButtonServer.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;textBoxWelcome.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="radioButtonHost.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="radioButtonServer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 18</value>
+  <data name="radioButtonHost.Location" type="System.Drawing.Point, System.Drawing">
+    <value>70, 18</value>
   </data>
-  <data name="&gt;&gt;groupBoxStartMode.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="radioButtonHost.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 16</value>
   </data>
-  <data name="&gt;&gt;labelOpenPort.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="radioButtonHost.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="&gt;&gt;radioButtonClient.Name" xml:space="preserve">
-    <value>radioButtonClient</value>
+  <data name="radioButtonHost.Text" xml:space="preserve">
+    <value>主机端</value>
   </data>
-  <data name="labelButtonUPnP.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 93</value>
+  <data name="radioButtonHost.ToolTip" xml:space="preserve">
+    <value>连接到服务器。
+使用指定的待机端口（UDP）进行通信。
+打开端口可以稳定运行。</value>
+  </data>
+  <data name="&gt;&gt;radioButtonHost.Name" xml:space="preserve">
+    <value>radioButtonHost</value>
+  </data>
+  <data name="&gt;&gt;radioButtonHost.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButtonHost.Parent" xml:space="preserve">
+    <value>groupBoxStartMode</value>
+  </data>
+  <data name="&gt;&gt;radioButtonHost.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="radioButtonClient.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioButtonClient.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 18</value>
+  </data>
+  <data name="radioButtonClient.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 16</value>
+  </data>
+  <data name="radioButtonClient.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="radioButtonClient.Text" xml:space="preserve">
+    <value>客户端</value>
   </data>
   <data name="radioButtonClient.ToolTip" xml:space="preserve">
     <value>连接到服务器。
 端口将自动分配。
 （不打开端口也可以连接，但操作有点不稳定。)</value>
+  </data>
+  <data name="&gt;&gt;radioButtonClient.Name" xml:space="preserve">
+    <value>radioButtonClient</value>
+  </data>
+  <data name="&gt;&gt;radioButtonClient.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButtonClient.Parent" xml:space="preserve">
+    <value>groupBoxStartMode</value>
+  </data>
+  <data name="&gt;&gt;radioButtonClient.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="labelServerName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelServerName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 41</value>
+  </data>
+  <data name="labelServerName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 12</value>
+  </data>
+  <data name="labelServerName.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="labelServerName.Text" xml:space="preserve">
+    <value>服务器名:</value>
   </data>
   <data name="labelServerName.ToolTip" xml:space="preserve">
     <value>您的服务器名称。
@@ -249,14 +238,59 @@
 如果以『@』开头，则会以聊天禁止模式启动。
 以『#』开头为匿名模式(禁止聊天，仅限随机对战)在启动。</value>
   </data>
-  <data name="radioButtonHost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>70, 18</value>
+  <data name="&gt;&gt;labelServerName.Name" xml:space="preserve">
+    <value>labelServerName</value>
   </data>
-  <data name="&gt;&gt;buttonCancel.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;labelServerName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelServerName.Parent" xml:space="preserve">
+    <value>groupBoxStartMode</value>
+  </data>
+  <data name="&gt;&gt;labelServerName.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="&gt;&gt;buttonClosePortUPnP.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="textBoxIP.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="textBoxIP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 23</value>
+  </data>
+  <data name="textBoxIP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 21</value>
+  </data>
+  <data name="textBoxIP.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="textBoxIP.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;textBoxIP.Name" xml:space="preserve">
+    <value>textBoxIP</value>
+  </data>
+  <data name="&gt;&gt;textBoxIP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBoxIP.Parent" xml:space="preserve">
+    <value>groupBoxConnection</value>
+  </data>
+  <data name="&gt;&gt;textBoxIP.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="labelOpenPort.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelOpenPort.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 67</value>
+  </data>
+  <data name="labelOpenPort.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 12</value>
+  </data>
+  <data name="labelOpenPort.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="labelOpenPort.Text" xml:space="preserve">
+    <value>待机端口:</value>
   </data>
   <data name="labelOpenPort.ToolTip" xml:space="preserve">
     <value>用于通信的端口号（UDP）。
@@ -264,188 +298,355 @@
 如果在服务器上使用7500号，则连接者将使用IP地址。只需输入回复或主机名即可连接。
 (例: [ lilith.port.xx:54321 ] -&gt; [ lilith.port.xx ])</value>
   </data>
-  <data name="buttonClosePortUPnP.Location" type="System.Drawing.Point, System.Drawing">
-    <value>134, 93</value>
+  <data name="&gt;&gt;labelOpenPort.Name" xml:space="preserve">
+    <value>labelOpenPort</value>
   </data>
-  <data name="&gt;&gt;labelName.Parent" xml:space="preserve">
-    <value>groupBoxProfile</value>
+  <data name="&gt;&gt;labelOpenPort.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;labelName.Name" xml:space="preserve">
-    <value>labelName</value>
-  </data>
-  <data name="labelName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 12</value>
-  </data>
-  <data name="&gt;&gt;groupBoxConnection.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="textBoxName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>80, 18</value>
-  </data>
-  <data name="&gt;&gt;buttonClosePortUPnP.Parent" xml:space="preserve">
+  <data name="&gt;&gt;labelOpenPort.Parent" xml:space="preserve">
     <value>groupBoxStartMode</value>
+  </data>
+  <data name="&gt;&gt;labelOpenPort.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="numericUpDownOpenPort.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 65</value>
+  </data>
+  <data name="numericUpDownOpenPort.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 21</value>
+  </data>
+  <data name="numericUpDownOpenPort.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;numericUpDownOpenPort.Name" xml:space="preserve">
+    <value>numericUpDownOpenPort</value>
   </data>
   <data name="&gt;&gt;numericUpDownOpenPort.Type" xml:space="preserve">
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="buttonClosePortUPnP.Text" xml:space="preserve">
-    <value>关闭</value>
-  </data>
-  <data name="&gt;&gt;labelComment.Name" xml:space="preserve">
-    <value>labelComment</value>
-  </data>
-  <data name="radioButtonClient.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 18</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>StartupForm</value>
-  </data>
-  <data name="buttonOpenPortUPnP.Text" xml:space="preserve">
-    <value>开放</value>
-  </data>
   <data name="&gt;&gt;numericUpDownOpenPort.Parent" xml:space="preserve">
     <value>groupBoxStartMode</value>
   </data>
-  <data name="radioButtonHost.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;numericUpDownOpenPort.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
-  <data name="&gt;&gt;textBoxComment.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="radioButtonHost.ToolTip" xml:space="preserve">
-    <value>连接到服务器。
-使用指定的待机端口（UDP）进行通信。
-打开端口可以稳定运行。</value>
-  </data>
-  <data name="groupBoxWelcome.ToolTip" xml:space="preserve">
-    <value>这是主机端和客户端进入时显示的消息。</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>启动类型设置</value>
-  </data>
-  <data name="buttonCancel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 24</value>
-  </data>
-  <data name="&gt;&gt;labelButtonUPnP.Parent" xml:space="preserve">
-    <value>groupBoxStartMode</value>
-  </data>
-  <data name="radioButtonServer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 16</value>
-  </data>
-  <data name="groupBoxProfile.Text" xml:space="preserve">
-    <value>个人资料</value>
-  </data>
-  <data name="&gt;&gt;textBoxIP.Name" xml:space="preserve">
-    <value>textBoxIP</value>
-  </data>
-  <data name="&gt;&gt;groupBoxConnection.Name" xml:space="preserve">
-    <value>groupBoxConnection</value>
-  </data>
-  <data name="textBoxWelcome.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 19</value>
-  </data>
-  <data name="&gt;&gt;textBoxServerName.Parent" xml:space="preserve">
-    <value>groupBoxStartMode</value>
-  </data>
-  <data name="buttonOpenPortUPnP.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="labelServerName.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="radioButtonClient.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="labelComment.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 46</value>
-  </data>
-  <data name="radioButtonServer.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="buttonClosePortUPnP.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 24</value>
+  <data name="buttonOK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>210, 205</value>
   </data>
   <data name="buttonOK.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 24</value>
   </data>
-  <data name="&gt;&gt;buttonOpenPortUPnP.Name" xml:space="preserve">
-    <value>buttonOpenPortUPnP</value>
+  <data name="buttonOK.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
   </data>
-  <data name="&gt;&gt;labelButtonUPnP.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="buttonOK.Text" xml:space="preserve">
+    <value>启动</value>
   </data>
-  <data name="&gt;&gt;labelButtonUPnP.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="buttonOK.ToolTip" xml:space="preserve">
+    <value>开始服务器等待。</value>
   </data>
-  <data name="numericUpDownOpenPort.ToolTip" xml:space="preserve">
-    <value />
+  <data name="&gt;&gt;buttonOK.Name" xml:space="preserve">
+    <value>buttonOK</value>
   </data>
-  <data name="groupBoxStartMode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 131</value>
+  <data name="&gt;&gt;buttonOK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="textBoxWelcome.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 118</value>
+  <data name="&gt;&gt;buttonOK.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;buttonOK.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="buttonCancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>338, 205</value>
+  </data>
+  <data name="buttonCancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 24</value>
+  </data>
+  <data name="buttonCancel.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="buttonCancel.Text" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="buttonCancel.ToolTip" xml:space="preserve">
+    <value>离线进入单机游戏模式。</value>
+  </data>
+  <data name="&gt;&gt;buttonCancel.Name" xml:space="preserve">
+    <value>buttonCancel</value>
+  </data>
+  <data name="&gt;&gt;buttonCancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonCancel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;buttonCancel.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="textBoxComment.Location" type="System.Drawing.Point, System.Drawing">
     <value>80, 43</value>
   </data>
-  <data name="textBoxName.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="textBoxComment.Size" type="System.Drawing.Size, System.Drawing">
     <value>94, 21</value>
   </data>
   <data name="textBoxComment.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;labelServerName.ZOrder" xml:space="preserve">
-    <value>6</value>
+  <data name="textBoxComment.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="labelOpenPort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 12</value>
+  <data name="&gt;&gt;textBoxComment.Name" xml:space="preserve">
+    <value>textBoxComment</value>
   </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;textBoxComment.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;buttonOK.Type" xml:space="preserve">
+  <data name="&gt;&gt;textBoxComment.Parent" xml:space="preserve">
+    <value>groupBoxProfile</value>
+  </data>
+  <data name="&gt;&gt;textBoxComment.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="labelComment.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelComment.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 46</value>
+  </data>
+  <data name="labelComment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 12</value>
+  </data>
+  <data name="labelComment.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="labelComment.Text" xml:space="preserve">
+    <value>签  名:</value>
+  </data>
+  <data name="labelComment.ToolTip" xml:space="preserve">
+    <value>进入时显示。
+在匿名模式的服务器上不会显示。</value>
+  </data>
+  <data name="&gt;&gt;labelComment.Name" xml:space="preserve">
+    <value>labelComment</value>
+  </data>
+  <data name="&gt;&gt;labelComment.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelComment.Parent" xml:space="preserve">
+    <value>groupBoxProfile</value>
+  </data>
+  <data name="&gt;&gt;labelComment.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="textBoxName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>80, 18</value>
+  </data>
+  <data name="textBoxName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 21</value>
+  </data>
+  <data name="textBoxName.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="textBoxName.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;textBoxName.Name" xml:space="preserve">
+    <value>textBoxName</value>
+  </data>
+  <data name="&gt;&gt;textBoxName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBoxName.Parent" xml:space="preserve">
+    <value>groupBoxProfile</value>
+  </data>
+  <data name="&gt;&gt;textBoxName.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="labelName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 21</value>
+  </data>
+  <data name="labelName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 12</value>
+  </data>
+  <data name="labelName.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="labelName.Text" xml:space="preserve">
+    <value>昵  称:</value>
+  </data>
+  <data name="labelName.ToolTip" xml:space="preserve">
+    <value>您的显示名称。
+回放文件名也可以使用。
+在匿名模式的服务器上不会显示。</value>
+  </data>
+  <data name="&gt;&gt;labelName.Name" xml:space="preserve">
+    <value>labelName</value>
+  </data>
+  <data name="&gt;&gt;labelName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelName.Parent" xml:space="preserve">
+    <value>groupBoxProfile</value>
+  </data>
+  <data name="&gt;&gt;labelName.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="labelButtonUPnP.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelButtonUPnP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 93</value>
+  </data>
+  <data name="labelButtonUPnP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 24</value>
+  </data>
+  <data name="labelButtonUPnP.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="labelButtonUPnP.Text" xml:space="preserve">
+    <value>UPnP
+端口开关:</value>
+  </data>
+  <data name="labelButtonUPnP.ToolTip" xml:space="preserve">
+    <value>可以使用UPnP功能打开端口。
+必须在路由器设置和防火墙设置中启用UPnP。
+根据环境不同，它可能无法正常工作。
+（双重路由器、防火墙设置、安全软件设置等）
+※注意：开放端口会带来安全风险。请理解并自行承担使用风险。
+</value>
+  </data>
+  <data name="&gt;&gt;labelButtonUPnP.Name" xml:space="preserve">
+    <value>labelButtonUPnP</value>
+  </data>
+  <data name="&gt;&gt;labelButtonUPnP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelButtonUPnP.Parent" xml:space="preserve">
+    <value>groupBoxStartMode</value>
+  </data>
+  <data name="&gt;&gt;labelButtonUPnP.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="buttonClosePortUPnP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>134, 93</value>
+  </data>
+  <data name="buttonClosePortUPnP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 24</value>
+  </data>
+  <data name="buttonClosePortUPnP.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="buttonClosePortUPnP.Text" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="buttonClosePortUPnP.ToolTip" xml:space="preserve">
+    <value>关闭待机端口号的UDP端口。
+LilithPort只能关闭已打开的端口。</value>
+  </data>
+  <data name="&gt;&gt;buttonClosePortUPnP.Name" xml:space="preserve">
+    <value>buttonClosePortUPnP</value>
+  </data>
+  <data name="&gt;&gt;buttonClosePortUPnP.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBoxProfile.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;buttonClosePortUPnP.Parent" xml:space="preserve">
+    <value>groupBoxStartMode</value>
   </data>
-  <data name="&gt;&gt;radioButtonServer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;buttonClosePortUPnP.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="&gt;&gt;buttonOK.Name" xml:space="preserve">
-    <value>buttonOK</value>
+  <data name="buttonOpenPortUPnP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>76, 93</value>
+  </data>
+  <data name="buttonOpenPortUPnP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 24</value>
+  </data>
+  <data name="buttonOpenPortUPnP.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="buttonOpenPortUPnP.Text" xml:space="preserve">
+    <value>开放</value>
   </data>
   <data name="buttonOpenPortUPnP.ToolTip" xml:space="preserve">
     <value>开放待机端口号的UDP端口。
 建议使用后手动关闭端口。</value>
   </data>
-  <data name="groupBoxProfile.ToolTip" xml:space="preserve">
-    <value />
+  <data name="&gt;&gt;buttonOpenPortUPnP.Name" xml:space="preserve">
+    <value>buttonOpenPortUPnP</value>
   </data>
-  <data name="textBoxName.ToolTip" xml:space="preserve">
-    <value />
+  <data name="&gt;&gt;buttonOpenPortUPnP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="labelServerName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 41</value>
+  <data name="&gt;&gt;buttonOpenPortUPnP.Parent" xml:space="preserve">
+    <value>groupBoxStartMode</value>
   </data>
-  <data name="&gt;&gt;textBoxName.Type" xml:space="preserve">
+  <data name="&gt;&gt;buttonOpenPortUPnP.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="textBoxServerName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>70, 38</value>
+  </data>
+  <data name="textBoxServerName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 21</value>
+  </data>
+  <data name="textBoxServerName.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="textBoxServerName.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;textBoxServerName.Name" xml:space="preserve">
+    <value>textBoxServerName</value>
+  </data>
+  <data name="&gt;&gt;textBoxServerName.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="buttonOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>210, 205</value>
+  <data name="&gt;&gt;textBoxServerName.Parent" xml:space="preserve">
+    <value>groupBoxStartMode</value>
   </data>
-  <data name="labelButtonUPnP.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;textBoxServerName.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="groupBoxStartMode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>201, 12</value>
+  </data>
+  <data name="groupBoxStartMode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 131</value>
+  </data>
+  <data name="groupBoxStartMode.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
-  <data name="&gt;&gt;labelOpenPort.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="groupBoxStartMode.Text" xml:space="preserve">
+    <value>启动模式</value>
   </data>
-  <data name="buttonOpenPortUPnP.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 24</value>
-  </data>
-  <data name="&gt;&gt;labelServerName.Parent" xml:space="preserve">
+  <data name="&gt;&gt;groupBoxStartMode.Name" xml:space="preserve">
     <value>groupBoxStartMode</value>
+  </data>
+  <data name="&gt;&gt;groupBoxStartMode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxStartMode.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBoxStartMode.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="groupBoxConnection.Location" type="System.Drawing.Point, System.Drawing">
+    <value>201, 149</value>
+  </data>
+  <data name="groupBoxConnection.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 50</value>
+  </data>
+  <data name="groupBoxConnection.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="groupBoxConnection.Text" xml:space="preserve">
+    <value>连接地址</value>
   </data>
   <data name="groupBoxConnection.ToolTip" xml:space="preserve">
     <value>输入IP地址、主机名或转换地址之一。
@@ -453,23 +654,137 @@
 如果省略端口号，则连接到7500端口。
 (例:[ lilith.port.xx:7500 ], [ 123.456.xxx.xxx ])</value>
   </data>
-  <data name="textBoxIP.WordWrap" type="System.Boolean, mscorlib">
+  <data name="&gt;&gt;groupBoxConnection.Name" xml:space="preserve">
+    <value>groupBoxConnection</value>
+  </data>
+  <data name="&gt;&gt;groupBoxConnection.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxConnection.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBoxConnection.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="groupBoxProfile.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="groupBoxProfile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 67</value>
+  </data>
+  <data name="groupBoxProfile.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="groupBoxProfile.Text" xml:space="preserve">
+    <value>个人资料</value>
+  </data>
+  <data name="&gt;&gt;groupBoxProfile.Name" xml:space="preserve">
+    <value>groupBoxProfile</value>
+  </data>
+  <data name="&gt;&gt;groupBoxProfile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxProfile.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBoxProfile.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="textBoxWelcome.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 19</value>
+  </data>
+  <data name="textBoxWelcome.MaxLength" type="System.Int32, mscorlib">
+    <value>254</value>
+  </data>
+  <data name="textBoxWelcome.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 118</value>
+  </data>
+  <data name="textBoxWelcome.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="textBoxWelcome.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBoxWelcome.WordWrap" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="buttonConnect.ToolTip" xml:space="preserve">
-    <value>连接服务器。</value>
+  <data name="&gt;&gt;textBoxWelcome.Name" xml:space="preserve">
+    <value>textBoxWelcome</value>
+  </data>
+  <data name="&gt;&gt;textBoxWelcome.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBoxWelcome.Parent" xml:space="preserve">
+    <value>groupBoxWelcome</value>
+  </data>
+  <data name="&gt;&gt;textBoxWelcome.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBoxWelcome.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 86</value>
+  </data>
+  <data name="groupBoxWelcome.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 143</value>
+  </data>
+  <data name="groupBoxWelcome.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="groupBoxWelcome.Text" xml:space="preserve">
+    <value>服务器公告</value>
+  </data>
+  <data name="groupBoxWelcome.ToolTip" xml:space="preserve">
+    <value>这是主机端和客户端进入时显示的消息。</value>
+  </data>
+  <data name="&gt;&gt;groupBoxWelcome.Name" xml:space="preserve">
+    <value>groupBoxWelcome</value>
+  </data>
+  <data name="&gt;&gt;groupBoxWelcome.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxWelcome.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBoxWelcome.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;textBoxServerName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="buttonConnect.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="buttonOpenPortUPnP.Location" type="System.Drawing.Point, System.Drawing">
-    <value>76, 93</value>
+  <data name="buttonConnect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 205</value>
   </data>
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterParent</value>
+  <data name="buttonConnect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 24</value>
+  </data>
+  <data name="buttonConnect.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="buttonConnect.Text" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="buttonConnect.ToolTip" xml:space="preserve">
+    <value>连接服务器。</value>
+  </data>
+  <data name="&gt;&gt;buttonConnect.Name" xml:space="preserve">
+    <value>buttonConnect</value>
+  </data>
+  <data name="&gt;&gt;buttonConnect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonConnect.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;buttonConnect.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 12</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>423, 241</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -4588,368 +4903,29 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
 </value>
   </data>
-  <data name="&gt;&gt;radioButtonHost.ZOrder" xml:space="preserve">
-    <value>8</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="buttonOK.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
+  <data name="$this.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>No</value>
   </data>
-  <data name="&gt;&gt;groupBoxWelcome.Name" xml:space="preserve">
-    <value>groupBoxWelcome</value>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterParent</value>
   </data>
-  <data name="labelComment.ToolTip" xml:space="preserve">
-    <value>进入时显示。
-在匿名模式的服务器上不会显示。</value>
-  </data>
-  <data name="&gt;&gt;groupBoxConnection.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBoxStartMode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBoxWelcome.Parent" xml:space="preserve">
-    <value>groupBoxWelcome</value>
-  </data>
-  <data name="groupBoxStartMode.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;radioButtonServer.Name" xml:space="preserve">
-    <value>radioButtonServer</value>
-  </data>
-  <data name="labelComment.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;textBoxServerName.Name" xml:space="preserve">
-    <value>textBoxServerName</value>
-  </data>
-  <data name="&gt;&gt;buttonOpenPortUPnP.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBoxWelcome.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="textBoxServerName.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="buttonOK.ToolTip" xml:space="preserve">
-    <value>开始服务器等待。</value>
-  </data>
-  <data name="&gt;&gt;buttonConnect.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="radioButtonServer.Text" xml:space="preserve">
-    <value>服务器</value>
-  </data>
-  <data name="&gt;&gt;groupBoxProfile.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="textBoxIP.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="radioButtonHost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 16</value>
-  </data>
-  <data name="&gt;&gt;radioButtonClient.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;textBoxName.Name" xml:space="preserve">
-    <value>textBoxName</value>
-  </data>
-  <data name="&gt;&gt;textBoxComment.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBoxWelcome.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;numericUpDownOpenPort.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="radioButtonHost.Text" xml:space="preserve">
-    <value>主机端</value>
-  </data>
-  <data name="textBoxWelcome.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="buttonClosePortUPnP.ToolTip" xml:space="preserve">
-    <value>关闭待机端口号的UDP端口。
-LilithPort只能关闭已打开的端口。</value>
-  </data>
-  <data name="textBoxIP.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 21</value>
-  </data>
-  <data name="labelName.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="textBoxServerName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>70, 38</value>
-  </data>
-  <data name="labelServerName.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="buttonConnect.Text" xml:space="preserve">
-    <value>连接</value>
-  </data>
-  <data name="labelName.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="radioButtonClient.Text" xml:space="preserve">
-    <value>客户端</value>
-  </data>
-  <data name="labelComment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 12</value>
-  </data>
-  <data name="textBoxWelcome.MaxLength" type="System.Int32, mscorlib">
-    <value>254</value>
-  </data>
-  <data name="textBoxName.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="labelOpenPort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 67</value>
-  </data>
-  <data name="&gt;&gt;groupBoxProfile.Name" xml:space="preserve">
-    <value>groupBoxProfile</value>
-  </data>
-  <data name="textBoxComment.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;buttonClosePortUPnP.Name" xml:space="preserve">
-    <value>buttonClosePortUPnP</value>
-  </data>
-  <data name="&gt;&gt;buttonOK.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;buttonCancel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="groupBoxConnection.Location" type="System.Drawing.Point, System.Drawing">
-    <value>201, 149</value>
-  </data>
-  <data name="radioButtonClient.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;labelComment.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="textBoxWelcome.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;groupBoxConnection.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="textBoxIP.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;radioButtonServer.Parent" xml:space="preserve">
-    <value>groupBoxStartMode</value>
-  </data>
-  <data name="labelOpenPort.Text" xml:space="preserve">
-    <value>待机端口:</value>
-  </data>
-  <data name="&gt;&gt;buttonClosePortUPnP.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioButtonHost.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;labelButtonUPnP.Name" xml:space="preserve">
-    <value>labelButtonUPnP</value>
-  </data>
-  <data name="labelButtonUPnP.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="buttonCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>338, 205</value>
-  </data>
-  <data name="textBoxServerName.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="labelButtonUPnP.ToolTip" xml:space="preserve">
-    <value>可以使用UPnP功能打开端口。
-必须在路由器设置和防火墙设置中启用UPnP。
-根据环境不同，它可能无法正常工作。
-（双重路由器、防火墙设置、安全软件设置等）
-※注意：开放端口会带来安全风险。请理解并自行承担使用风险。
-</value>
-  </data>
-  <data name="labelName.Text" xml:space="preserve">
-    <value>昵  称:</value>
-  </data>
-  <data name="&gt;&gt;toolTipStartupForm.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="labelButtonUPnP.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 24</value>
-  </data>
-  <data name="&gt;&gt;textBoxWelcome.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="groupBoxConnection.Text" xml:space="preserve">
-    <value>连接地址</value>
-  </data>
-  <data name="labelName.ToolTip" xml:space="preserve">
-    <value>您的显示名称。
-回放文件名也可以使用。
-在匿名模式的服务器上不会显示。</value>
-  </data>
-  <data name="groupBoxWelcome.Text" xml:space="preserve">
-    <value>服务器公告</value>
-  </data>
-  <data name="&gt;&gt;buttonOpenPortUPnP.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;textBoxIP.Parent" xml:space="preserve">
-    <value>groupBoxConnection</value>
-  </data>
-  <data name="textBoxWelcome.Text" xml:space="preserve">
-    <value />
-  </data>
-  <data name="buttonConnect.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="labelServerName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 12</value>
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="groupBoxStartMode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>201, 12</value>
-  </data>
-  <data name="groupBoxProfile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 67</value>
-  </data>
-  <data name="textBoxComment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 21</value>
-  </data>
-  <data name="buttonCancel.ToolTip" xml:space="preserve">
-    <value>离线进入单机游戏模式。</value>
-  </data>
-  <data name="&gt;&gt;radioButtonClient.Parent" xml:space="preserve">
-    <value>groupBoxStartMode</value>
-  </data>
-  <data name="groupBoxProfile.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="&gt;&gt;labelName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;buttonConnect.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;textBoxComment.Name" xml:space="preserve">
-    <value>textBoxComment</value>
-  </data>
-  <data name="&gt;&gt;buttonCancel.Name" xml:space="preserve">
-    <value>buttonCancel</value>
-  </data>
-  <data name="radioButtonServer.ToolTip" xml:space="preserve">
-    <value>建立服务器并等待其他连接者。
-需要释放指定的待机端口（UDP）。</value>
-  </data>
-  <data name="&gt;&gt;textBoxIP.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;buttonOpenPortUPnP.Parent" xml:space="preserve">
-    <value>groupBoxStartMode</value>
-  </data>
-  <data name="labelServerName.Text" xml:space="preserve">
-    <value>服务器名:</value>
-  </data>
-  <data name="&gt;&gt;labelServerName.Name" xml:space="preserve">
-    <value>labelServerName</value>
-  </data>
-  <data name="labelComment.Text" xml:space="preserve">
-    <value>签  名:</value>
-  </data>
-  <data name="&gt;&gt;radioButtonServer.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;labelComment.Parent" xml:space="preserve">
-    <value>groupBoxProfile</value>
-  </data>
-  <data name="buttonConnect.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;textBoxName.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;groupBoxProfile.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>423, 241</value>
-  </data>
-  <data name="textBoxName.WordWrap" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;labelName.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;textBoxName.Parent" xml:space="preserve">
-    <value>groupBoxProfile</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>启动类型设置</value>
   </data>
   <data name="&gt;&gt;toolTipStartupForm.Name" xml:space="preserve">
     <value>toolTipStartupForm</value>
   </data>
-  <data name="&gt;&gt;radioButtonHost.Name" xml:space="preserve">
-    <value>radioButtonHost</value>
+  <data name="&gt;&gt;toolTipStartupForm.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="radioButtonHost.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>StartupForm</value>
   </data>
-  <data name="textBoxIP.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 23</value>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="groupBoxStartMode.Text" xml:space="preserve">
-    <value>启动模式</value>
-  </data>
-  <data name="buttonCancel.Text" xml:space="preserve">
-    <value>关闭</value>
-  </data>
-  <data name="&gt;&gt;textBoxWelcome.Name" xml:space="preserve">
-    <value>textBoxWelcome</value>
-  </data>
-  <data name="textBoxIP.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="buttonClosePortUPnP.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="groupBoxWelcome.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;labelOpenPort.Parent" xml:space="preserve">
-    <value>groupBoxStartMode</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 12</value>
-  </data>
-  <data name="&gt;&gt;labelServerName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioButtonHost.Parent" xml:space="preserve">
-    <value>groupBoxStartMode</value>
-  </data>
-  <data name="&gt;&gt;labelComment.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;buttonConnect.Name" xml:space="preserve">
-    <value>buttonConnect</value>
-  </data>
-  <data name="&gt;&gt;buttonCancel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="buttonConnect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>274, 205</value>
-  </data>
-  <data name="textBoxServerName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 21</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="toolTipStartupForm.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
 </root>
