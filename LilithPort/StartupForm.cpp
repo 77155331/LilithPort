@@ -106,9 +106,9 @@ void StartupForm::InitSearchUI()
 	groupBoxSearch->Location = Drawing::Point(12, 236);
 	groupBoxSearch->Size     = Drawing::Size(396, 140);
 
-	buttonSearch->Text     = "搜索服务器";
+	buttonSearch->Text     = "搜索服务器 （双击选中服务器会自动填入连接数据）";
 	buttonSearch->Location = Drawing::Point(10, 20);
-	buttonSearch->Size     = Drawing::Size(120, 24);
+	buttonSearch->Size     = Drawing::Size(376, 24);
 	buttonSearch->Click   += gcnew EventHandler(this, &StartupForm::buttonSearch_Click);
 
 	listBoxServers->Location       = Drawing::Point(10, 50);
