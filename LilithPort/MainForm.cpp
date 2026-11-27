@@ -3745,7 +3745,7 @@ void MainForm::StopDiscovery()
 
 	if(DiscoveryUDP != nullptr){
 		try{
-			DiscoveryUDP->Close();
+			DiscoveryUDP->关闭();
 		}
 		catch(Exception^){
 		}
