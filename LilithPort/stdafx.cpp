@@ -8,6 +8,52 @@ extern CRITICAL_SECTION CS_CAPTION;
 using namespace System::Collections;
 using namespace System::Diagnostics;
 
+// 相对路径 -> 绝对路径（基准目录 = EXE 所在目录 MTOPTION.PATH）
+String^ ResolveAppPath(String^ raw)
+{
+	if(raw == nullptr) return String::Empty;
+	raw = raw->Trim();
+	if(raw->Length == 0) return String::Empty;
+	try{
+		if(System::IO::Path::IsPathRooted(raw)){
+			return System::IO::Path::GetFullPath(raw);
+		}
+		return System::IO::Path::GetFullPath(
+			System::IO::Path::Combine(gcnew String(MTOPTION.PATH), raw));
+	}
+	catch(Exception^){
+		return raw;
+	}
+}
+
+// 绝对路径 -> 相对于 EXE 目录的相对路径（写回 ini 用）
+String^ ToAppRelative(String^ full)
+{
+	if(full == nullptr) return String::Empty;
+	full = full->Trim();
+	if(full->Length == 0) return String::Empty;
+	try{
+		if(!System::IO::Path::IsPathRooted(full)) return full;
+		String^ base = gcnew String(MTOPTION.PATH);
+		if(full->StartsWith(base, StringComparison::OrdinalIgnoreCase)){
+			String^ rel = full->Substring(base->Length);
+			if(rel->StartsWith("\\") || rel->StartsWith("/")) rel = rel->Substring(1);
+			return rel;
+		}
+	}
+	catch(Exception^){}
+	return full;
+}
+
+// 把路径字段以“相对形式”写入 ini（在 EXE 目录内存相对，否则保留绝对）
+static void WriteProfileRel(TCHAR* section, LPCTSTR key, TCHAR* value, TCHAR* ini)
+{
+	String^ rel = ToAppRelative(gcnew String(value));
+	IntPtr mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(rel);
+	WritePrivateProfileString(section, key, static_cast<PTCHAR>(mp.ToPointer()), ini);
+	Runtime::InteropServices::Marshal::FreeHGlobal(mp);
+}
+
 // 在崩溃之前记录错误内容
 void WriteErrorLog(String^ text, String^ caption)
 {
@@ -290,13 +336,13 @@ void SaveMTOption()
 	WritePrivateProfileString(iniSystem, _T("ServerName"),           MTOPTION.SERVER_NAME,            ini);
 	WritePrivateProfileString(iniSystem, _T("ConnectIP"),            MTOPTION.CONNECTION_IP,          ini);
 	WritePrivateProfileString(iniSystem, _T("Welcome"),              MTOPTION.WELCOME,                ini);
-	WritePrivateProfileString(iniSystem, _T("VSSound"),              MTOPTION.VS_SOUND,               ini);
-	WritePrivateProfileString(iniSystem, _T("NoticeSound"),          MTOPTION.NOTICE_SOUND,           ini);
-	WritePrivateProfileString(iniSystem, _T("EnterSound"),           MTOPTION.ENTER_SOUND,            ini);
-	WritePrivateProfileString(iniSystem, _T("NameSound"),            MTOPTION.NAME_SOUND,             ini);
-	WritePrivateProfileString(iniSystem, _T("TalkSound"),            MTOPTION.TALK_SOUND,             ini);
-	WritePrivateProfileString(iniSystem, _T("SeekSound"),            MTOPTION.SEEK_SOUND,             ini);
-	WritePrivateProfileString(iniSystem, _T("KeywordSound"),         MTOPTION.KEYWORD_SOUND,          ini);
+	WriteProfileRel(iniSystem, _T("VSSound"), MTOPTION.VS_SOUND, ini);
+	WriteProfileRel(iniSystem, _T("NoticeSound"), MTOPTION.NOTICE_SOUND, ini);
+	WriteProfileRel(iniSystem, _T("EnterSound"), MTOPTION.ENTER_SOUND, ini);
+	WriteProfileRel(iniSystem, _T("NameSound"), MTOPTION.NAME_SOUND, ini);
+	WriteProfileRel(iniSystem, _T("TalkSound"), MTOPTION.TALK_SOUND, ini);
+	WriteProfileRel(iniSystem, _T("SeekSound"), MTOPTION.SEEK_SOUND, ini);
+	WriteProfileRel(iniSystem, _T("KeywordSound"), MTOPTION.KEYWORD_SOUND, ini);
 	WritePrivateProfileString(iniSystem, _T("Keyword"),              MTOPTION.KEYWORD,                ini);
 	WritePrivateProfileString(iniSystem, _T("Name"),                 MTOPTION.NAME,                   ini);
 	WritePrivateProfileString(iniSystem, _T("Comment"),              MTOPTION.COMMENT,                ini);
@@ -361,8 +407,8 @@ void SaveMTOption()
 	WritePrivateProfileString(iniSystem,  _T("ProfileList"), MTOPTION.PROFILE_LIST, ini);
 
 	// 写个人资料部分
-	WritePrivateProfileString(iniSection, _T("GameExe"),      MTOPTION.GAME_EXE,               ini);
-	WritePrivateProfileString(iniSection, _T("ReplayFolder"), MTOPTION.REPLAY_FOLDER,          ini);
+	WriteProfileRel(iniSection, _T("GameExe"), MTOPTION.GAME_EXE, ini);
+	WriteProfileRel(iniSection, _T("ReplayFolder"), MTOPTION.REPLAY_FOLDER, ini);
 	_itot_s(MTOPTION.MAX_STAGE, buf, 10);
 	WritePrivateProfileString(iniSection, _T("MaxStage"), buf, ini);
 	_itot_s(MTOPTION.STAGE_SELECT, buf, 10);
@@ -485,60 +531,31 @@ void SaveProfileOption(){
 // 稍微检查一下设定值
 void CheckMTOption()
 {
-	TCHAR buf[_MAX_PATH];
-	// 相对路径 -> 绝对路径
+	// 以 EXE 所在目录为基准；先切过去，保证遗留的按当前工作目录解析的调用也能命中
 	_tchdir(MTOPTION.PATH);
 
-	_tsplitpath_s(MTOPTION.GAME_EXE, NULL, 0, NULL, 0, NULL, 0, buf, _MAX_EXT);
-	if(_tcscmp(buf, _T(".exe")) == 0){
-		if(MTOPTION.GAME_EXE[1] != ':'){
-			_tcscpy_s(buf, MTOPTION.GAME_EXE);
-			_tfullpath(MTOPTION.GAME_EXE, buf, _MAX_PATH);
-		}
-	}
-	if(MTOPTION.REPLAY_FOLDER[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.REPLAY_FOLDER);
-		_tfullpath(MTOPTION.REPLAY_FOLDER, buf, _MAX_PATH);
-	}
-	if(MTOPTION.VS_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.VS_SOUND);
-		_tfullpath(MTOPTION.VS_SOUND, buf, _MAX_PATH);
-	}
-	if(MTOPTION.NOTICE_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.NOTICE_SOUND);
-		_tfullpath(MTOPTION.NOTICE_SOUND, buf, _MAX_PATH);
-	}
-	if(MTOPTION.ENTER_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.ENTER_SOUND);
-		_tfullpath(MTOPTION.ENTER_SOUND, buf, _MAX_PATH);
-	}
-	if(MTOPTION.NAME_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.NAME_SOUND);
-		_tfullpath(MTOPTION.NAME_SOUND, buf, _MAX_PATH);
-	}
-	if(MTOPTION.TALK_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.TALK_SOUND);
-		_tfullpath(MTOPTION.TALK_SOUND, buf, _MAX_PATH);
-	}
-	if(MTOPTION.SEEK_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.SEEK_SOUND);
-		_tfullpath(MTOPTION.SEEK_SOUND, buf, _MAX_PATH);
-	}
-	if(MTOPTION.KEYWORD_SOUND[1] != ':'){
-		_tcscpy_s(buf, MTOPTION.KEYWORD_SOUND);
-		_tfullpath(MTOPTION.KEYWORD_SOUND, buf, _MAX_PATH);
-	}
+	TCHAR* paths[] = {
+		MTOPTION.GAME_EXE,
+		MTOPTION.REPLAY_FOLDER,
+		MTOPTION.VS_SOUND,
+		MTOPTION.NOTICE_SOUND,
+		MTOPTION.ENTER_SOUND,
+		MTOPTION.NAME_SOUND,
+		MTOPTION.TALK_SOUND,
+		MTOPTION.SEEK_SOUND,
+		MTOPTION.KEYWORD_SOUND,
+	};
 
-	// 一旦转换成绝对路径后，驱动器名变成小写这一点让我很在意
-	MTOPTION.GAME_EXE[0]      = _totupper(MTOPTION.GAME_EXE[0]);
-	MTOPTION.REPLAY_FOLDER[0] = _totupper(MTOPTION.REPLAY_FOLDER[0]);
-	MTOPTION.VS_SOUND[0]      = _totupper(MTOPTION.VS_SOUND[0]);
-	MTOPTION.NOTICE_SOUND[0]  = _totupper(MTOPTION.NOTICE_SOUND[0]);
-	MTOPTION.ENTER_SOUND[0]   = _totupper(MTOPTION.ENTER_SOUND[0]);
-	MTOPTION.NAME_SOUND[0]    = _totupper(MTOPTION.NAME_SOUND[0]);
-	MTOPTION.TALK_SOUND[0]    = _totupper(MTOPTION.TALK_SOUND[0]);
-	MTOPTION.SEEK_SOUND[0]    = _totupper(MTOPTION.SEEK_SOUND[0]);
-	MTOPTION.KEYWORD_SOUND[0] = _totupper(MTOPTION.KEYWORD_SOUND[0]);
+	for(int i = 0; i < (int)_countof(paths); i++){
+		if(paths[i][0] == 0) continue;
+
+		String^ full = ResolveAppPath(gcnew String(paths[i]));
+		IntPtr mp = Runtime::InteropServices::Marshal::StringToHGlobalAuto(full);
+		_tcscpy_s(paths[i], _MAX_PATH, static_cast<PTCHAR>(mp.ToPointer()));
+		Runtime::InteropServices::Marshal::FreeHGlobal(mp);
+
+		paths[i][0] = _totupper(paths[i][0]);
+	}
 }
 
 // 对战中的标题栏
