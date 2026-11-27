@@ -496,6 +496,78 @@
   <data name="&gt;&gt;labelName.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="&gt;&gt;labelButtonUPnP.Name" xml:space="preserve">
+    <value>labelButtonUPnP</value>
+  </data>
+  <data name="&gt;&gt;labelButtonUPnP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelButtonUPnP.Parent" xml:space="preserve">
+    <value>groupBoxStartMode</value>
+  </data>
+  <data name="&gt;&gt;labelButtonUPnP.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;buttonClosePortUPnP.Name" xml:space="preserve">
+    <value>buttonClosePortUPnP</value>
+  </data>
+  <data name="&gt;&gt;buttonClosePortUPnP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonClosePortUPnP.Parent" xml:space="preserve">
+    <value>groupBoxStartMode</value>
+  </data>
+  <data name="&gt;&gt;buttonClosePortUPnP.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;buttonOpenPortUPnP.Name" xml:space="preserve">
+    <value>buttonOpenPortUPnP</value>
+  </data>
+  <data name="&gt;&gt;buttonOpenPortUPnP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonOpenPortUPnP.Parent" xml:space="preserve">
+    <value>groupBoxStartMode</value>
+  </data>
+  <data name="&gt;&gt;buttonOpenPortUPnP.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;textBoxServerName.Name" xml:space="preserve">
+    <value>textBoxServerName</value>
+  </data>
+  <data name="&gt;&gt;textBoxServerName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBoxServerName.Parent" xml:space="preserve">
+    <value>groupBoxStartMode</value>
+  </data>
+  <data name="&gt;&gt;textBoxServerName.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="groupBoxStartMode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>201, 12</value>
+  </data>
+  <data name="groupBoxStartMode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 131</value>
+  </data>
+  <data name="groupBoxStartMode.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="groupBoxStartMode.Text" xml:space="preserve">
+    <value>启动模式</value>
+  </data>
+  <data name="&gt;&gt;groupBoxStartMode.Name" xml:space="preserve">
+    <value>groupBoxStartMode</value>
+  </data>
+  <data name="&gt;&gt;groupBoxStartMode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxStartMode.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBoxStartMode.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="labelButtonUPnP.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -611,30 +683,6 @@ LilithPort只能关闭已打开的端口。</value>
   </data>
   <data name="&gt;&gt;textBoxServerName.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="groupBoxStartMode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>201, 12</value>
-  </data>
-  <data name="groupBoxStartMode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 131</value>
-  </data>
-  <data name="groupBoxStartMode.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="groupBoxStartMode.Text" xml:space="preserve">
-    <value>启动模式</value>
-  </data>
-  <data name="&gt;&gt;groupBoxStartMode.Name" xml:space="preserve">
-    <value>groupBoxStartMode</value>
-  </data>
-  <data name="&gt;&gt;groupBoxStartMode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBoxStartMode.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBoxStartMode.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <data name="groupBoxConnection.Location" type="System.Drawing.Point, System.Drawing">
     <value>201, 149</value>
@@ -4904,9 +4952,6 @@ LilithPort只能关闭已打开的端口。</value>
 </value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="$this.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>No</value>
   </data>
