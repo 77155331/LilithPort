@@ -47,6 +47,9 @@ void CheckMTOption();
 void DeleteSection(TCHAR* obj);
 void ChangeStageValue();
 void SetCaption();
+// 相对路径支持：以 EXE 所在目录(MTOPTION.PATH)为基准
+String^ ResolveAppPath(String^ raw);   // 相对 -> 绝对（运行时使用）
+String^ ToAppRelative(String^ full);   // 绝对 -> 相对（写回 ini 用，保持便携）
 
 String^ EncryptionIP(String^ ip);
 String^ MTEncryptionIP(String^ ip);
